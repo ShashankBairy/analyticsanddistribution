@@ -1,0 +1,292 @@
+.Payment_Info_Section_payment_info_section {
+  background-color: #fff;
+  border-radius: 12px;
+  padding: 20px 55px;
+ display:flex;
+ flex-direction: column;
+}
+
+.Payment_Info_Section_payment_section_header {
+  display: flex;
+  justify-content: space-between;
+  align-items: start;
+  flex-wrap: wrap;
+  width: 100%;
+
+ 
+}
+
+.Payment_Info_Section_payment_header_content {
+  display: flex;
+ 
+  align-items: start;
+  justify-content: space-between;
+  gap:20px;
+  width:100%;
+}
+
+.Payment_Info_Section_payment_special_concession_block {
+  margin-top: 30px;
+  min-width: 220px;
+  text-align: start;
+}
+
+.Payment_Info_Section_payment_concession_value {
+  font-weight: bold;
+  margin: 0;
+}
+
+.Payment_Info_Section_payment_concession_label {
+  font-size: 0.75rem;
+  color: #000000;
+  font-size: 14px;
+}
+
+.Payment_Info_Section_payment_paymode_line {
+  flex: 1;
+  height: 1px;
+  background-color: #ccc;
+}
+
+.Payment_Info_Section_payment_category_options {
+  margin-top: 0.5rem;
+  display: flex;
+  padding: 4px;
+  align-items: center;
+  align-self: stretch;
+  background-color: #F7F7F7;
+  border-radius: 120px;
+  border: 1px solid #D2D2D2;
+  width: 100%;
+}
+
+.Payment_Info_Section_payment_nav_list {
+  display: flex;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  gap: 9px;
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
+  
+  white-space: nowrap;
+}
+
+.Payment_Info_Section_payment_nav_item {
+  margin: 0;
+  padding: 0;
+  flex: 1;
+  display: flex;
+  justify-content: center;
+}
+
+.Payment_Info_Section_payment_category_label {
+  border: none;
+  padding: 5px 8px;
+  font-size: 0.875rem;
+  color: #4b4b4b;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  background: none;
+  gap: 4px;
+}
+
+.Payment_Info_Section_payment_category_label.Payment_Info_Section_active {
+  background-color: #3425FF;
+  color: #ffffff;
+  font-weight: 700;
+  border-radius: 24px;
+}
+
+.Payment_Info_Section_payment_category_text {
+  color: #252C32;
+  /* font-family: "Segoe UI"; */
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
+
+.Payment_Info_Section_payment_category_label.Payment_Info_Section_active .Payment_Info_Section_payment_category_text {
+  color: #FFF;
+  /* font-family: "Segoe UI"; */
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+  white-space: nowrap;
+}
+
+.Payment_Info_Section_payment_field_label_wrapper {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.Payment_Info_Section_payment_line {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(to right, #bbb, transparent);
+}
+
+.Payment_Info_Section_payment_mode_icon_slot {
+  width: 16px;
+  height: 16px;
+  margin-right: 0.5rem;
+}
+
+.Payment_Info_Section_payment_form_label {
+  color: #82808F;
+  /* font-family: Inter; */
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+}
+
+.Payment_Info_Section_payment_small_label {
+  font-size: 12px;
+  font-weight: 400;
+  margin: 0;
+}
+
+.Payment_Info_Section_payment_input_group,
+.Payment_Info_Section_payment_checkbox_group,
+.Payment_Info_Section_payment_inputbox_wrapper {
+  margin-bottom: 1rem;
+
+}
+
+.Payment_Info_Section_payment_inputbox_wrapper{
+  margin-bottom: 0px;
+}
+.Payment_Info_Section_payment_checkbox_group
+{
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 38px;
+}
+.Payment_Info_Section_payment_error_message {
+  color: red;
+  font-size: 0.75rem;
+}
+.Payment_Info_Section_payment_header_middle{
+  display: flex;
+  gap:20px;
+  justify-content: space-between;
+  width:100%;
+}
+
+.Payment_Info_Section_payment_app_fee_section {
+  margin-bottom: 1rem;
+}
+
+.Payment_Info_Section_payment_label_line_container {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.Payment_Info_Section_payment_form_actions {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+ 
+  margin-top: 100px;
+  width: 100%;
+  margin:0 auto;
+}
+
+.Payment_Info_Section_payment_empty_field {
+  flex: 1;
+}
+
+.Payment_Info_Section_payment_form_grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  column-gap: 40px;
+  row-gap: 15px;
+  align-items: start;
+ margin-bottom: 100px;
+}
+
+.Payment_Info_Section_payment_form_row {
+  display: contents;
+}
+
+.Payment_Info_Section_payment_fw_semibold {
+  color: #82808F;
+  /* font-family: Inter; */
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+}
+
+/* When active, invert the icon to white */
+.Payment_Info_Section_active .paymentIcon {
+  filter: brightness(0) invert(1);
+}
+/* Hide native checkbox */
+.squareCheckbox {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+}
+
+.squareCheckbox input {
+  position: absolute;
+  opacity: 0; /* hide native checkbox */
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+.checkmark {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  border: 2px solid gray;   /* gray border when unchecked */
+  border-radius: 4px;
+  background-color: white;  /* white inside always */
+  transition: all 0.2s ease;
+}
+
+/* Checked → border turns blue */
+.squareCheckbox input:checked ~ .checkmark {
+  border-color: #1976d2;   /* blue border */
+  background-color: white; /* keep white inside */
+}
+
+/* Blue dot inside when checked */
+.squareCheckbox input:checked ~ .checkmark::after {
+  content: "";
+  position: absolute;
+  top: 43%;
+  left: 50%;
+  width: 9px;
+  height: 9px;
+  background: #1976d2;      /* blue dot */
+  border-radius: 30%;
+  transform: translate(-50%, -50%);
+}
+
+.paymentLinkButton {
+  display: flex; /* inline-flex works better for links */
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #0000ff;
+  text-decoration: underline;
+  cursor: pointer;
+  width: fit-content; /* Ensures the link takes only the space it needs */
+  margin: 0 auto; /* Centers the link horizontally within the parent */
+}
+

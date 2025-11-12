@@ -1,0 +1,17 @@
+.otpForm {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.error {
+  color: #f93636;
+  font-weight: 400;
+  font-size: 16px;
+}
+
+.success {
+  color: #27ba17;
+  font-weight: 400;
+  font-size: 16px;
+}

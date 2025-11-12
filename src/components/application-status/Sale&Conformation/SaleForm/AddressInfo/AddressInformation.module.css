@@ -1,0 +1,67 @@
+/* Address Information Component Styles */
+
+/* Global Error Display */
+.global_error {
+  grid-column: 1 / -1;
+  color: #dc3545;
+  font-size: 14px;
+  text-align: center;
+  padding: 8px 12px;
+  background-color: #f8d7da;
+  border: 1px solid #f5c6cb;
+  border-radius: 4px;
+  margin-bottom: 16px;
+}
+
+/* Section Title */
+.address_info_section_title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.address_info_title_text {
+  font-size: 12px;
+  font-weight: 400;
+  color: #000000;
+  white-space: nowrap;
+}
+
+.address_info_title_line {
+  height: 1px;
+  background: linear-gradient(90deg, #B6B6B6 0%, rgba(255, 255, 255, 0) 100%);
+  width: 60%;
+}
+
+/* Form Grid Layout */
+.address_info_form_grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  column-gap: 40px;
+  row-gap: 20px;
+  align-items: start;
+}
+
+.address_info_form_field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: none;
+  width: 100%;
+}
+
+.address_info_error {
+  color: red;
+  font-size: 12px;
+  margin-top: 5px;
+}
+
+/* Search Box Label */
+.address_info_searchbox_label {
+  font-size: 14px;
+  font-weight: 500;
+  color: #82808f;
+  margin-bottom: 8px;
+  display: block;
+}

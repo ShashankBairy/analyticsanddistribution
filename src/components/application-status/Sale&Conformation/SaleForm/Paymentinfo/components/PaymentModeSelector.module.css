@@ -1,0 +1,77 @@
+/* Payment Mode Selector Styles - extracted from main CSS */
+
+.payment_form_up {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.payment_form_header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  width: 100%;
+}
+
+.section_title {
+  font-size: 14px;
+  font-weight: 500;
+  color: #3c3c3c;
+  margin: 0;
+}
+
+.payment_modes_container {
+  display: flex;
+  gap: 9px;
+  padding: 4px;
+  background: #F7F7F7;
+  border-radius: 120px;
+  border: 1px solid #D2D2D2;
+  width: 489px;
+  height: 44px;
+  justify-content: center;
+  align-items: center;
+  opacity: 1;
+}
+
+.payment_mode_button {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 8px 16px;
+  border: none;
+  background: none;
+  cursor: pointer;
+  border-radius: 24px;
+  transition: all 0.2s ease;
+  font-size: 14px;
+  color: #252c32;
+  font-weight: 400;
+  white-space: nowrap;
+}
+
+.payment_mode_button_active {
+  background-color: #3425FF;
+  color: #ffffff;
+  font-weight: 700;
+}
+
+.payment_mode_button_active .payment_mode_icon {
+  filter: brightness(0) invert(1);
+}
+
+.payment_mode_icon {
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
+}
+
+.payment_mode_text {
+  font-size: 14px;
+}

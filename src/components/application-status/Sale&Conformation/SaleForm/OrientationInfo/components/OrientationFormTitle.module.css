@@ -1,0 +1,20 @@
+/* Section Title */
+.orientation_info_section_title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.orientation_info_title_text {
+  font-size: 12px;
+  font-weight: 400;
+  color: #000000;
+  white-space: nowrap;
+}
+
+.orientation_info_title_line {
+  height: 1px;
+  background: linear-gradient(90deg, #B6B6B6 0%, rgba(255, 255, 255, 0) 100%);
+  width: 40%;
+}

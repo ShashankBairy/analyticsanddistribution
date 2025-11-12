@@ -1,0 +1,166 @@
+/* ---------- Wrapper ---------- */
+.application-status {
+  width: 100%;
+  padding: 0;
+  position: relative;
+  height: 100%;
+  overflow-y: hidden;
+}
+
+/* ---------- Card ---------- */
+.application-status__card {
+  background: #fff;
+  border-radius: 12px;
+  padding: 10px;
+
+  position: relative;
+}
+
+/* ---------- Typography ---------- */
+.application-status__title {
+  font-size: 28px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+  letter-spacing: -0.352px;
+  color: #252c32;
+  margin-bottom: 3px;
+}
+
+.application-status__subtitle {
+  font-size: 14px;
+  font-weight: 400;
+  color: #6e7c87;
+  margin-bottom: 12px;
+}
+
+/* ---------- Actions Wrapper ---------- */
+.application-status__actions {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+@media (min-width: 768px) {
+  .application-status__actions {
+    flex-direction: row;
+    align-items: center;
+  }
+}
+
+/* ---------- Search ---------- */
+.application-status__search {
+  border: 1px solid #dde2e4;
+  border-radius: 8px;
+  background: #fff;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  padding: 11px 0px 11px 13px;
+  width: 385px;
+}
+
+.application-status__search-icon {
+  margin: 0;
+  display: flex;
+  align-items: center;
+}
+
+.application-status__search input {
+  border: none;
+  outline: none;
+  font-size: 0.95rem;
+  width: 100%;
+}
+
+.application-status__search input::placeholder {
+  color: #9c9c9c;
+  font-weight: 400;
+  font-size: 14px;
+}
+
+/* ---------- Filter ---------- */
+.application-status__filter {
+  position: relative;
+}
+
+.application-status__filter-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  border: 1px solid #dde2e4;
+  border-radius: 8px;
+  background-color: #ffffff;
+  font-size: 14px;
+  font-weight: 400;
+  color: #252c32;
+  padding: 5px 12px 5px 13px;
+  cursor: pointer;
+  position: relative;
+  transition: opacity 0.2s;
+  min-height: 36px; /* Fixed minimum height */
+  min-width: 90px; /* Fixed minimum width */
+  box-sizing: border-box; /* Ensures padding is included in size */
+}
+
+.application-status__filter-btn:hover {
+  background: #f1f5f9;
+}
+
+.application-status__filter-icon-wrapper {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+}
+
+.application-status__filter-dot {
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  background-color: red;
+  border-radius: 50%;
+  top: -2px;
+  right: -44px; /* Adjusted to be closer to the button */
+  transform: translateY(-50%); /* Centers the dot vertically */
+}
+
+/* ---------- Export ---------- */
+.application-status__export {
+  position: relative;
+}
+
+.application-status__export-btn {
+  background: #3425ff;
+  border: none;
+  color: #ffffff;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 400;
+  padding: 4px 12px 4px 8px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.application-status__export-btn:hover {
+  background: #2d1eff;
+}
+
+.application-status__form-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+
+  height: 600px;
+  overflow-y: auto; /* Enable scrolling within the form container */
+  background: #fff;
+  z-index: 10;
+}
+
+.application-status__form-container::-webkit-scrollbar {
+  display: none;
+}

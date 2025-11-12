@@ -1,0 +1,68 @@
+.Success_Page_root {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+  border: 1px solid #E6E4F0;
+  background: #FFF;
+}
+
+.Success_Page_paper {
+  background: #FFF;
+  border-radius: 6px;
+  padding: 40px 20px;
+  text-align: center;
+  width: 100%;
+}
+
+.Success_Page_iconContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 24px;
+}
+
+.Success_Page_iconImage {
+  width: 294px;
+  height: 291px;
+  aspect-ratio: 98 / 97;
+  flex-shrink: 0;
+  object-fit: contain;
+}
+
+.Success_Page_title {
+  font-size: 16px;
+  color: #1A1A1A;
+  margin-bottom: 8px;
+  font-weight: 700;
+}
+
+.Success_Page_subtitle {
+  font-size: 20px;
+  font-weight: 700;
+  color: #1A1A1A;
+  margin-bottom: 8px;
+}
+
+.Success_Page_description {
+  font-size: 14px;
+  color: #000000;
+  margin-bottom: 24px;
+  font-weight: 400;
+}
+
+.successpagebackbutton{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.Success_Page_button {
+  background-color: #3425FF;
+  color: #fff;
+  border: none;
+  padding: 12px 24px;
+  font-size: 14px;
+  border-radius: 4px;
+  cursor: pointer;
+}

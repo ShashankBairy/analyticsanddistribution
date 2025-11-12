@@ -1,0 +1,103 @@
+.saleFormContentContainer {
+  display: flex;
+  flex-direction: column;
+ 
+}
+
+.saleFormHeader {
+ 
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+ 
+}
+
+.saleFormHeaderFigure {
+  flex-shrink: 0;
+  margin: 0;
+  padding: 8px;
+  border-radius: 4px;
+  transition: background-color 0.2s;
+  cursor: pointer;
+}
+
+.saleFormHeaderFigure:hover {
+  background-color: #f5f5f5;
+}
+
+.saleFormHeaderFigure img {
+  width: 24px;
+  height: 24px;
+  display: block;
+}
+
+.saleFormHeaderTitle {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  padding-right: 20px;
+}
+
+.saleFormHeaderTitle h2 {
+  font-size: 28px;
+  font-weight: 700;
+  color: #252C32;
+  margin: 0 0 5px 0;
+  white-space: nowrap;
+  display: inline;
+}
+
+.saleFormHeaderStatusHeader {
+  /* StatusHeader styling */
+}
+
+.saleFormStatusHeader {
+  /* StatusHeader styling */
+}
+
+.saleFormProgressSection {
+  margin: 20px 0;
+  padding: 0 20px;
+}
+
+.saleFormBody {
+  min-height: 400px;
+  padding: 20px;
+  background: #f9f9f9;
+  border-radius: 6px;
+}
+
+.saleFormSection {
+  padding: 20px;
+  background: #fff;
+  border-radius: 6px;
+  border: 1px solid #e0e0e0;
+}
+
+.saleFormSection h3 {
+  color: #333;
+  margin: 0 0 15px 0;
+  font-size: 20px;
+  font-weight: 500;
+}
+
+.saleFormSection p {
+  color: #666;
+  margin: 0;
+  font-size: 14px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .saleFormContentContainer {
+    gap: 20px;
+  }
+  
+  .saleFormBody {
+    padding: 15px;
+  }
+  
+  .saleFormProgressSection {
+    padding: 0 15px;
+  }
+}

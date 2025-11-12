@@ -1,0 +1,39 @@
+.snackbar {
+  z-index: 9999;
+}
+
+.alert {
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.alert .MuiAlert-message {
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+/* Error styling */
+.alert.MuiAlert-filledError {
+  background-color: #f44336;
+  color: white;
+}
+
+/* Success styling */
+.alert.MuiAlert-filledSuccess {
+  background-color: #4caf50;
+  color: white;
+}
+
+/* Warning styling */
+.alert.MuiAlert-filledWarning {
+  background-color: #ff9800;
+  color: white;
+}
+
+/* Info styling */
+.alert.MuiAlert-filledInfo {
+  background-color: #2196f3;
+  color: white;
+}

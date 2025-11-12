@@ -1,0 +1,188 @@
+/* Main container */
+.profileContainer {
+   background-color: #f8f8f8;
+    border-radius: 12px;
+   
+    padding: 12px;
+    /* max-width: 1200px; */
+ 
+  }
+ 
+  /* --- Header Section (Pic + Personal Info) --- */
+  .headerSection {
+    display: flex;
+    align-items: flex-start;
+    gap: 24px;
+    margin-bottom: 16px;
+  }
+ 
+  .profilePicContainer {
+    position: relative; /* Essential for positioning overlay and buttons */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    flex-shrink: 0; /* Prevents shrinking */
+    width: 120px; /* Explicit width to match img */
+    height: 120px; /* Explicit height to match img */
+    border-radius: 50%; /* Make container also circular */
+    overflow: hidden; /* Hide anything outside the circle */
+  }
+ 
+  .profilePic {
+    width: 100%; /* Fill the container */
+    height: 100%; /* Fill the container */
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid #f0f0f0;
+    transition: filter 0.3s ease-in-out; /* Smooth transition for blur */
+  }
+ 
+  .profilePic.blurred {
+    filter: blur(5px); /* Apply blur when .blurred class is present */
+  }
+ 
+  .overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black overlay */
+    display: flex;
+    flex-direction: column; /* Stack buttons vertically */
+    justify-content: center; /* Center buttons vertically */
+    align-items: center; /* Center buttons horizontally */
+    gap: 8px; /* Space between buttons */
+    pointer-events: auto; /* Allow interaction with buttons */
+    z-index: 2; /* Ensure overlay is above the image */
+  }
+ 
+  .editButton,
+  .deleteButton {
+    background-color: rgba(0, 0, 0, 0.7); /* Darker background for buttons */
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 8px 12px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: background-color 0.2s;
+    z-index: 3; /* Ensure buttons are above overlay */
+  }
+ 
+  .editButton:hover,
+  .deleteButton:hover {
+    background-color: rgba(0, 0, 0, 0.9);
+  }
+ 
+  .deleteButton {
+    background-color: rgba(229, 57, 53, 0.8); /* Red for delete button */
+  }
+  .deleteButton:hover {
+    background-color: rgba(229, 57, 53, 1);
+  }
+ 
+ 
+  .sizeNote {
+    font-size: 0.75rem; /* 12px */
+    color: #888;
+    position: absolute; /* Position relative to profilePicContainer */
+    bottom: -25px; /* Adjust as needed to be below the circle */
+    left: 50%;
+    transform: translateX(-50%);
+    width: max-content; /* Prevent text wrapping awkwardly */
+  }
+ 
+  .personalInfo {
+    flex-grow: 1; /* Takes up remaining space */
+  }
+ 
+  /* --- General Info Sections --- */
+  .infoSection {
+    margin-top: 16px;
+  }
+/*  
+  h2, h3 {
+    color: #333;
+    margin: 0 0 16px 0;
+    font-weight: 600;
+  } */
+ 
+  /* h2 {
+    font-size: 1.5rem; /* 24px */
+ 
+ 
+  h3 {
+    font-size: 12px;
+    font-weight: 400;
+    color: #000000;
+  }
+  /* Wrapper for heading + divider line */
+.label_wrapper {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+ 
+/* The title text (like “Father Information”) */
+/* .General_Info_Section_general_field_label {
+  font-size: 16px;
+  font-weight: 600;
+  color: #333;
+  white-space: nowrap;
+} */
+ 
+/* The horizontal line beside the title */
+.dividerLine {
+  height: 1px;
+  width: 60%;
+  background: linear-gradient(to right, #bbb, transparent);
+}
+ 
+  .sectionHeader {
+    font-size: 12px;
+    font-weight: 400;
+    color: #000000;
+    white-space: nowrap;
+  }
+ 
+  /* --- Grid System for Fields --- */
+  .grid {
+    display: grid;
+    gap: 20px;
+  }
+ 
+  .gridCols2 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+ 
+  .gridCols4 {
+    grid-template-columns: repeat(4, 1fr);
+  }
+ 
+  /* --- Info Field Styling --- */
+  .infoField {
+    display: flex;
+    flex-direction: column;
+  }
+ 
+  .label {
+    font-size:14px ;/* 14px */
+    color: #82808F;
+    font-weight: 500;
+    margin-bottom: 4px;
+    text-transform: capitalize; /* Matches the design */
+  }
+ 
+  .value {
+    font-size: 14px; /* 16px */
+    color: #0c0c0c;
+    font-weight: 700;
+  }
+ 

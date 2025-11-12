@@ -1,0 +1,208 @@
+/* 
+.range_box_wrapper {
+  position: relative; 
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 5px;
+}
+
+.label_name {
+  font-size: 12px;
+  color: #344054;
+  font-weight: 400;
+}
+
+.range_input_box {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+  box-sizing: border-box;
+}
+
+.range_input {
+  width: 100%;
+  padding: 14px 14px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 14px;
+  color: #333;
+  outline: none;
+}
+
+.range_input::placeholder {
+  color: #101828;
+  font-size: 12px;
+  font-weight: 400;
+}
+
+.range_input:focus{
+   border: 1px solid #424242;
+}
+
+.range_input_icon {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.range_options {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  max-height: 200px;
+  overflow-y: auto;
+  border: 1px solid #dcdcdc;
+  border-radius: 8px;
+  background-color: white;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  z-index: 1;
+}
+
+.range_option {
+  list-style: none;
+  padding: 8px 12px;
+  cursor: pointer;
+  font-size: 14px;
+  color: #333;
+}
+
+.range_option:hover {
+  background-color: #f0f0f0;
+}
+
+.range_option_link {
+  text-decoration: none;
+  color: inherit;
+}
+
+.range_option:active {
+  background-color: #e0e0e0;
+} */
+
+
+
+
+
+
+
+/* RangeInputBox.module.css */
+
+.range_box_wrapper {
+  position: relative; /* For positioning the dropdown */
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 5px;
+}
+
+.label_name {
+  font-size: 12px;
+  color: #344054;
+  font-weight: 400;
+}
+
+.range_input_box {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+  box-sizing: border-box;
+}
+
+.range_input {
+  width: 100%;
+  padding: 11px 14px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 14px;
+  color: #333;
+  outline: none;
+}
+
+.range_input::placeholder {
+  color: #101828;
+  font-size: 12px;
+  font-weight: 400;
+}
+
+.range_input:focus{
+   border: 1px solid #424242;
+}
+
+/* --- overrides to stop the button acting as a flex item --- */
+.range_input {
+  /* reserve space for the icon button so text doesn't overlap */
+  padding-right: 36px;
+}
+
+/* the button exists in your JSX; take it out of the flex flow */
+.range_input_icon_btn {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: transparent;
+  border: 0;
+  padding: 0;
+  line-height: 0;
+  cursor: pointer;
+}
+
+/* let the icon sit naturally inside the (now absolutely positioned) button */
+.range_input_icon {
+  position: static;   /* was absolute */
+  transform: none;    /* remove translateY */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.range_options {
+  position: absolute;
+  top: 100%; /* Position below the input box */
+  left: 0;
+  width: 100%;
+  max-height: 200px;
+  overflow-y: auto;
+  border: 1px solid #dcdcdc;
+  border-radius: 8px;
+  background-color: white;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  z-index: 1;
+
+  /* tidy defaults so items align nicely */
+  list-style: none;
+  margin: 4px 0 0;
+  padding: 6px 0;
+}
+
+.range_option {
+  list-style: none;
+  padding: 0; /* the button will handle padding */
+  cursor: pointer;
+  font-size: 14px;
+  color: #333;
+}
+
+.range_option_link {
+  display: block;
+  width: 100%;
+  text-align: left;
+  background: transparent;
+  border: 0;
+  padding: 8px 12px;
+  text-decoration: none;
+  color: inherit;
+}
+
+.range_option_link:hover {
+  background-color: #f0f0f0;
+}
+
+.range_option:active {
+  background-color: #e0e0e0; /* Active state when clicked */
+}

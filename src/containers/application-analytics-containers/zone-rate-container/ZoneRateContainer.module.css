@@ -1,0 +1,23 @@
+.zones_rates_container{
+    width:100%;
+    display:flex;
+    gap:45px;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.drop_rate_zone_wrapper{
+    width:50%;
+    height:100%;
+}
+
+.top_dated_zone_wrapper{
+    width:50%;
+    height:100%;
+}
+.progress_red {
+  background: #FC0B0B;
+}
+.progress_green {
+  background: #22C55E;
+}

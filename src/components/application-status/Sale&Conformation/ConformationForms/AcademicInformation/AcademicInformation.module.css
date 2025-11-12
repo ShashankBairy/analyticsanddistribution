@@ -1,0 +1,44 @@
+.academic_information_container {
+ 
+  background: #fff;
+  border-radius: 8px;
+}
+
+.academic_section_label_wrapper {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+
+.academic_section_label {
+  font-size: 14px;
+  font-weight: 500;
+  color: #82808f;
+  white-space: nowrap;
+}
+
+.academic_section_line {
+  height: 1px;
+  background: linear-gradient(90deg, #B6B6B6 0%, rgba(255, 255, 255, 0) 100%);
+  width: 40%;
+}
+
+.form_grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  row-gap: 10px;
+  column-gap: 40px;
+}
+
+.field_wrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+@media (max-width: 768px) {
+  .form_grid {
+    grid-template-columns: 1fr;
+    gap: 15px;
+  }
+}

@@ -1,0 +1,77 @@
+/* --- Wrapper becomes a fieldset with floating-legend support --- */
+.inputbox_wrapper {
+  display: block;
+  position: relative;
+}
+
+.inputbox_wrapper:hover {
+  border-color: #bfbfbf;
+}
+
+/* Focused ring/border */
+.focused { border-color: #424242; }
+
+/* Error state */
+.error { border-color: #d92d20; }
+
+/* --- Floating legend --- */
+.legend {
+  position: absolute;
+  left: 5px;
+  top: -15px;
+  padding: 6px;
+  background: #fff;
+  color: #344054;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 1;
+  opacity: 0;
+  transform: translateY(6px);
+  pointer-events: none;
+  transition: opacity 0.18s ease, transform 0.18s ease;
+}
+.legendVisible { opacity: 1; transform: translateY(0); }
+
+/* --- Input --- */
+.inputBox {
+  width: 100%;
+  border: 1px solid #ccc;
+  outline: none;
+  background: transparent;
+  font-size: 14px;
+  padding: 14px 0 0;
+  color: #101828;
+  border-radius: 8px;
+  padding: 14px 16px;
+  background-color: #fff;
+}
+
+.inputBox:focus{
+  border-color: #424242;
+}
+
+ .error {
+  border-color: #f93636 !important;
+  background-color: #fff3f3;
+}
+
+.success {
+  border-color: #27ba17 !important;
+  background-color: #f3fff3;
+}
+
+/* base placeholder style */
+.input_box::placeholder {
+  color: #101828;
+  font-size: 16px;
+  font-weight: 400;
+}
+
+/* HIDE placeholder when focused (extra safety even though we remove it in JS) */
+.input_box:focus::placeholder { color: transparent; }
+
+
+
+
+/* Disabled look (optional) */
+.input_box:disabled { color: #9aa0a6; cursor: not-allowed; }

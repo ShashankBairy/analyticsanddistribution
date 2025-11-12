@@ -1,0 +1,119 @@
+.concession_information_container {
+  background: #fff;
+  border-radius: 8px;
+  margin-top: 10px;
+}
+
+.concession_section_label_wrapper {
+  display: flex;
+  align-items: center;
+  column-gap: 40px;
+  row-gap: 10px;
+  margin-bottom: 8px;
+}
+
+.concession_section_label {
+  font-size: 14px;
+  font-weight: 500;
+  color: #82808f;
+  white-space: nowrap;
+}
+
+.concession_section_line {
+  height: 1px;
+  background: linear-gradient(90deg, #B6B6B6 0%, rgba(255, 255, 255, 0) 100%);
+  width: 40%;
+}
+
+.concession_form_grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  row-gap: 10px;
+  column-gap: 40px;
+  margin-bottom: 20px;
+}
+
+.concession_field_wrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+.additional_concession_section {
+  margin-top: 20px;
+}
+
+.concession_checkbox_wrapper {
+  grid-column: span 3;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.concession_checkbox_label {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+  color: #82808f;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.concession_checkbox {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+.concession_checkmark {
+  display: inline-block;
+  width: 19px;
+  height: 19px;
+  border: 2px solid gray;
+  border-radius: 4px;
+  background-color: white;
+  transition: all 0.2s ease;
+  vertical-align: middle;
+  margin-right: 8px;
+}
+
+.concession_checkbox:checked ~ .concession_checkmark {
+  border-color: #3425FF;
+  background-color: white;
+}
+
+.concession_checkbox:checked ~ .concession_checkmark::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 3%;
+  width: 10px;
+  height: 10px;
+  background: #3425FF;
+  border-radius: 30%;
+  transform: translate(-50%, -50%);
+}
+
+.concession_line {
+  height: 1px;
+  width: 40%;
+  background: linear-gradient(to right, #bbb, transparent);
+}
+
+.additional_concession_fields {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  column-gap: 40px;
+  row-gap: 10px;
+  margin-top: 15px;
+}
+
+@media (max-width: 768px) {
+  .concession_form_grid,
+  .additional_concession_fields {
+    grid-template-columns: 1fr;
+    gap: 15px;
+  }
+}

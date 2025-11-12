@@ -1,0 +1,78 @@
+.Address_Info_Section_address_form_section {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.Address_Info_Section_address_section_box {
+  background: #fff;
+  padding: 20px 55px;
+ 
+}
+
+.Address_Info_Section_address_form_grid {
+  display: flex;
+  flex-direction: column;
+ /* column-gap: 40px; */
+ row-gap: 15px;
+ margin-bottom: 130px;
+
+}
+
+.Address_Info_Section_address_form_row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 40px;
+}
+
+.Address_Info_Section_address_empty_field {
+  visibility: hidden; /* keeps alignment */
+}
+
+.Address_Info_Section_address_form_actions {
+  display: flex;
+  justify-content: center; /* Center buttons horizontally */
+  align-items: center; /* Center buttons vertically */
+  gap: 16px; /* Space between buttons */
+  margin-top: 20px;
+  margin:0 auto;
+  white-space: nowrap;
+}
+
+.Address_Info_Section_address_form_actions button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 28px;
+  border-radius: 10px;
+  background-color: #3425ff;
+  font-size: 14px;
+  font-weight: 500;
+  text-transform: none;
+  box-shadow: none;
+  transition: background-color 0.2s ease;
+}
+
+.Address_Info_Section_address_form_actions img {
+  width: 18px;
+  height: 18px;
+}
+
+.Address_Info_Section_address_error {
+  color: red;
+  font-size: 12px;
+  margin-top: 5px;
+}
+
+/* AddressInfoSection.module.css */
+.Address_Info_Section_searchbox_label {
+  display: block;
+  font-size: 12px; /* Adjust to match Inputbox label styling */
+  font-weight: 400;
+  margin-bottom: 8px; /* Space between label and SearchBox */
+  color: #344054; /* Adjust to match your theme */
+}
+
+.Address_Info_Section_address_form_field .searchbox {
+  width: 100%; /* Ensure SearchBox takes full width of the form field */
+}

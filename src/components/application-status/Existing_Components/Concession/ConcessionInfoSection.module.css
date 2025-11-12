@@ -1,0 +1,260 @@
+.Concession_Info_Section_concessionsContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  padding: 20px 55px;
+  background-color: #fff;
+}
+
+.Concession_Info_Section_applyCoupon {
+  display: flex;
+  flex-direction: row;
+  gap: 9px;
+}
+
+.Concession_Info_Section_applyCouponLabel {
+  display: flex;
+  align-items: center;
+  margin-bottom: 4px;
+  width: 100%;
+}
+
+.Concession_Info_Section_applyCouponLabelName {
+  color: #82808F;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+}
+
+.Concession_Info_Section_line {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(to right, #bbb, transparent);
+  margin-left: 8px;
+}
+
+.Concession_Info_Section_couponSection {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.Concession_Info_Section_couponSection input {
+  border-radius: 51px !important;
+  padding: 10px !important;
+}
+
+.Concession_Info_Section_applyBtn {
+  background: rgba(52, 37, 255, 0.36) !important;
+  text-transform: none !important;
+  border-radius: 51px !important;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.07);
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
+
+.Concession_Info_Section_concessionsFields {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* Three equal columns */
+  column-gap: 40px;
+  row-gap: 15px;
+  margin-bottom: 130px;
+}
+
+.Concession_Info_Section_concessionInput {
+  display: flex;
+  flex-direction: column;
+  width: 100%; /* Full width of the grid column */
+}
+
+.Concession_Info_Section_yesnoSection {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%; /* Ensure radio buttons match grid width */
+}
+
+.Concession_Info_Section_yesnoSection label {
+  font-size: 12px;
+  font-weight: 500;
+  color: #344054;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.Concession_Info_Section_yesnoButtons {
+  display: flex;
+  gap: 15px;
+}
+
+.Concession_Info_Section_yesnoButtons button {
+  border-radius: 51px;
+  padding: 3px 10px;
+  text-transform: none !important;
+  min-height: 40px; /* Match input height */
+}
+
+.Concession_Info_Section_dropdownSection {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  width: 100%; /* Ensure dropdowns match grid width */
+}
+
+.Concession_Info_Section_proceedBtn {
+  display: flex;
+  justify-content: center;
+}
+
+.Concession_Info_Section_nextBtn {
+  color: #F6F8F9;
+  border: none;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 24px;
+  letter-spacing: -0.072px;
+  display: inline-flex;
+  padding: 8px 34px;
+  align-items: center;
+  gap: 4px;
+  transition: background-color 0.3s ease;
+  border-radius: 6px;
+  background-color: #3425FF;
+}
+
+.Concession_Info_Section_concessionError {
+  color: red;
+  font-size: 12px;
+  margin-top: 5px;
+}
+
+.Concession_Info_Section_emptyField {
+  width: 100%; /* Match the width of other fields */
+  
+}
+
+.Concession_Info_Section_extraConcession {
+  grid-column: span 3; /* Span all three columns for the checkbox */
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.Concession_Info_Section_extraConcession .checkboxLabel {
+  font-size: 14px;
+  font-weight: 500;
+  color: #344054;
+}
+
+.Concession_Info_Section_extraConcession .line {
+  /* flex: 1; */
+  height: 1px;
+  width: 40%;
+  background: linear-gradient(to right, #bbb, transparent);
+}
+
+.Concession_Info_Section_threeColumnRow {
+  display: contents; /* Allow grid children to occupy their own grid cells */
+}
+
+.Concession_Info_Section_buttonRow {
+  display: flex;
+  justify-content: center; /* Center buttons horizontally */
+  align-items: center; /* Center buttons vertically */
+  gap: 16px; /* Space between buttons */
+  margin-top: 20px;
+  margin:0 auto;
+  white-space: nowrap;
+}
+
+/* Hide native checkbox */
+.ConcessionInfoSection_squareCheckbox {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+  color: #82808f;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.ConcessionInfoSection_squareCheckbox input {
+  position: absolute;
+  opacity: 0; /* hide native checkbox */
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+.ConcessionInfoSection_checkmark {
+  display: inline-block;
+  width: 19px;
+  height: 19px;
+  border: 2px solid gray; /* gray border when unchecked */
+  border-radius: 4px;
+  background-color: white; /* white inside always */
+  transition: all 0.2s ease;
+  vertical-align: middle;
+  margin-right: 8px;
+}
+
+/* Checked → border turns blue */
+.ConcessionInfoSection_squareCheckbox input:checked ~ .ConcessionInfoSection_checkmark {
+  border-color: #3425FF; /* blue border */
+  background-color: white; /* keep white inside */
+}
+
+/* Blue dot inside when checked */
+.ConcessionInfoSection_squareCheckbox input:checked ~ .ConcessionInfoSection_checkmark::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 3%;
+  width: 10px;
+  height: 10px;
+  background: #3425FF; /* blue dot */
+  border-radius: 30%;
+  transform: translate(-50%, -50%);
+}
+
+/* Ensure label text aligns properly */
+.ConcessionInfoSection_squareCheckbox label {
+  display: flex;
+  align-items: center;
+}
+.concessionLinkButton {
+  display: flex; /* inline-flex works better for links */
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #0000ff;
+  text-decoration: underline;
+  cursor: pointer;
+  width: fit-content; /* Ensures the link takes only the space it needs */
+  margin: 0 auto; /* Centers the link horizontally within the parent */
+}
+
+.ConcessioninputWithIconWrapper {
+  position: relative;
+ 
+ 
+}
+
+.inputWithIconWrapper .General_Info_Section_general_form_field {
+  flex-grow: 1;
+} 
+
+.ConcessioninputWithIcon {
+  position: absolute;
+  right: 10px;
+  top: 65%;
+  transform: translateY(-50%);
+  width: 18px;
+  height: 18px;
+}

@@ -1,0 +1,25 @@
+
+
+aside {
+  position: fixed;
+  width: 16.5%;
+  border-right: 1px solid #e5e9eb;
+  background: #fff;
+  z-index: 499;
+  height:100vh;
+  overflow-y: auto;
+  scrollbar-width: none;      
+  -ms-overflow-style: none;
+}
+
+aside::-webkit-scrollbar {
+   display: none;               
+}
+
+
+.main_body{
+  margin-top: 54px;
+  margin-left:16.5%;
+  background-color: #F6F8F9;
+  /* height: 100vh; */
+}

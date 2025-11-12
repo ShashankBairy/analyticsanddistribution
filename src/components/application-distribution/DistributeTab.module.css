@@ -1,0 +1,136 @@
+.distribute_tab_form_graph {
+  display: flex;
+  justify-content: space-between;
+  max-width: 100%;
+  gap:10px;
+}
+
+.distribute_tab_form {
+  width: 75%;
+  background-color: #fff;
+  padding: 10px;
+  border-radius: 10px;
+}
+
+.distribute_tab_graph {
+  width: 24%;
+  background-color: #fff;
+  border-radius: 6px;
+}
+.distribute_tab_top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.distribute_content_top {
+  display: flex;
+  width: 100%;
+}
+
+.distribute_tab_top_left {
+  width: 60%;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.distribute_content_heading {
+  width: 100%;
+}
+
+.distribute_content_heading .heading {
+  color: #393939;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.distribute_content_heading .sub {
+  color: #575757;
+  font-size: 12px;
+  font-weight: 400;
+}
+
+.nav {
+  width: 40%;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.nav_bar {
+  list-style: none;
+  display: flex;
+  background: #f7f7f7;
+  border-radius: 30px;
+}
+
+.nav_link {
+  display: block;
+  text-decoration: none;
+  padding: 8px 16px;
+  color: #616161;
+  font-size: 12px;
+  font-weight: 400;
+  border-radius: 30px;
+}
+
+.nav_link.active {
+  color: #fff;
+  font-size: 12px;
+  background: #3425ff;
+  font-weight: 600;
+}
+
+.distribute_nav_content {
+  padding: 41px 50px 57px 50px;
+}
+
+.distribute_tab_table {
+  width: 100%;
+}
+
+.distribute_button {
+  position: fixed;
+  top: 64px;
+  right: 20px;
+  z-index: 1;
+  
+}
+
+.prev_years_graphs_section {
+  width: 28%;
+  background-color: #ffffff;
+  padding: 15px;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.accordian_header_text {
+  display: flex;
+  gap: 5px;
+}
+
+.icon {
+  width: 22px;
+  height: 22px;
+}
+
+.header_text {
+  color: #56555c;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+}
+
+.prev_year_botton_icon{
+  display: flex;
+  justify-content: center;
+  justify-content: center;
+}
+
+.endIcon img{
+  width: 280px;
+}

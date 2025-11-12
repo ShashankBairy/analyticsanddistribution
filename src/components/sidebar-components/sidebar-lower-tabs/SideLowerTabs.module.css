@@ -1,0 +1,5 @@
+.lower_tabs{
+    display:flex;
+    justify-content: space-between;
+    padding:18px;
+}

@@ -1,0 +1,14 @@
+.emailrequestpageform{
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+.email_request_top{
+    display: block;
+}
+
+.error{
+    color: #F93636;
+    font-size: 16px;
+    font-weight: 400;
+}

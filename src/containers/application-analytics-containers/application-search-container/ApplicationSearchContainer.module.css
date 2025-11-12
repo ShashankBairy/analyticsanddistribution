@@ -1,0 +1,34 @@
+.application_search_container {
+  background-image: url("../../../assets/application-analytics/application_search_background.png");
+  background-size: cover;
+  background-position: left;
+  background-repeat: no-repeat;
+  max-width: 100%;
+  padding: 22px 15px;
+  border-radius: 10px;
+  border: 1px solid #ddd;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.search_list_container {
+  /* transform: translateX(-50%); */
+  position: sticky;
+  z-index: 998;
+  /* width: 100%; */
+  overflow-y: auto;
+  background-color: #fff;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  border-radius: 12px;
+  padding: 20px;
+}
+
+
+
+
+
+
+
+
+

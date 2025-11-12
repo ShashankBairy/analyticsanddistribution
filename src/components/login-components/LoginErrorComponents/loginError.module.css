@@ -1,0 +1,56 @@
+.loginerror_wrapper{
+  padding: 12px;
+  border: 1px solid red;
+  display: flex;
+  flex-direction: column;
+  /* justify-content: space-between; */
+  gap: 10px;
+  /* width: 380px; */
+}
+
+.loginerror_status_text{
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.loginerror_status{
+  display: flex;
+  gap: 6px;
+  padding: 6px;
+  border: 1px solid #DD3535;
+  background-color: #FFE5E5;
+  width: 75px;
+  border-radius: 29px;
+}
+
+.loginerror_status p{
+  font-size: 12px;
+  font-weight: 700;
+  color: #FF0000;
+}
+
+
+.loginerror_text{
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+
+.loginerror_heading{
+  padding-right: 119px;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.loginerror_description{
+  font-size: 14px;
+  font-weight: 400;
+  color: #424242;
+}
+
+.loginerror_support a{
+  font-size: 14px;
+  font-weight: 700;
+  color: #231CED;
+}

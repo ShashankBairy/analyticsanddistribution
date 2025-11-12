@@ -1,0 +1,54 @@
+/* ParentInfo Component Styles */
+.parent_info_grid_container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  column-gap: 40px;
+  row-gap: 15px;
+  align-items: start;
+  margin-top: 20px;
+  border-radius: 6px;
+  margin-bottom: 20px;
+}
+
+.parent_info_form_row {
+  display: contents;
+}
+
+.parent_info_form_field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: none;
+  width: 100%;
+}
+
+.parent_info_field_label_wrapper {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+ 
+}
+
+.parent_info_field_label {
+  font-size: 12px;
+  font-weight: 400;
+  color: #000000;
+  white-space: nowrap;
+}
+
+.parent_info_line {
+  height: 1px;
+  background: linear-gradient(90deg, #B6B6B6 0%, rgba(255, 255, 255, 0) 100%);
+  width: 40%;
+}
+
+.parent_info_full_width {
+  grid-column: span 3;
+  width: 100%;
+}
+
+.parent_info_error {
+  color: red;
+  font-size: 12px;
+  margin-top: 5px;
+}

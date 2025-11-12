@@ -1,0 +1,37 @@
+.search_component {
+  width: 50%;
+}
+
+.tophead_searchflex {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  align-items: center;
+  border-radius: 8px;
+  border: 1px solid #EBECEF;
+  background: #FAFAFA;
+  padding: 4px 14px;
+  width: 60%;
+}
+
+/* .search_icon {
+  display:flex;
+  align-items: center;
+  width: 17px;
+  height: 17px;
+} */
+
+.tophead_searchflex input[type="text"]{
+  flex:1;
+  border:none;
+  /* font-size: 16px; */
+  outline:none;
+  background-color: transparent;
+  
+}
+
+.tophead_searchflex input[type="text"]::placeholder{
+ color: #00000040;
+ font-size: 12px;
+}
+

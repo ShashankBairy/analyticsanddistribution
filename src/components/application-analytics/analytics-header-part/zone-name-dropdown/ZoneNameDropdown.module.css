@@ -1,0 +1,28 @@
+.dropdow_label_text {
+  display: block;
+  color: var(--Gray-700, #344054);
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 20px; /* 166.667% */
+  margin-top:3px;   
+}
+option {
+  font-size: 17px;
+  padding: 5px;
+  padding-left: 16px;
+  /* margin-top:10px; */
+}
+
+.down_arrow {
+  height: 2.8vh;
+  width: 2.3vw;
+  padding-right: 16px;
+  cursor: pointer;
+  background: transparent;
+  pointer-events: none;
+}
+
+.fig{
+  cursor:pointer;
+}

@@ -1,0 +1,58 @@
+/* Orientation Information Component Styles */
+
+/* Section Title */
+.orientation_info_section_title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.orientation_info_title_text {
+  font-size: 12px;
+  font-weight: 400;
+  color: #000000;
+  white-space: nowrap;
+}
+
+.orientation_info_title_line {
+  height: 1px;
+  background: linear-gradient(90deg, #B6B6B6 0%, rgba(255, 255, 255, 0) 100%);
+  /* width: 30%; */
+}
+
+/* Form Grid Layout */
+.orientation_info_form_grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  column-gap: 40px;
+  row-gap: 20px;
+  align-items: start;
+}
+
+.orientation_info_form_field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: none;
+  width: 100%;
+}
+
+.orientation_info_error {
+  color: red;
+  font-size: 12px;
+  margin-top: 5px;
+}
+
+/* Global Error Display */
+.global_error {
+  grid-column: 1 / -1;
+  color: #dc3545;
+  font-size: 14px;
+  text-align: center;
+  padding: 8px 12px;
+  background-color: #f8d7da;
+  border: 1px solid #f5c6cb;
+  border-radius: 4px;
+  margin-bottom: 16px;
+}

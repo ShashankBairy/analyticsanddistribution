@@ -1,0 +1,100 @@
+
+/* RangeInput component styling */
+.range_input_wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.label_name{
+    font-size: 12px;
+    color: #344054;
+    font-weight: 400;
+}
+
+/* react-select styling */
+.react_select_content {
+  font-size: 14px;
+  padding: 2px;
+}
+
+.react_select__control {
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  padding: 10px;
+  background-color: #fff;
+  min-height: 38px;
+  box-shadow: none;
+  transition: border-color 0.2s;
+  outline: none;
+}
+
+.react_select__control--is-focused {
+  border-color: black;
+  box-shadow: none;
+  background-color: #fff;
+}
+
+.react_select__value-container {
+  padding: 10px 14px;
+}
+
+.react_select__single-value {
+  color: #333;
+}
+
+.react_select__input-container {
+  color: #333;
+}
+
+.react_select__menu {
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  background-color: #fff;
+  padding: 6px;
+}
+
+.react_select__option {
+  padding: 10px;
+  color: #333;
+}
+
+.react_select__option--is-focused {
+  background-color: #d3e0ea;
+}
+
+.react_select__option--is-selected {
+  background-color: black;
+  color: white;
+}
+
+.css-t3ipsp-control:hover{
+  border-color: red;
+}
+
+/* Error message styling */
+.error {
+  color: #dc3545;
+  font-size: 12px;
+  margin-top: 5px;
+}
+
+
+/* Loading state */
+
+
+.field_row{
+    display: flex;
+    justify-content: space-between;
+}
+
+.field_cell{
+    width: 46%;
+}
+
+.form_rows{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 46px;
+}

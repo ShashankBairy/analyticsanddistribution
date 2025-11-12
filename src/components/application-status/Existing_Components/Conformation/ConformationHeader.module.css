@@ -1,0 +1,144 @@
+.Conformation_Header_stepper_container {
+  width: 100%;
+  border: 2px solid #dde2e4;
+  border-radius: 10px;
+}
+
+/* .Conformation_Header_progress_header {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: end;
+  margin-bottom: 8px;
+  gap: 6px;
+}
+
+.Conformation_Header_progress_label {
+  color: #666;
+  font-size: 0.8rem;
+  margin: 0;
+}
+
+.Conformation_Header_progress_step {
+  color: #1e1eff;
+  font-weight: 600;
+  font-size: 0.8rem;
+}
+
+.Conformation_Header_progress_wrapper {
+  width: 100px;
+  margin-left: 8px;
+  position: relative;
+  overflow: hidden;
+  border-radius: 5px;
+  height: 6px;
+  background-color: #e0e0e0;
+}
+
+.Conformation_Header_progress_bar {
+  height: 100%;
+  background-color: #1e1eff;
+  border-radius: 2px;
+}
+
+.Conformation_Header_progress_slash {
+  position: absolute;
+  top: 50%;
+  width: 2px;
+  height: 16px;
+  background: #fff;
+  transform: translate(-50%, -50%) rotate(45deg);
+  border-radius: 1px;
+  pointer-events: none;
+  z-index: 2;
+} */
+
+.Conformation_Header_tabs_root {
+  border: 1px solid #e0e0e0;
+  /* border-radius: 8px; */
+  /* min-height: 50px; */
+  /* padding: 11px 21px;   */
+  border-top-right-radius:6px ;
+  border-top-left-radius: 6px;
+  display: flex;
+  
+}
+
+.Conformation_Header_tab_item {
+  text-transform: none !important;
+  flex: 1;
+}
+
+/* .Conformation_Header_tab_item.Conformation_Header_left {
+  border-radius: 8px 0 0 8px;
+}
+
+.Conformation_Header_tab_item.Conformation_Header_right {
+  border-radius: 0 8px 8px 0;
+} */
+
+.Conformation_Header_tab_item.Conformation_Header_active {
+  background-color: #3425FF !important;
+  color: white !important;
+  padding: 15px 60px;
+}
+
+.Conformation_Header_tab_label {
+  display: flex;
+  gap: 5px;
+  align-items: center;
+  font-weight: 500;
+  color: black;
+  font-size: 16px;
+  font-style: normal;
+  line-height: normal;
+}
+
+.Conformation_Header_tab_label.Conformation_Header_active {
+  color: white;
+}
+
+.Conformation_Header_tab_circle {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background-color: #1e1eff;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  margin-right: 6px;
+}
+
+.Conformation_Header_tab_circle.Conformation_Header_active {
+  background-color: white;
+  color: #1e1eff;
+}
+
+.Conformation_Header_tabs_root .MuiTabs-indicator {
+  display: none !important;
+}
+
+.Conformation_Header_tab_item.Conformation_Header_completed .Conformation_Header_tab_circle,
+.Conformation_Header_tab_label.Conformation_Header_completed .Conformation_Header_tab_circle {
+  background-color: white;
+  color: #08007C;
+  border: none;
+}
+
+.Conformation_Header_tab_item.Conformation_Header_completed,
+.Conformation_Header_tab_label.Conformation_Header_completed {
+  background-color: #08007C;
+  color: #fff;
+  /* font-weight: bold; */
+  font-size: 16px;
+font-style: normal;
+font-weight: 400;
+line-height: normal;
+}
+
+.Conformation_Header_tab_item.Conformation_Header_disabled {
+  pointer-events: none;
+  cursor: not-allowed;
+}

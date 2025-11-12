@@ -1,0 +1,88 @@
+.drop_rate_container {
+  display: flex;
+  padding: 12px 9px;
+  flex-direction: column;
+  gap: 15px;
+  width: 100%;
+  border-radius: 6px;
+  border: 1px solid #f0f0f0;
+  background: #fff;
+  box-sizing: border-box;
+  
+}
+
+.title {
+  color: var(--Base-Shade-50, rgba(0, 0, 0, 0.5));
+  font-feature-settings: "liga" off, "clig" off;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+}
+.unordered_list {
+  display:flex;
+  flex-direction: column;
+  gap:7px;
+  margin: 0;
+  padding: 0;
+}
+
+.zone_row {
+  display: flex;
+  align-items: center;
+  gap: 17px;
+}
+
+.zone_indicator {
+  display: flex;
+  height:46px;
+  width:46px;
+  justify-content: center;
+  align-items: center;
+  border-radius: 100px;
+  background: #7580bd;
+}
+
+.zone_details {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 7px;
+  flex:1
+}
+
+.zone_name {
+  color: #010101;
+  font-feature-settings: "liga" off, "clig" off;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 16.625px;
+}
+
+.progress_container {
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.progress_bar {
+  flex: 1;
+  height: 10px;
+  background: #e0e0e0;
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.progress {
+  height: 100%;
+  border-radius: 5px;
+}
+
+.rate {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--Base-Shade-50, rgba(0, 0, 0, 0.5));
+  min-width: 40px;
+  text-align: right;
+}

@@ -1,0 +1,92 @@
+/* Main PersonalInformation Component - Shared Styles Only */
+
+/* Global Error Display */
+.global_error {
+  grid-column: 1 / -1;
+  color: #dc3545;
+  font-size: 14px;
+  text-align: center;
+  padding: 8px 12px;
+  background-color: #f8d7da;
+  border: 1px solid #f5c6cb;
+  border-radius: 4px;
+  margin-bottom: 16px;
+}
+
+/* Section Title Styles */
+.personal_info_section_general_field_label_wrapper {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.personal_info_section_general_field_label {
+  font-size: 12px;
+  font-weight: 400;
+  color: #000000;
+  white-space: nowrap;
+}
+
+.personal_info_section_general_line {
+  height: 1px;
+  background: linear-gradient(90deg, #B6B6B6 0%, rgba(255, 255, 255, 0) 100%);
+  width: 40%;
+}
+
+.personal_info_section_general_full_width {
+  grid-column: span 3;
+  width: 100%;
+}
+
+/* Layout Container Styles */
+.custom_flex_container {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0;
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+.custom_left_group {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 65%;
+}
+
+.custom_right_group {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  width: 35%;
+}
+
+/* Profile Photo positioning - moved from ProfilePhoto component */
+.custom_right_group > div {
+  align-items: end;
+}
+
+/* Personal Information Full Width */
+.personal_info_full_width {
+  grid-column: span 3;
+  width: 100%;
+}
+
+/* Phone Icon Styles */
+.phone_icon_wrapper {
+  position: relative;
+}
+
+.phone_icon {
+  position: absolute;
+  right: 10px;
+  top: 65%;
+  transform: translateY(-50%);
+  width: 18px;
+  height: 18px;
+  color: #82808f;
+  pointer-events: none;
+}

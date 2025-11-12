@@ -1,0 +1,33 @@
+.loginpageform{
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+.login_form_fields{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.login_remember_reset{
+    display: flex;
+    justify-content: space-between;
+}
+
+.error{
+    color: #F93636;
+    font-size: 16px;
+    font-weight: 400;
+}
+
+.resetRoute{
+    color: #231CED;
+    font-weight: 700;
+    font-size: 16px;
+}
+
+.loginerror_support{
+    display: flex;
+    flex-direction: column;
+    gap:20px;
+}

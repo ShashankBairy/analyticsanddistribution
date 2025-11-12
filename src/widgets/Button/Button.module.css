@@ -1,0 +1,83 @@
+.button_wrapper {
+  display: block;
+  /* width: 100%; */
+}
+
+.button_wrapper .button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 600;
+  gap: 4px;
+}
+
+.button_wrapper .button.primary {
+  background-color: #3425ff;
+  color: white ;
+}
+
+.button_wrapper .button.secondary{
+  background-color: white;
+  color: #3425FF;
+  border: 1px solid #3425FF;
+}
+
+.button_wrapper button[type="submit"] {
+  padding: 8px 34px;
+}
+
+.button_wrapper button[type="button"] {
+  padding: 8px 12px;
+}
+
+button:hover {
+  opacity: 0.9;
+}
+
+.isLoading{
+  color: white;
+  cursor: pointer;
+  background-color: #110D8A;
+}
+
+.disabled {
+  color: rgba(52, 37, 255, 0.5) ;
+  background: #f6f8fa ;
+  cursor: not-allowed ;
+}
+
+.button_wrapper .button.history{
+  background-color: #FBFBFB;
+  color: #252C32;
+  font-size: 14px;
+  font-weight: 400;
+  border: 1px solid #D2D2D2;
+}
+
+.button_wrapper .button.upload{
+  color: #3425FF;
+  background-color: #EAEAEA;
+  border: 1px solid #A8A8A8;
+}
+
+.button_wrapper .button span{
+  margin: 0;
+  padding: 0;
+}
+
+.button_wrapper .button.third{
+  padding: 8px 47px;
+    background-color: #3425ff;
+  color: white ;
+}
+
+.button_wrapper .button.forth{
+  background-color: white;
+  color: #3425FF;
+  border: 1px solid #3425FF;
+  padding: 8px 50px;
+}

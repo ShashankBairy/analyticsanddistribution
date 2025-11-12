@@ -1,0 +1,168 @@
+.Student_Information_studentInfoContainer {
+  /* width: 100%; */
+  margin: 0 auto;
+  background-color: #fff;
+  border-radius: 8px;
+  padding-bottom: 2rem;
+  padding: 22px 55px;
+  display: flex;
+  flex-direction: column;
+  position: relative;   /* ensures dropdown positions relative to main box */
+  overflow: hidden;     /* if you want to clip, keep this, otherwise remove */
+ 
+ 
+}
+ 
+.Student_Information_studentInfoHeader {
+  border-radius: 10px;
+  background: #E6E5FF;
+  padding: 1rem 1.25rem;
+  /* margin: 1.5rem 1.25rem 1rem; */
+}
+ 
+.Student_Information_studentTextHeader {
+  display: flex;
+  /* gap: 222px; */
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+ 
+.Student_Information_studentInfoItem .Student_Information_studentLabel {
+  color: #4C4C4C;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+}
+ 
+.Student_Information_studentInfoItem .Student_Information_studentValue {
+  color: #08007C;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+}
+ 
+.Student_Information_studentFormContainer {
+  /* padding: 0 1.25rem; */
+  flex-grow: 1;
+}
+ 
+.Student_Information_studentFormGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  /* gap: 1.2rem 1.75rem; */
+  column-gap: 40px;
+  row-gap: 15px;
+  margin-top: 1.25rem;
+  position: relative;   /* 👈 important for child absolute positioning */
+  overflow: visible;
+ 
+  padding-bottom: 130px;
+}
+ 
+.Student_Information_studentFormGroup {
+  display: flex;
+  flex-direction: column;
+}
+ 
+.Student_Information_studentFormLabel {
+  font-size: 12px;
+  font-weight: 400;
+  margin-bottom: 0.25rem;
+  color: #344054;
+  line-height: 20px;
+}
+ 
+.Student_Information_studentGenderButtons {
+  display: flex;
+  gap: 0.75rem;
+}
+ 
+.Student_Information_studentGenderBtn {
+  padding: 0.4rem 1.2rem;
+  border-radius: 20px;
+  border: 1px solid #ccc;
+  font-size: 0.85rem;
+  background-color: #fff;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  color: #333;
+  box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.07);
+}
+ 
+.Student_Information_studentGenderBtnActive {
+  background-color: #3425ff;
+  color: #fff;
+  border-color: #3425ff;
+  box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.07);
+}
+ 
+.Student_Information_studentFormFooter {
+  display: flex;
+  justify-content: center;
+  margin-top: 2.25rem;
+}
+/* 🔹 Full row for Language Section */
+.Student_Information_languageRow {
+  grid-column: 1 / -1; /* span across all columns */
+  margin-top: 10px;
+}
+ 
+/* 🔹 Header with line */
+.Student_Information_languageHeader {
+  display: flex;
+  align-items: center;
+  margin-bottom: 12px;
+}
+ 
+.Student_Information_languageHeader span {
+  font-size: 14px;
+  font-weight: 500;
+  color: #82808f;
+  margin-right: 10px;
+}
+ 
+.Student_Information_languageLine {
+  /* flex: 1; */
+  /* flex: 1; */
+  width: 40%;
+  height: 1px;
+  background: linear-gradient(to right, #bbb, transparent);
+}
+ 
+/* 🔹 Grid for 3 dropdowns */
+.Student_Information_languageGrid {
+  margin-top: 20px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 40px;
+}
+ 
+/* 🔹 Responsive (mobile) */
+@media (max-width: 768px) {
+  .Student_Information_languageGrid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+}
+ 
+ 
+ 
+.Student_Information_studentNextBtn {
+  color: #F6F8F9;
+  padding: 0.6rem 1.5rem;
+  border: none;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 24px;
+  letter-spacing: -0.072px;
+  display: inline-flex;
+  padding: 8px 34px;
+  align-items: center;
+  gap: 4px;
+  transition: background-color 0.3s ease;
+  border-radius: 6px;
+  background-color: #3425FF;
+}

@@ -1,0 +1,47 @@
+
+.edit_next_buttons_wrapper{
+    position: fixed;
+  bottom: 0;
+  left: calc(16.5% + 10px);
+  right: 10px;
+  height: 78px;
+  background:linear-gradient(to bottom, #FFFFFFB2, #FFFFFF) ;
+}
+
+.edit_next_buttons_container{
+  padding: 22px 0px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  /* background-color: red; */
+
+}
+
+.blue_arrow_icon_figure {
+  margin: 0;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.blue_arrow_icon {
+  width: 16px;
+  height: 16px;
+  object-fit: contain;
+}
+
+.pencil_icon_figure {
+  margin: 0;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pencil_icon {
+  width: 16px;
+  height: 16px;
+  object-fit: contain;
+}

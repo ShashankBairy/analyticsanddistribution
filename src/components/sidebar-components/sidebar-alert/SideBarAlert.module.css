@@ -1,0 +1,172 @@
+.alert_box {
+  position: relative;
+  width: 77%;
+  border-radius: 10px;
+  border: 1px solid #ededed;
+  background: #fff;
+  box-shadow: 4px -4px 16px 0 rgba(245, 61, 64, 0.4),
+    -4px 4px 16px 0 rgba(67, 50, 255, 0.4);
+  padding: 10px;
+}
+
+.icon {
+  position: absolute;
+  right: -25%;
+  top: 0;
+  transform: translate(-55%, -35%);
+}
+
+.red_text_container {
+  display: inline-flex;
+  padding: 3px 12px 4px 12px;
+  justify-content: center;
+  align-items: center;
+  border-radius: 16px;
+  background: #f00;
+}
+
+.red_text {
+  color: #fff;
+  font-size: 11px;
+  font-weight: 400;
+  line-height: normal;
+}
+
+.alert_heading {
+  color: #000;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: normal;
+}
+
+.swiper_part {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  margin-top: 9px;
+}
+
+.swipe_header_part {
+  color: #000;
+  font-size: 14px;
+  font-weight: 700;
+  border-bottom: 1px solid #d7d7d7;
+  padding-bottom: 9px;
+}
+
+.swiper_sub_text {
+  color: #000;
+  font-size: 13px;
+  font-weight: 400;
+  line-height: normal;
+}
+
+.pagination_slide_container {
+  display: flex;
+  align-items: center;
+  width: 30%;
+  box-sizing: border-box;
+  
+}
+
+.swiper_button_prev {
+  cursor: pointer;
+  width: 14px;
+  height: 14px;
+  display: flex;
+  align-items: center;
+}
+
+.pagination_dots {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+}
+
+.dot {
+  width: 6px;
+  height: 6px;
+  background-color: grey;
+  border-radius: 100%;
+  cursor: pointer;
+}
+
+.activeDot {
+  background-color: #5444fb;
+  width: 7px;
+  height: 7px;
+  border-radius: 100%;
+  cursor: pointer;
+}
+
+.swiper_button_next {
+  cursor: pointer;
+  width: 14px;
+  height: 14px;
+  display: flex;
+  justify-content: end;
+  align-items: center;
+}
+
+.alert_lower_section {
+  display: flex;
+  justify-content: space-between;
+  align-items: end;
+  padding-top: 15px;
+}
+.pagination_fraction {
+  display: flex;
+  width: 35px;
+  padding: 2px 10px 4px 10px;
+  justify-content: center;
+  align-items: center;
+  border-radius: 12px;
+  background: #f2f2f2;
+}
+
+.fraction_values {
+  color: #000;
+  font-size: 11px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 12px;
+}
+
+
+
+
+
+.swiper_part {
+  overflow: hidden; 
+}
+
+.slideInRight {
+  animation: slideInRight 1s ease forwards;
+}
+
+.slideInLeft {
+  animation: slideInLeft 1s ease forwards;
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+  to {
+    opacity: 10;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-10px);
+  }
+  to {
+    opacity: 15;
+    transform: translateX(0);
+  }
+}

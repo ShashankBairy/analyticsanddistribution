@@ -1,0 +1,14 @@
+/* Form Field */
+.orientation_info_form_field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: none;
+  width: 100%;
+}
+
+.orientation_info_error {
+  color: red;
+  font-size: 12px;
+  margin-top: 5px;
+}

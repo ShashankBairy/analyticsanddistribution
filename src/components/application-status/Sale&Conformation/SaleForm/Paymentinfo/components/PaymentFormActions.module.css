@@ -1,0 +1,21 @@
+/* Payment Form Actions Styles - extracted from main CSS */
+
+.form_actions {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.finish_icon_figure {
+  margin: 0;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.finish_icon {
+  width: 16px;
+  height: 16px;
+  object-fit: contain;
+}

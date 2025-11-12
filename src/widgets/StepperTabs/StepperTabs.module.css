@@ -1,0 +1,110 @@
+.stepper {
+  display: flex;
+  justify-content: space-between;
+  border: 1px solid #E6E4F0;
+  border-radius: 8px;
+  width:100%;
+}
+
+.stepper_step_tab {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;  /* Reduced from 10px to 8px */
+  padding: 18px 75px;  /* Reduced from 60px to 40px */
+  font-size: 14px;
+  color: #000;
+  background: #F9F8F8;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.stepper_step_tab:not(:last-child) {
+  border-right: 1px solid #ffff;
+}
+
+.stepper_step_number {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: #3425FF;
+  color: #fff;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.stepper_step_label {
+  font-weight: 400;
+  font-size: 16px;
+  white-space: nowrap;
+}
+
+.active {
+  background: #3425FF;
+  color: #fff;
+}
+
+.active .stepper_step_number {
+  background: #fff;
+  color: #3425FF;
+}
+
+.completed {
+  background: #08007C;
+  color: #fff;
+}
+
+.completed .stepper_step_number {
+  background: #fff;
+  color: #08007C;
+}
+
+/* Media query for screens between 780px and 1440px */
+@media (max-width: 1440px) {
+  .stepper {
+    flex-wrap: nowrap; /* Prevent wrapping to maintain single row */
+    justify-content: space-around; /* Adjust spacing for better distribution */
+  }
+
+  .stepper_step_tab {
+    padding: 14px 15px; /* Further reduced padding for tighter spacing */
+    font-size: 12px; /* Slightly smaller font size for better fit */
+    flex: 1; /* Allow tabs to grow/shrink equally */
+    min-width: 0; /* Prevent overflow */
+  }
+
+  .stepper_step_label {
+    font-size: 14px; /* Adjust label font size */
+  }
+
+  .stepper_step_number {
+    width: 20px; /* Slightly smaller step number circle */
+    height: 20px;
+    font-size: 10px; /* Smaller font size for step number */
+  }
+}
+
+/* Additional media query for screens 780px and below */
+@media (max-width: 780px) {
+  .stepper {
+    justify-content: space-around; /* Maintain distribution */
+  }
+
+  .stepper_step_tab {
+    padding: 10px 15px; /* Further reduce padding */
+    font-size: 10px; /* Smaller font size */
+  }
+
+  .stepper_step_label {
+    font-size: 12px; /* Further reduce label font size */
+  }
+
+  .stepper_step_number {
+    width: 18px; /* Smaller step number circle */
+    height: 18px;
+    font-size: 9px; /* Smaller font size for step number */
+  }
+}

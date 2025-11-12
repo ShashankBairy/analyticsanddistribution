@@ -1,0 +1,45 @@
+.loginButton_wrapper {
+  display: block;
+  width: 100%;
+}
+
+.loginButton_wrapper button {
+  border-radius: 8px;
+  width: 100%;
+  padding: 15px 32px;
+  font-size: 14px;
+  font-weight: 700;
+  text-align: center;
+}
+
+.loginButton_wrapper button:disabled {
+  cursor: not-allowed;
+}
+
+.default {
+  color: #575757;
+}
+
+.initial {
+  color: #fff;
+  background-color: #8c88ff;
+  border: none;
+}
+
+.proceed {
+  color: #fff;
+  background-color: #231ced;
+  border: none;
+  cursor: pointer;
+}
+
+.loading {
+  color: #fff;
+  background-color: #110d8a;
+  border: none;
+}
+
+.successed {
+  color: #fff;
+  background-color: #110d8a;
+}

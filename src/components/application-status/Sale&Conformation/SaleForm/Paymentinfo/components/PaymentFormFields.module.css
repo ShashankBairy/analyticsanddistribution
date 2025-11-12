@@ -1,0 +1,12 @@
+/* Payment Form Fields Styles - extracted from main CSS */
+
+.form_fields_container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.form_field {
+  display: flex;
+  flex-direction: column;
+}

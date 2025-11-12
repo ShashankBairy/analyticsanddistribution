@@ -1,0 +1,66 @@
+.login_container {
+  width: 100%;
+  height: 100vh;
+  padding: 0px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+.bgimage{
+ width: 70%;
+}
+
+.loginbg{
+  width: 100%;
+}
+
+.login_content {
+  height: 100%;
+  width: 30%;
+  background-color: #FFF;
+  padding: 60px 60px 20px 60px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  /* gap: 100px; */
+  overflow-y: hidden;
+  scrollbar-width: none; /* Hides scrollbar in Firefox */
+  -ms-overflow-style: none; /* Hides scrollbar in IE/Edge */
+} /* Hide scrollbar in Webkit browsers (Chrome, Safari) */
+.login_content::-webkit-scrollbar {
+  display: none;
+}
+.sclogo {
+  width: 144px;
+  height: 36px;
+}
+.login_content_form {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+}
+.login_content_form_top {
+  display: block;
+}
+.login_top_sub {
+  color: #000;
+  font-size: 12px;
+  font-weight: 400;
+}
+.login_top_heading {
+  color: #000;
+  font-size: 25px;
+  font-weight: 600;
+}
+.login_heading_highlight {
+  color: #231ced;
+  font-size: 25px;
+  font-weight: 700;
+}
+.login_form_content{
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}

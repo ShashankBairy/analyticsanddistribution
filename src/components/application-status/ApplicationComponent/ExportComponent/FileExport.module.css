@@ -1,0 +1,86 @@
+.exportContainer {
+  background: #fff;
+  border: 1px solid #e0e0e0;
+  border-radius: 12px;
+  padding: 16px;
+  width: 280px;
+  position: absolute;
+  z-index: 1000;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Default Middle (centered below trigger) */
+.middlePosition {
+  top: 110%;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+/* Left-aligned export container */
+.leftPosition {
+  top: 110%;
+  left: 0;
+  right: auto;
+  transform: none;
+}
+
+/* Right-aligned export container */
+.rightPosition {
+  top: 120%; /* slightly lower than middle */
+  right: 0;
+  left: auto;
+  transform: none;
+}
+
+.fileTypeWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.fileTypeLabel {
+  font-size: 12px;
+  font-weight: 400;
+  color: #333;
+}
+
+.fileTypeOptions {
+  display: flex;
+  background: #f1f3f6;
+  border-radius: 10px;
+  padding: 2px;
+  gap: 6px;
+}
+
+.fileTypeBtn {
+  flex: 1;
+  padding: 6px 16px;
+  border: none;
+  border-radius: 6px;
+  background: transparent;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  color: #555;
+  line-height: 20px;
+  letter-spacing: -0.23px;
+}
+
+.active {
+  background: #3425ff;
+  color: #fff;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);
+  transform: scale(1.05);
+}
+
+.fileTypeBtn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  background: #f5f5f5;
+  color: #999;
+}
+
+.fileTypeBtn:disabled:hover {
+  background: #f5f5f5;
+  transform: none;
+}

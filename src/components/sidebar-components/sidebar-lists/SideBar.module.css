@@ -1,0 +1,65 @@
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  list-style: none;
+  gap: 4px;
+  /* margin-top: 54px; */
+  padding: 18px;
+}
+
+
+.list {
+  padding: 0;
+}
+
+
+.item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px 7px 16px;
+  border-radius: 6px;
+  text-decoration: none;          
+  color: #595e6c;
+  line-height: 150%;
+  transition: background-color 0.2s ease, color 0.2s ease, filter 0.2s ease;
+  cursor: pointer;
+}
+
+.figure {
+  display: flex;
+  align-items: center;
+  margin: 0;
+}
+
+.icons {
+  width: 18px;
+  height: 18px;
+  transition: filter 0.1s ease, opacity 0.2s ease;
+}
+
+.tab {
+  font-size: 14px;
+  font-weight: 400;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: inherit;                 
+}
+
+.line {
+  border: 1px solid #EDEDED;
+  margin-top: 8px;
+}
+
+
+.active {
+  background-color: #3425FF;
+  color: #fff;                    
+}
+
+.active .icons {
+  filter: brightness(0) invert(1);
+}
+
+

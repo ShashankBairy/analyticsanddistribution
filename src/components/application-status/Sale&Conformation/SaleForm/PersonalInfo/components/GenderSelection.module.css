@@ -1,0 +1,94 @@
+/* GenderSelection Component Styles */
+.gender_selection_form_field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: none;
+  width: 100%;
+}
+
+.gender_selection_container {
+  display: flex;
+  flex-direction: column;
+}
+
+.gender_selection_field_label_wrapper {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 5px;
+}
+
+.gender_selection_field_label {
+  font-size: 14px;
+  font-weight: 500;
+  color: #82808f;
+  white-space: nowrap;
+}
+
+.gender_selection_line {
+  height: 1px;
+  background: linear-gradient(to right, #bbb, transparent);
+  width: 60%;
+}
+
+.gender_selection_options {
+  display: flex;
+  gap: 10px;
+  margin-top: 5px;
+}
+
+.gender_selection_label_wrapper {
+  display: flex;
+  align-items: center;
+}
+
+.gender_selection_radio {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+  margin: 0;
+  padding: 0;
+}
+
+.gender_selection_label {
+  background: #FFFFFF;
+  border: 2px solid #EBEBEB;
+  border-radius: 51px;
+  width: 68px;
+  height: 34px;
+  padding: 2px 12px;
+  font-family: Inter;
+  font-weight: 400;
+  font-style: normal;
+  font-size: 13px;
+  line-height: 100%;
+  letter-spacing: 0%;
+  color: #727F96;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  opacity: 1;
+}
+
+.gender_selection_active {
+  background: #3425ff;
+  color: #fff;
+  border-color: #3425ff;
+}
+
+.gender_selection_text_with_icon {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.gender_selection_error {
+  color: red;
+  font-size: 12px;
+  margin-top: 5px;
+}

@@ -1,0 +1,47 @@
+.analytics_section {
+  width: 73%;
+  border-radius: 8px;
+  padding: 15px;
+  border: 1px solid #f6f8f9;
+  background-color: #ffffff;
+  position:relative;
+}
+
+.prev_years_graphs_section {
+  width: 28%;
+  background-color: #ffffff;
+  padding: 15px;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.accordian_header_text {
+  display: flex;
+  gap: 5px;
+  /* margin-bottom:20px; */
+}
+
+.icon {
+  width: 22px;
+  height: 22px;
+}
+
+.header_text {
+  color: #56555c;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+}
+
+.prev_year_botton_icon{
+  display: flex;
+  justify-content: center;
+  justify-content: center;
+}
+
+.endIcon img{
+  width: 280px;
+}

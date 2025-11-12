@@ -1,0 +1,179 @@
+/* ProfilePhoto Component Styles */
+.profile_photo_form_field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: none;
+ 
+}
+
+.profile_photo_upload_container {
+  display: flex;
+  flex-direction: column;
+}
+
+.profile_photo_label {
+  cursor: pointer;
+  text-align: center;
+}
+
+.profile_photo_upload_circle {
+  width: 142px;
+  height: 142px;
+  border-radius: 180px;
+  border: 2px solid #3425ff;
+  background-color: #e8e6ff;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+  margin-bottom: 8px;
+}
+
+/* Hover overlay */
+.profile_photo_hover_overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 150ms ease-in-out;
+  z-index: 1;
+}
+
+.profile_photo_upload_circle:hover .profile_photo_hover_overlay {
+  opacity: 1;
+}
+
+.profile_photo_edit_badge {
+  color: #ffffff;
+  font-weight: 600;
+  font-size: 14px;
+  padding: 6px 12px;
+  border-radius: 8px;
+  backdrop-filter: blur(2px);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.profile_photo_edit_icon_wrapper {
+  display: inline-flex;
+  align-items: center;
+}
+
+.profile_photo_edit_icon {
+  width: 18px;
+  height: 18px;
+  fill: #ffffff;
+}
+
+/* Delete button at bottom center */
+.profile_photo_delete_button {
+  position: absolute;
+  bottom: -12px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: none;
+  background: #ff3b3b;
+  color: #ffffff;
+  line-height: 28px;
+  text-align: center;
+  font-size: 16px;
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+  opacity: 0; /* hidden by default */
+  transition: opacity 150ms ease-in-out;
+  z-index: 2; /* above overlay */
+}
+
+.profile_photo_delete_button:hover {
+  background: #e12e2e;
+}
+
+/* Show overlay and delete only when hovering the circle */
+.profile_photo_upload_circle:hover .profile_photo_delete_button {
+  opacity: 1;
+}
+.profile_photo_upload_circle:hover .profile_photo_hover_overlay {
+  opacity: 1;
+}
+
+.profile_photo_upload_icon_figure {
+  margin-bottom: 8px;
+}
+
+.profile_photo_upload_svg {
+  width: 31px;
+  height: 31px;
+}
+
+.profile_photo_preview_image {
+  width: 150px;
+  height: 150px;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.profile_photo_upload_text {
+  font-size: 13px;
+  font-weight: 400;
+  color: #000000;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.profile_photo_file_size_limit {
+  color: #d32f2f;
+  font-size: 12px;
+}
+
+.profile_photo_error {
+  color: red;
+  font-size: 12px;
+  margin-top: 5px;
+}
+
+
+/* Delete Button */
+.profile_photo_delete_button {
+  position: absolute;
+  bottom: 8px;
+  right: 8px;
+  width: 32px;
+  height: 32px;
+  background: white;
+  border: none;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  z-index: 10;
+  padding: 0;
+
+}
+
+.profile_photo_delete_button:hover {
+  background: #fff5f5;
+ 
+}
+
+.profile_photo_delete_button svg {
+  width: 16px;
+  height: 16px;
+}
+
+/* Error Message */
+.profile_photo_error {
+  margin-top: 8px;
+  text-align: center;
+}

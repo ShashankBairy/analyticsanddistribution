@@ -1,0 +1,79 @@
+/* Address Form Field Styles - extracted from main CSS */
+
+.address_info_form_field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: none;
+  width: 100%;
+}
+
+.address_info_error {
+  color: red;
+  font-size: 12px;
+  margin-top: 5px;
+}
+
+/* GPIN Field Styles */
+.gpin_field_container {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+}
+
+.gpin_field_label {
+  display: block;
+  /* margin-bottom: 8px; */
+  font-size: 12px;
+ font-weight: 400;
+  color: #344054;
+}
+
+.gpin_field_required {
+  color: red;
+  margin-left: 4px;
+}
+
+.gpin_search_container {
+  position: relative;
+  width: 100%;
+}
+
+.gpin_search_input {
+  width: 100%;
+  padding: 12px 40px 12px 12px;
+  border: 1px solid #D1D5DB;
+  border-radius: 6px;
+  font-size: 14px;
+  color: #374151;
+  background-color: #FFFFFF;
+  transition: border-color 0.2s ease;
+}
+
+.gpin_search_input:focus {
+  outline: none;
+  border-color: #3425FF;
+  box-shadow: 0 0 0 3px rgba(52, 37, 255, 0.1);
+}
+
+.gpin_search_input::placeholder {
+  color: #9CA3AF;
+}
+
+/* .gpin_search_icon {
+  position: absolute;
+  /* right: 12px; 
+  top: 80%;
+  transform: translateY(-50%);
+  width: 16px;
+  height: 16px;
+  color: #98A2B3;
+  pointer-events: none;
+} */
+
+.gpin_field_error {
+  color: #EF4444;
+  font-size: 12px;
+  margin-top: 4px;
+}

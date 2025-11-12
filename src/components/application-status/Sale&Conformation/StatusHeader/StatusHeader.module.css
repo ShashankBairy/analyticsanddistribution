@@ -1,0 +1,48 @@
+/* StatusHeader.module.css */
+ 
+.status_info_header {
+    border-radius: 6px;
+    display: flex;
+    justify-content: flex-end;
+    background: #FFFEEC;
+    padding: 9px 10px;
+    white-space: nowrap;
+    gap:40px;
+    /* margin: 1.5rem 1.25rem 1rem; */
+  }
+ 
+  .status_text_header {
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+  }
+ 
+  .status_info_item .status_label {
+    text-align: end;
+    color: rgba(81, 81, 81, 1);
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    letter-spacing: 0px;
+  }
+ 
+  .status_info_item .status_value {
+    color: rgba(50, 50, 50, 1);
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+  }
+
+  .error_message {
+    color: #dc2626;
+    font-size: 12px;
+    font-weight: 500;
+    margin-top: 5px;
+    padding: 5px 10px;
+    background: #fef2f2;
+    border: 1px solid #fecaca;
+    border-radius: 4px;
+  }
+ 

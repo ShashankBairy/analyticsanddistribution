@@ -1,0 +1,69 @@
+.status_section {
+  /* flex: 1; */
+  padding-right: 20px;
+}
+
+.status_title {
+  font-size: 36px;
+  font-weight: 700;
+  color: #252C32;
+  margin-bottom: 5px;
+}
+
+.status_instruction {
+  font-size: 14px;
+  font-weight: 400;
+  color: #6E7C87;
+  margin-bottom: 10px;
+}
+
+.status_options {
+  display: flex;
+  gap: 4px;
+  margin-bottom: 20px;
+  justify-content: center;
+  background-color: #f0f0f0;
+  border-radius: 30px;
+  width: 268px;
+}
+
+.status_options ul {
+  display: flex;
+  gap: 4px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  width: 100%;
+  /* justify-content: space-between; */
+}
+
+.status_options li {
+  margin: 0;
+  padding: 0;
+  /* flex: 1; */
+}
+
+.status_btn {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 20px;
+  color: #616161;
+  font-size: 14px;
+  cursor: pointer;
+  /* width: 100%; */
+  text-align: center;
+  transition: all 0.2s ease;
+}
+
+.status_btn:hover {
+  background-color: #e0e0e0;
+}
+
+.active {
+  background-color: #3425FF !important;
+  color: #fff !important;
+}
+
+.active:hover {
+  background-color: #2a1fd1 !important;
+}

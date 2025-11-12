@@ -1,0 +1,98 @@
+.Application_Status_Form_main_app_status_container {
+  background: #ffffff;
+  border-radius: 10px;
+  width:100%; 
+   position: relative;
+  overflow-y: auto;
+  scrollbar-width: none; 
+  -ms-overflow-style: none; 
+  padding: 15px;
+}
+
+
+.Application_Status_Form_main_app_status_container::-webkit-scrollbar {
+  display: none;
+}
+
+
+.Application_Status_Form_main_back_btn {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.Application_Status_Form_main_back_btn img {
+  width: 28px;
+  height: 28px;
+  object-fit: contain;
+  transition: transform 0.2s ease-in-out;
+}
+
+.Application_Status_Form_main_back_btn:hover img {
+  transform: scale(1.1);
+}
+
+.Application_Status_Form_main_app_status_header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+ 
+  width: 100%;
+  position: relative;
+}
+
+
+.Application_Status_Form_main_app_status_header_back_btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 5px;
+}
+
+.Application_Status_Form_main_app_status_header_status_header {
+  display: flex;
+  align-items: center;
+  margin-left: auto;
+}
+
+
+.Application_Status_Form_main_layout_wrapper {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: nowrap;
+  width: 100%;
+  padding: 2px;
+}
+
+
+.Application_Status_Form_main_form_wrapper {
+  border: 2px solid #dde2e4;
+  border-radius: 10px;
+  background: #fafafa;
+  overflow-y: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.Application_Status_Form_main_form_wrapper::-webkit-scrollbar {
+  display: none;
+}
+
+
+.Application_Status_Form_main_coupon_wrapper {
+  margin-bottom: 20px;
+}
+
+
+.Application_Status_Form_main_payment_info_form {
+  background: #fff;
+  border-radius: 10px;
+  padding: 20px;
+} 

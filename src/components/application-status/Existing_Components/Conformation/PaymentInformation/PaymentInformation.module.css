@@ -1,0 +1,180 @@
+.Payment_Information_payment_information {
+  /* width: 100%; */
+  margin: 0 auto;
+  background: #fff;
+  border-radius: 8px;
+  display: flex;
+  gap: 20px;
+  flex-direction: column;
+  padding-bottom: 2rem;
+  padding: 22px 55px;
+  font-family: "Segoe UI", sans-serif;
+}
+
+.Payment_Information_header {
+  border-radius: 10px;
+  background: #E6E5FF;
+  padding: 1rem 1.25rem;
+  /* margin: 1.5rem 1.25rem; */
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  font-size: 14px;
+}
+
+.Payment_Information_header > div {
+  color: #08007C;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+}
+
+.Payment_Information_header strong {
+  display: block;
+  font-size: 12px;
+  font-weight: 600;
+  margin-bottom: 0.25rem;
+  color: #4C4C4C;
+  line-height: normal;
+}
+
+.Payment_Information_form {
+  flex-grow: 1;
+  /* padding: 0 1.25rem; */
+}
+
+.Payment_Information_form_grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  /* gap: 1rem; */
+  /* margin-bottom: 1rem; */
+  row-gap: 15px;
+  column-gap: 40px;
+}
+
+
+.Payment_Information_table_wrapper {
+  border-left: 1px solid #E6E5FF;
+  border-right: 1px solid #E6E5FF;
+  margin-top: 25px;
+}
+
+.Payment_Information_table th {
+  background: #E6E5FF;
+  font-weight: 600;
+  font-size: 12px;
+  color: #3425FF;
+  text-align: left;
+  padding: 0.5rem;
+}
+
+.Payment_Information_table td {
+  color: #333;
+  font-size: 13px;
+  padding: 0.5rem;
+}
+
+.Payment_Information_submit_wrapper {
+  text-align: center;
+  display: flex;
+  justify-content: center; /* Center buttons horizontally */
+  align-items: center; /* Center buttons vertically */
+  gap: 16px; /* Space between buttons */
+  margin-top: 20px;
+  margin:0 auto;
+  white-space: nowrap;
+  padding-top: 1rem;
+}
+.concessionLinkButton {
+  display: flex; /* inline-flex works better for links */
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #0000ff;
+  text-decoration: underline;
+  cursor: pointer;
+  width: fit-content; /* Ensures the link takes only the space it needs */
+  margin: 0 auto; /* Centers the link horizontally within the parent */
+}
+.Payment_Information_submit_btn {
+  background-color: #3425ff !important;
+  color: #fff !important;
+  font-size: 12px !important;
+  font-weight: 600 !important;
+  padding: 0.6rem 1.6rem !important;
+  border-radius: 8px !important;
+  box-shadow: none !important;
+}
+.custom_dropdown {
+  position: relative;
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+.dropdown_header {
+  border: 1px solid #ccc;
+  padding: 16px 16px;
+  cursor: pointer;
+  /* background: #f9f9f9; */
+  border-radius: 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 5px;
+  color:  #101828;
+  font-size: 12px;
+  font-weight: 400;
+}
+
+/* .dropdown_arrow {
+  transition: transform 0.2s;
+}
+
+.dropdown_header:hover .dropdown_arrow {
+  transform: rotate(180deg);
+} */
+
+.dropdown_options {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  border: 1px solid #ccc;
+  background: white;
+  border-radius: 4px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  z-index: 1000;
+  margin-top: 2px;
+}
+
+.dropdown_option {
+  padding: 8px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+
+.dropdown_option:hover {
+  background: #f0f0f0;
+  border:  1px solid beige;
+}
+
+.option_icon {
+  margin-right: 8px;
+  font-size: 12px;
+}
+
+.error {
+  color: red;
+  font-size: 12px;
+  margin-top: 4px;
+}
+.food_preference_lable{
+  display: block;
+  font-weight: 400;
+  color: #344054;
+  font-size: 12px;
+}

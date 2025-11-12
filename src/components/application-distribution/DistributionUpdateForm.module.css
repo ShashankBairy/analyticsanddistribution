@@ -1,0 +1,63 @@
+
+.modal_root {
+  position: fixed; /* Use fixed positioning to overlay it on the entire screen */
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  justify-content: center; /* Center horizontally */
+  align-items: center; /* Center vertically */
+  background-color: rgba(0, 0, 0, 0.5); /* Add a semi-transparent background */
+  z-index: 999; /* Ensure it appears above other content */
+}
+ 
+/* Modal box styles */
+.modal {
+  position: relative; /* Relative to the modal root */
+  width: 50%; /* Set a fixed width */
+  max-width: 820px; /* Optional: limit max width */
+  border-radius: 27px;
+  background: #FFF;
+  padding: 20px 40px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Optional: add a shadow for a subtle effect */
+}
+ 
+/* Modal top section */
+.modal_top {
+  display: flex;
+  justify-content: space-between;
+  padding: 9px 0;
+  border-bottom: 1px solid #DEDEDE;
+}
+ 
+/* Left side of modal top */
+.modal_top_left {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+ 
+/* Close icon */
+.xicon {
+  cursor: pointer;
+}
+ 
+/* Modal heading styles */
+.modal_heading {
+  color: #393939;
+  font-size: 18px;
+  font-weight: 700;
+}
+ 
+/* Modal subheading styles */
+.modal_sub {
+  color: #575757;
+  font-size: 12px;
+  font-weight: 400;
+}
+ 
+/* Modal form content */
+.modal_form {
+  padding-top: 15px;
+}

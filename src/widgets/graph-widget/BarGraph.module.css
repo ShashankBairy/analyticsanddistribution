@@ -1,0 +1,82 @@
+.all_graphs {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 0px 5px;
+  box-sizing: border-box;
+  width:100%;
+}
+
+.bars {
+  display: flex;
+  flex-direction: row;
+  gap: 5px;
+}
+
+.bars_and_year {
+  display: flex;
+  gap: 20px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.red_bar_wrapper {
+  width: 18px;
+  height: 141px;
+  background-color: transparent;
+  border-radius: 8px;
+  position: relative;
+}
+
+.red_bar {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  /* border-radius: 8px; */
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+  background: linear-gradient(to bottom, #F31616, #F3161600);
+}
+
+.green_bar_wrapper {
+  width: 18px;
+  height: 141px;
+  background-color: transparent;
+  border-radius: 8px;
+  position: relative;
+}
+
+.green_bar {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+   border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+  background: linear-gradient(to bottom, #45D92E, #45D92E00);
+}
+
+.year {
+  color: #718ebf;
+  text-align: center;
+  font-size: 11px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  /* white-space: nowrap; */
+}
+
+.reddot{
+  position: absolute;
+  top: 2px;
+  left: 1.5px;
+  right: 1px;
+}
+
+.greendot{
+  position: absolute;
+  top: 2px;
+  left: 1.5px;
+  right: 1px;
+}

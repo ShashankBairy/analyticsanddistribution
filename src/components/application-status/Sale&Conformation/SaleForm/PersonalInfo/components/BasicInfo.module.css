@@ -1,0 +1,25 @@
+/* BasicInfo Component Styles */
+.basic_info_up_section {
+  display: flex;
+  flex-direction: row;
+  gap: 45px;
+  width: 100%;
+}
+
+.basic_info_form_row {
+  display: contents;
+}
+
+.basic_info_form_field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: none;
+  width: 100%;
+}
+
+.basic_info_error {
+  color: red;
+  font-size: 12px;
+  margin-top: 5px;
+}

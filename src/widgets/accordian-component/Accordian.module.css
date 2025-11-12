@@ -1,0 +1,45 @@
+.title_header {
+  display: flex;
+  flex-direction: row;
+  gap: 5px;
+}
+
+.header_title {
+  color: #2d2d2d;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
+.red_dot {
+  height: 15px;
+  width: 15px;
+}
+.green_dot {
+  height: 15px;
+  width: 15px;
+}
+
+.dots_container {
+  display: flex;
+  flex-direction: row;
+  padding: 8px 10px;
+  align-items: center;
+  gap: 12px;
+}
+
+.dot_part {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+}
+
+.dot_part p {
+  color: #718EBF;
+font-size: 14px;
+font-style: normal;
+font-weight: 400;
+line-height: normal;
+}
