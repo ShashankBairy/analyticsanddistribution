@@ -12,18 +12,23 @@ import {
   useGetCampuesForZonalAccountant,
   useGetCampuesForDgmEmpId,
 } from "../../../queries/application-analytics/analytics";
+import { useSelectedEntity } from "../../../contexts/SelectedEntityContext";
 
 const AnalyticsHeader = ({ onTabChange, activeTab }) => {
   const [showSearchDropdown, setShowSearchDropdown] = useState(false);
   const [showSuggestions, setShowSuggestions] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const [suggestions, setSuggestions] = useState([]);
-  
+ 
   // ✅ Get user info from localStorage
   const [userCategory, setUserCategory] = useState(null);
   const [empId, setEmpId] = useState(null);
 
   const wrapperRef = useRef(null);
+  const prevActiveTabRef = useRef(activeTab);
+ 
+  // ✅ Get selected entity from context
+  const { selectedEntity, clearSelection } = useSelectedEntity();
 
   // ✅ Get permissions
   const zonePerms = usePermission("DISTRIBUTE_ZONE");
@@ -37,6 +42,30 @@ const AnalyticsHeader = ({ onTabChange, activeTab }) => {
     if (storedCategory) setUserCategory(storedCategory.toUpperCase());
     if (storedEmpId) setEmpId(storedEmpId);
   }, []);
+
+  // ✅ Update search box value when entity is selected
+  useEffect(() => {
+    if (selectedEntity && selectedEntity.name) {
+      setSearchTerm(selectedEntity.name);
+      setShowSuggestions(false);
+      // Close the filter dropdown after selection
+      setShowSearchDropdown(false);
+    } else if (!selectedEntity.id) {
+      // Clear search box when selection is cleared
+      setSearchTerm("");
+    }
+  }, [selectedEntity]);
+
+  // ✅ Clear selection when tab changes (Zone/DGM/Campus)
+  // When user switches tabs, clear the previous selection since they're looking for a different category
+  useEffect(() => {
+    // Only clear if tab actually changed (not on initial mount)
+    if (prevActiveTabRef.current && prevActiveTabRef.current !== activeTab && selectedEntity.id) {
+      clearSelection();
+      setSearchTerm("");
+    }
+    prevActiveTabRef.current = activeTab;
+  }, [activeTab, selectedEntity.id, clearSelection]);
 
   // ✅ Identify user type
   const isZonalAccountant = userCategory === "SCHOOL" || userCategory === "COLLEGE";
@@ -68,11 +97,12 @@ const AnalyticsHeader = ({ onTabChange, activeTab }) => {
   });
 
   const handleSearchBarClick = () => {
-    // Show dropdown when clicking/focusing on search bar (only if not typing)
-    if (!searchTerm) {
-      setShowSearchDropdown(true);
-      setShowSuggestions(false);
-    }
+    // Show filter dropdown when clicking/focusing on search bar
+    // Don't clear selection for Zone, DGM, or Campus - keep the selection
+    // Always show the filter dropdown when clicking the search box
+    // Note: Don't auto-restore searchTerm here - let user manually clear if they want
+    setShowSearchDropdown(true);
+    setShowSuggestions(false);
   };
 
   // ✅ Get searchable items - EXACT same logic as dropdown
@@ -110,7 +140,7 @@ const AnalyticsHeader = ({ onTabChange, activeTab }) => {
     // Campus data - different based on user type
     if (campusPerms.isFullAccess) {
       let campusData = [];
-      
+     
       if (isAdmin) {
         campusData = allCampusesQuery.data || [];
       } else if (isZonalAccountant) {
@@ -142,6 +172,11 @@ const AnalyticsHeader = ({ onTabChange, activeTab }) => {
       setSuggestions([]);
       setShowSuggestions(false);
       setShowSearchDropdown(true); // Show dropdown when search is cleared
+      // Clear selected entity when search box is manually cleared (for all types: Zone, DGM, Campus)
+      // User manually deleted the text, so clear the selection
+      if (selectedEntity.id) {
+        clearSelection();
+      }
       return;
     }
 
@@ -167,10 +202,20 @@ const AnalyticsHeader = ({ onTabChange, activeTab }) => {
     setShowSearchDropdown(false); // Hide dropdown when showing suggestions
   };
 
+  // ✅ Handle search item click
+  const handleSearchItemClick = (item) => {
+    console.log("Search item selected:", item);
+    // Close suggestions and filter dropdown after selection
+    // Note: searchTerm will be updated automatically via useEffect when selectedEntity changes
+    setShowSuggestions(false);
+    setShowSearchDropdown(false);
+  };
+
   useEffect(() => {
     function handleOutside(e) {
       const clickedInsideWrapper = wrapperRef.current?.contains(e.target);
       if (clickedInsideWrapper) return;
+      // Only close if user clicks outside - don't close if they're interacting with the search
       setShowSearchDropdown(false);
       setShowSuggestions(false);
     }
@@ -184,7 +229,7 @@ const AnalyticsHeader = ({ onTabChange, activeTab }) => {
     if (zonePerms.isFullAccess) allowedTypes.push("Zone");
     if (dgmPerms.isFullAccess) allowedTypes.push("DGM");
     if (campusPerms.isFullAccess) allowedTypes.push("Campus");
-    
+   
     if (allowedTypes.length === 0) return "Search";
     if (allowedTypes.length === 1) return `Search for ${allowedTypes[0]}`;
     if (allowedTypes.length === 2) return `Search for ${allowedTypes[0]} or ${allowedTypes[1]}`;
@@ -212,8 +257,8 @@ const AnalyticsHeader = ({ onTabChange, activeTab }) => {
           value={searchTerm}
         />
 
-        {showSuggestions && <FilterSearch suggestions={suggestions} />}
-        {showSearchDropdown && <SearchDropdown onTabChange={onTabChange} />}
+        {showSuggestions && <FilterSearch suggestions={suggestions} onItemClick={handleSearchItemClick} />}
+        {showSearchDropdown && <SearchDropdown onTabChange={onTabChange} activeTab={activeTab} />}
       </div>
     </div>
   );

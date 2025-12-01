@@ -86,7 +86,7 @@ import ZoneNameDropdown from "../zone-name-dropdown/ZoneNameDropdown";
 import styles from "./SearchDropdown.module.css";
 import { usePermission } from "../../../../hooks/usePermission ";
 
-const SearchDropdown = ({ onTabChange }) => {
+const SearchDropdown = ({ onTabChange, activeTab: parentActiveTab }) => {
   // 1. Define the tabs and their associated permission keys (unchanged)
   const TAB_PERMISSIONS = useMemo(
     () => [
@@ -130,9 +130,18 @@ const SearchDropdown = ({ onTabChange }) => {
     visibleTabs.find((t) => t.canInteract)?.label ||
     visibleTabs.find((t) => t.canView)?.label;
 
-  const [activeTab, setActiveTab] = useState(initialActiveTab);
+  // Use parent's activeTab if provided, otherwise use local state
+  const [localActiveTab, setLocalActiveTab] = useState(initialActiveTab);
+  const activeTab = parentActiveTab || localActiveTab;
 
-  // 5. Effect hook to sync active tab with parent component on initial load/permission change
+  // 5. Sync local state with parent's activeTab when it changes
+  useEffect(() => {
+    if (parentActiveTab) {
+      setLocalActiveTab(parentActiveTab);
+    }
+  }, [parentActiveTab]);
+
+  // 6. Effect hook to sync active tab with parent component on initial load/permission change
   useEffect(() => {
     if (visibleTabs.length > 0 && activeTab) {
       onTabChange?.(activeTab);
@@ -146,7 +155,7 @@ const SearchDropdown = ({ onTabChange }) => {
 
     // 🔥 ONLY allow click if the user has full access (canInteract is true)
     if (currentTab && currentTab.canInteract) {
-      setActiveTab(tabLabel);
+      setLocalActiveTab(tabLabel);
       onTabChange?.(tabLabel);
     }
   };

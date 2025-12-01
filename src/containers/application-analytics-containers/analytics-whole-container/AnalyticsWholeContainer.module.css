@@ -45,3 +45,9 @@
 .endIcon img{
   width: 280px;
 }
+
+.accordian_header{
+  display: flex;
+  justify-content: space-between;
+  position: relative;
+}

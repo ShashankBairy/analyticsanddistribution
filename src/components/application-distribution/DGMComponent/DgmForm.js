@@ -1,5 +1,6 @@
 import React, { useMemo, useState, useEffect, useRef } from "react";
 import DistributeForm from "../DistributeForm";
+
 import {
   useGetAcademicYears,
   useGetCities,
@@ -7,24 +8,31 @@ import {
   useGetCampusByZone,
   useGetMobileNo,
   useGetDgmsByCampus,
-  useGetRangeByEmpId,
-  useGetRangeAvailAndApp,
+  useGetAllFeeAmounts,
+  useGetApplicationSeriesForEmpId,
 } from "../../../queries/application-distribution/dropdownqueries";
 
-// ---------- Label / ID helpers ----------
-const yearLabel = (y) => y?.academicYear ?? y?.name ?? String(y?.year ?? y?.id ?? "");
+// ---------------- LABEL / ID HELPERS ----------------
+const yearLabel = (y) => y?.academicYear ?? y?.name ?? "";
 const yearId = (y) => y?.acdcYearId ?? y?.id ?? null;
+
 const cityLabel = (c) => c?.name ?? "";
 const cityId = (c) => c?.id ?? null;
-const zoneLabel = (z) => z?.zoneName ?? z?.name ?? "";
+
+const zoneLabel = (z) => z?.zoneName ?? "";
 const zoneId = (z) => z?.zoneId ?? z?.id ?? null;
-const campusLabel = (cm) => cm?.name ?? null;
-const campusId = (cm) => cm?.id ?? null;
-const empLabel = (e) => e?.name ?? null;
+
+const campusLabel = (c) => c?.name ?? "";
+const campusId = (c) => c?.id ?? null;
+
+const empLabel = (e) => e?.name ?? "";
 const empId = (e) => e?.id ?? null;
+
 const asArray = (v) => (Array.isArray(v) ? v : []);
 
-// ---------- DGM Form ----------
+// ----------------------------------------------------------
+//                          DGM FORM
+// ----------------------------------------------------------
 const DgmForm = ({
   initialValues = {},
   onSubmit,
@@ -32,245 +40,178 @@ const DgmForm = ({
   isUpdate = false,
   editId,
 }) => {
+
+  // ---------------- SELECTED VALUES ----------------
+  const [selectedAcademicYearId, setSelectedAcademicYearId] = useState(null);
   const [selectedCityId, setSelectedCityId] = useState(null);
   const [selectedZoneId, setSelectedZoneId] = useState(null);
   const [selectedCampusId, setSelectedCampusId] = useState(null);
-  const [selectedAcademicYearId, setSelectedAcademicYearId] = useState(null);
   const [issuedToId, setIssuedToId] = useState(null);
+  const [selectedFee, setSelectedFee] = useState(null);
 
+  // ---------------- INITIAL FORM VALUES ----------------
   const [seedInitialValues, setSeedInitialValues] = useState({
     ...initialValues,
     academicYear: initialValues?.academicYear || "2025-26",
   });
 
-  const didSeedRef = useRef({ year: false });
+  const didSeedRef = useRef(false);
+  const employeeId = localStorage.getItem("empId");
 
-  // ---------- API hooks ----------
+  // ---------------- API CALLS ----------------
   const { data: yearsRaw = [] } = useGetAcademicYears();
   const { data: citiesRaw = [] } = useGetCities();
   const { data: zonesRaw = [] } = useGetZoneByCity(selectedCityId);
-  const { data: campusesRaw = [] } = useGetCampusByZone(selectedZoneId);
+  const { data: campusRaw = [] } = useGetCampusByZone(selectedZoneId);
+  const { data: employeesRaw = [] } = useGetDgmsByCampus(selectedCampusId);
   const { data: mobileNo } = useGetMobileNo(issuedToId);
-  const { data: employess = [] } = useGetDgmsByCampus(selectedCampusId);
 
-  const employeeId = localStorage.getItem("empId");
+  // Application Fee
+  const { data: applicationFee = [] } = useGetAllFeeAmounts(
+    employeeId,
+    selectedAcademicYearId
+  );
 
-  // ---------- Primary API ----------
-  const {
-    data: appNumberRange,
-    error: appNumberRangeError,
-    isLoading,
-  } = useGetRangeByEmpId(employeeId, selectedAcademicYearId);
+  // APPLICATION SERIES (PRIMARY API)
+  const { data: applicationSeries = [] } =
+    useGetApplicationSeriesForEmpId(
+      employeeId,
+      selectedAcademicYearId,
+      selectedFee,
+      false
+    );
 
-  // ---------- Fallback API ----------
-  const shouldUseFallback =
-    appNumberRangeError?.response?.status === 404 ||
-    appNumberRangeError?.status === 404;
+  const seriesObj = applicationSeries?.[0];
 
-  const {
-    data: fallbackAppRange,
-    error: fallbackError,
-    isLoading: fallbackLoading,
-  } = useGetRangeAvailAndApp(selectedAcademicYearId, selectedCityId, null, {
-    enabled: shouldUseFallback && !!selectedAcademicYearId,
-  });
+  // ---------------- NORMALIZE ARRAYS ----------------
+  const years = asArray(yearsRaw);
+  const cities = asArray(citiesRaw);
+  const zones = asArray(zonesRaw);
+  const campuses = asArray(campusRaw);
+  const employees = asArray(employeesRaw);
 
-  // ---------- Normalize whichever API responds ----------
-  const effectiveAppNumberRange = useMemo(() => {
-    // ✅ Normalize Fallback API structure
-    if (shouldUseFallback && fallbackAppRange?.data) {
-      const { nextAvailableNumber, overallAppFrom, overallAppTo } = fallbackAppRange.data;
+  // ---------------- OPTIONS FOR UI ----------------
+  const academicYearNames = years.map(yearLabel);
+  const cityNames = cities.map(cityLabel);
+  const zoneNames = zones.map(zoneLabel);
+  const campusNames = campuses.map(campusLabel);
+  const issuedToNames = employees.map(empLabel);
 
-      return {
-        data: {
-          appStartNo: overallAppFrom ?? 0,
-          appEndNo: overallAppTo ?? 0,
-          appFrom: nextAvailableNumber ?? 0,
-          appBalanceTrkId: 0, // default since fallback has no track ID
-        },
-        source: "fallback",
-      };
-    }
+  // ---------------- REVERSE MAPPINGS ----------------
+  const yearMap = new Map(years.map((y) => [yearLabel(y), yearId(y)]));
+  const cityMap = new Map(cities.map((c) => [cityLabel(c), cityId(c)]));
+  const zoneMap = new Map(zones.map((z) => [zoneLabel(z), zoneId(z)]));
+  const campusMap = new Map(campuses.map((c) => [campusLabel(c), campusId(c)]));
+  const empMap = new Map(employees.map((e) => [empLabel(e), empId(e)]));
 
-    // ✅ Normal Primary API
-    if (appNumberRange?.data) {
-      const { appStartNo, appEndNo, appFrom, appBalanceTrkId } = appNumberRange.data;
-      return {
-        data: {
-          appStartNo,
-          appEndNo,
-          appFrom,
-          appBalanceTrkId,
-        },
-        source: "primary",
-      };
-    }
-
-    return null;
-  }, [shouldUseFallback, fallbackAppRange, appNumberRange]);
-
-  // ---------- Debug which source is used ----------
+  // ---------------- DEFAULT ACADEMIC YEAR ----------------
   useEffect(() => {
-    if (effectiveAppNumberRange?.source === "fallback") {
-      console.warn("⚠️ Using fallback range-info API (appBalanceTrkId=0)");
-    } else if (effectiveAppNumberRange?.source === "primary") {
-      console.log("✅ Using primary range-by-emp API");
-    }
-  }, [effectiveAppNumberRange]);
+    if (didSeedRef.current) return;
+    if (!years.length) return;
 
-  // ---------- Normalize Arrays ----------
-  const yearsData = useMemo(() => asArray(yearsRaw), [yearsRaw]);
-  const citiesData = useMemo(() => asArray(citiesRaw), [citiesRaw]);
-  const zonesData = useMemo(() => asArray(zonesRaw), [zonesRaw]);
-  const campusesData = useMemo(() => asArray(campusesRaw), [campusesRaw]);
-  const employeeData = useMemo(() => asArray(employess), [employess]);
+    const defaultYear = years.find((y) => yearLabel(y) === "2025-26");
 
-  // ---------- Dropdown Options ----------
-  const academicYearNames = useMemo(() => {
-    const allowedYears = ["2026-27", "2025-26", "2024-25"];
-    const apiYears = yearsData.map(yearLabel).filter(Boolean);
-    return allowedYears
-      .filter((year) => apiYears.includes(year))
-      .sort((a, b) => parseInt(b.split("-")[0]) - parseInt(a.split("-")[0]));
-  }, [yearsData]);
-
-  const cityNames = useMemo(() => citiesData.map(cityLabel).filter(Boolean), [citiesData]);
-  const zoneNames = useMemo(() => zonesData.map(zoneLabel).filter(Boolean), [zonesData]);
-  const issuedToNames = useMemo(() => employeeData.map(empLabel).filter(Boolean), [employeeData]);
-
-  // ---------- Reverse Maps ----------
-  const academicYearNameToId = useMemo(
-    () => new Map(yearsData.map((y) => [yearLabel(y), yearId(y)])),
-    [yearsData]
-  );
-  const cityNameToId = useMemo(
-    () => new Map(citiesData.map((c) => [cityLabel(c), cityId(c)])),
-    [citiesData]
-  );
-  const zoneNameToId = useMemo(
-    () => new Map(zonesData.map((z) => [zoneLabel(z), zoneId(z)])),
-    [zonesData]
-  );
-  const campusNameToId = useMemo(
-    () => new Map(campusesData.map((cm) => [campusLabel(cm), campusId(cm)])),
-    [campusesData]
-  );
-  const empNameToId = useMemo(
-    () => new Map(employeeData.map((e) => [empLabel(e), empId(e)])),
-    [employeeData]
-  );
-
-  // ---------- Default Academic Year ----------
-  useEffect(() => {
-    if (didSeedRef.current.year) return;
-    if (!yearsData.length) return;
-    const defaultYear = yearsData.find((y) => yearLabel(y) === "2025-26");
     if (defaultYear) {
       setSelectedAcademicYearId(yearId(defaultYear));
-      didSeedRef.current.year = true;
+      didSeedRef.current = true;
     }
-  }, [yearsData]);
+  }, [years]);
 
-  // ---------- Handle Range Data ----------
-  useEffect(() => {
-    if (isUpdate) return;
-    if (effectiveAppNumberRange?.data) {
-      const { appStartNo, appFrom, appEndNo, appBalanceTrkId } =
-        effectiveAppNumberRange.data;
-      console.log("Application From-To:", { appStartNo, appFrom, appEndNo, appBalanceTrkId });
-      setSeedInitialValues((prev) => ({
-        ...prev,
-        availableAppNoFrom: String(appStartNo),
-        availableAppNoTo: String(appEndNo),
-        applicationNoFrom: String(appFrom),
-      }));
-    }
-  }, [effectiveAppNumberRange, isUpdate]);
-
-  // ---------- Handle Form Value Changes ----------
+  // ---------------- RESET ON CHANGE ----------------
   const handleValuesChange = (values) => {
-    if (values.academicYear && academicYearNameToId.has(values.academicYear)) {
-      const ayId = academicYearNameToId.get(values.academicYear);
-      if (ayId !== selectedAcademicYearId) setSelectedAcademicYearId(ayId);
+    if (values.academicYear && yearMap.has(values.academicYear)) {
+      const id = yearMap.get(values.academicYear);
+      if (id !== selectedAcademicYearId) {
+        setSelectedAcademicYearId(id);
+        setSelectedFee(null);
+      }
     }
-    if (values.cityName && cityNameToId.has(values.cityName)) {
-      const newCityId = cityNameToId.get(values.cityName);
-      if (newCityId !== selectedCityId) {
-        setSelectedCityId(newCityId);
+
+    if (values.cityName && cityMap.has(values.cityName)) {
+      const id = cityMap.get(values.cityName);
+
+      if (id !== selectedCityId) {
+        setSelectedCityId(id);
         setSelectedZoneId(null);
         setSelectedCampusId(null);
         setIssuedToId(null);
+        setSelectedFee(null);
       }
     }
-    if (values.zoneName && zoneNameToId.has(values.zoneName)) {
-      const newZoneId = zoneNameToId.get(values.zoneName);
-      if (newZoneId !== selectedZoneId) {
-        setSelectedZoneId(newZoneId);
+
+    if (values.zoneName && zoneMap.has(values.zoneName)) {
+      const id = zoneMap.get(values.zoneName);
+
+      if (id !== selectedZoneId) {
+        setSelectedZoneId(id);
         setSelectedCampusId(null);
         setIssuedToId(null);
+        setSelectedFee(null);
       }
     }
-    if (values.campusName && campusNameToId.has(values.campusName)) {
-      const cmId = campusNameToId.get(values.campusName);
-      if (cmId !== selectedCampusId) {
-        setSelectedCampusId(cmId);
+
+    if (values.campusName && campusMap.has(values.campusName)) {
+      const id = campusMap.get(values.campusName);
+
+      if (id !== selectedCampusId) {
+        setSelectedCampusId(id);
         setIssuedToId(null);
+        setSelectedFee(null);
       }
     }
-    if (values.issuedTo && empNameToId.has(values.issuedTo)) {
-      const emp = empNameToId.get(values.issuedTo);
-      if (emp !== issuedToId) setIssuedToId(emp);
+
+    if (values.issuedTo && empMap.has(values.issuedTo)) {
+      const id = empMap.get(values.issuedTo);
+      if (id !== issuedToId) setIssuedToId(id);
     }
   };
 
-  // ---------- Backend Values ----------
+  // ---------------- BACKEND VALUES (MATCHES ZoneForm) ----------------
   const backendValues = useMemo(() => {
     const obj = {};
+
     if (mobileNo != null) obj.mobileNumber = String(mobileNo);
-    if (effectiveAppNumberRange?.data) {
-      const { appStartNo, appFrom, appEndNo, appBalanceTrkId } =
-        effectiveAppNumberRange.data;
-      obj.selectedBalanceTrackId = Number(appBalanceTrkId);
-      if (!isUpdate) {
-        obj.availableAppNoFrom = String(appStartNo);
-        obj.availableAppNoTo = String(appEndNo);
-        obj.applicationNoFrom = String(appFrom);
-      }
+
+    if (seriesObj) {
+      obj.applicationSeries = seriesObj.displaySeries ;
+      obj.applicationCount = seriesObj.availableCount ;
+      obj.availableAppNoFrom = seriesObj.masterStartNo ;
+      obj.availableAppNoTo = seriesObj.masterEndNo ;
+      obj.applicationNoFrom = seriesObj.startNo ;
     }
-    if (selectedAcademicYearId != null) obj.academicYearId = Number(selectedAcademicYearId);
-    if (selectedCityId != null) obj.cityId = Number(selectedCityId);
-    if (selectedZoneId != null) obj.zoneId = Number(selectedZoneId);
-    if (selectedCampusId != null) obj.campusId = Number(selectedCampusId);
+
+    if (selectedAcademicYearId != null) obj.academicYearId = selectedAcademicYearId;
+    if (selectedCityId != null) obj.cityId = selectedCityId;
+    if (selectedZoneId != null) obj.zoneId = selectedZoneId;
+    if (selectedCampusId != null) obj.campusId = selectedCampusId;
+
     if (issuedToId != null) {
-      obj.issuedToEmpId = Number(issuedToId);
-      obj.issuedToId = Number(issuedToId);
+      obj.issuedToEmpId = issuedToId;
+      obj.issuedToId = issuedToId;
     }
-    console.log("Computed backendValues:", obj);
+
     return obj;
   }, [
     mobileNo,
-    effectiveAppNumberRange,
+    seriesObj,
     selectedAcademicYearId,
     selectedCityId,
     selectedZoneId,
     selectedCampusId,
     issuedToId,
-    isUpdate,
   ]);
 
-  // ---------- Dynamic Dropdowns ----------
-  const dynamicOptions = useMemo(
-    () => ({
-      academicYear: academicYearNames,
-      cityName: cityNames,
-      zoneName: zoneNames,
-      campusName: campusesData.map(campusLabel).filter(Boolean),
-      issuedTo: issuedToNames,
-    }),
-    [academicYearNames, cityNames, zoneNames, campusesData, issuedToNames]
-  );
+  // ---------------- DYNAMIC OPTIONS ----------------
+  const dynamicOptions = {
+    academicYear: academicYearNames,
+    cityName: cityNames,
+    zoneName: zoneNames,
+    campusName: campusNames,
+    issuedTo: issuedToNames,
+    applicationFee: applicationFee.map(String),
+    applicationSeries: applicationSeries.map((s) => s.displaySeries),
+  };
 
-  // ---------- Render ----------
   return (
     <DistributeForm
       formType="DGM"
@@ -280,9 +221,9 @@ const DgmForm = ({
       dynamicOptions={dynamicOptions}
       backendValues={backendValues}
       onValuesChange={handleValuesChange}
+      onApplicationFeeSelect={(fee) => setSelectedFee(fee)}
       isUpdate={isUpdate}
       editId={editId}
-      skipAppNoPatch={isUpdate}
     />
   );
 };

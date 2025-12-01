@@ -1,136 +1,3 @@
-// import React, { useState, useEffect } from "react";
-// import styles from "./DistributeTab.module.css";
-// import {
-//   NavLink,
-//   Routes,
-//   Route,
-//   Navigate,
-//   useLocation,
-// } from "react-router-dom";
-// import applicationnavtabsicon from "../../assets/application-distribution/applicationnavtabsicon";
-// import ZoneForm from "./ZoneComponent/ZoneForm";
-// import DgmForm from "./DGMComponent/DgmForm";
-// import CampusForm from "./CampusComponent/CampusForm";
-// import DistributeTable from "./DistributeTable";
-// import Button from "../../widgets/Button/Button";
-// import plusicon from "../../assets/application-distribution/plusicon";
-// import AccordiansContainer from "../../containers/application-analytics-containers/accordians-container/AccordiansContainer";
-// import headerIon from "../../assets/application-analytics/accordians_header.png";
-
-// const DistributeTab = () => {
-//   const [isInsertClicked, setIsInsertClicked] = useState(false);
-//   const location = useLocation();
-
-//   useEffect(() => {
-//     setIsInsertClicked(false);
-//   }, [location.pathname]);
-
-//   const distributeNavTabs = [
-//     { label: "Zone", path: "scopes/application/distribute/zone" },
-//     { label: "DGM", path: "scopes/application/distribute/dgm" },
-//     { label: "Campus", path: "scopes/application/distribute/campus" },
-//   ];
-//   const buttonName = () => {
-//     if (location.pathname.includes("scopes/application/distribute/zone")) {
-//       return "Distribute New to Zone";
-//     }
-//     if (location.pathname.includes("scopes/application/distribute/zone")) {
-//       return "Distribute New to DGM";
-//     }
-//     if (location.pathname.includes("scopes/application/distribute/zone")) {
-//       return "Distribute New to Campus";
-//     }
-//     return "Distribute New to Zone";
-//   };
-
-//   const handleDistributeButton = () => {
-//     setIsInsertClicked(false);
-//   };
-
-//   return (
-//     <>
-//       {isInsertClicked && (
-//         <div className={styles.distribute_button}>
-//           <Button
-//             buttonname={buttonName()}
-//             type={"button"}
-//             lefticon={plusicon}
-//             onClick={handleDistributeButton}
-//             margin={"0"}
-//             variant="primary"
-//           />
-//         </div>
-//       )}
-//       {!isInsertClicked && (
-//         <div className={styles.distribute_tab_form_graph}>
-//           <div className={styles.distribute_tab_form}>
-//             <div className={styles.distribute_tab_top}>
-//               <div className={styles.distribute_tab_top_left}>
-//                 {applicationnavtabsicon}
-//                 <div className={styles.distribute_content_heading}>
-//                   <p className={styles.heading}>Distribute Applications</p>
-//                   <p className={styles.sub}>
-//                     Distribute Applications to all Zones, DGM, and Campuses
-//                   </p>
-//                 </div>
-//               </div>
-//               <nav className={styles.nav}>
-//                 <ul className={styles.nav_bar}>
-//                   {distributeNavTabs.map((tab) => (
-//                     <li key={tab.path} className={styles.nav_list}>
-//                       <NavLink
-//                         to={tab.path}
-//                         className={({ isActive }) =>
-//                           `${styles.nav_link} ${isActive ? styles.active : ""}`
-//                         }
-//                       >
-//                         {tab.label}
-//                       </NavLink>
-//                     </li>
-//                   ))}
-//                 </ul>
-//               </nav>
-//             </div>
-//             <div className={styles.distribute_nav_content}>
-//               <Routes>
-//                 <Route path="" element={<Navigate to="zone" replace />} />
-//                 <Route
-//                   path="scopes/application/distribute/zone"
-//                   element={<ZoneForm setIsInsertClicked={setIsInsertClicked} />}
-//                 />
-//                 <Route
-//                   path="scopes/application/distribute/zone"
-//                   element={<DgmForm setIsInsertClicked={setIsInsertClicked} />}
-//                 />
-//                 <Route
-//                   path="scopes/application/distribute/zone"
-//                   element={
-//                     <CampusForm setIsInsertClicked={setIsInsertClicked} />
-//                   }
-//                 />
-//               </Routes>
-//             </div>
-//           </div>
-//           <div className={styles.prev_years_graphs_section}>
-//             <div className={styles.accordian_header_text}>
-//               <figure>
-//                 <img src={headerIon} className={styles.icon} />
-//               </figure>
-//               <h6 className={styles.header_text}>Previous Year Graph</h6>
-//             </div>
-//             <AccordiansContainer />
-//           </div>
-//         </div>
-//       )}
-//       <div className={styles.distribute_tab_table}>
-//         <DistributeTable />
-//       </div>
-//     </>
-//   );
-// };
-
-// export default DistributeTab;
-
 import React, { useState, useEffect } from "react";
 import styles from "./DistributeTab.module.css";
 import {
@@ -140,12 +7,7 @@ import {
   Navigate,
   useLocation,
 } from "react-router-dom";
-
-// 🔑 Import authorization hook
-import { usePermission } from "../../hooks/usePermission "; // Adjust path as needed
-// Note: We don't need to import SCREENS here if we use the literal strings,
-// but for clarity, we'll reference the screen keys as strings.
-
+import { usePermission } from "../../hooks/usePermission ";
 import applicationnavtabsicon from "../../assets/application-distribution/applicationnavtabsicon";
 import ZoneForm from "./ZoneComponent/ZoneForm";
 import DgmForm from "./DGMComponent/DgmForm";
@@ -156,10 +18,17 @@ import plusicon from "../../assets/application-distribution/plusicon";
 import AccordiansContainer from "../../containers/application-analytics-containers/accordians-container/AccordiansContainer";
 import headerIon from "../../assets/application-analytics/accordians_header.png";
 import endicon from "../../assets/application-analytics/blue_arrow_line.png";
+import filterIcon from "../../assets/application-distribution/filterIcon";
+import CostSelectionForGraph from "./../commoncomponents/CostSelectionForGraph";
+
+import { SelectedEntityProvider } from "../../contexts/SelectedEntityContext";
+ 
 
 const DistributeTab = () => {
   const [isInsertClicked, setIsInsertClicked] = useState(false);
   const location = useLocation();
+
+  const [clickedFilterButton, setClickedFilterButton] = useState(false);
 
   // 🔑 Use the literal string keys for permission checks, matching the keys in your SCREENS object
   const canViewZone = usePermission("DISTRIBUTE_ZONE").canView;
@@ -208,8 +77,7 @@ const DistributeTab = () => {
     // Determine the button name based on the current active sub-route or the first available
     const currentPath = location.pathname;
 
-    if (currentPath.includes("/distribute/zone"))
-      return "Distribute New to Zone";
+    if (currentPath.includes("/distribute/zone"))return "Distribute New to Zone";
     if (currentPath.includes("/distribute/dgm")) return "Distribute New to DGM";
     if (currentPath.includes("/distribute/campus"))
       return "Distribute New to Campus";
@@ -236,11 +104,13 @@ const DistributeTab = () => {
     );
   }
 
+  const displayFilterOptions = () =>{
+    setClickedFilterButton(prev => !prev);
+    console.log("Filter Button is Clicked");
+  }
+
   return (
     <>
-      {/* 🔑 Only show the button if the user has full access (isFullAccess) on the current tab */}
-      {/* For simplicity, we'll check if any 'canInsert' is true for now, but a more granular check 
-         would be to verify canCreateZone/DGM/Campus based on the active route. */}
       {isInsertClicked && canInsert && (
         <div className={styles.distribute_button}>
           <Button
@@ -333,21 +203,38 @@ const DistributeTab = () => {
               </Routes>
             </div>
           </div>
-
-          <div className={styles.prev_years_graphs_section}>
-            <div className={styles.accordian_header_text}>
-              <figure>
+          <SelectedEntityProvider>
+                      <div className={styles.prev_years_graphs_section}>
+            <div className={styles.accordian_header}>
+              <div className={styles.accordian_header_text}>
+                <figure>
                 <img src={headerIon} className={styles.icon} alt="header" />
               </figure>
               <h6 className={styles.header_text}>Previous Year Graph</h6>
+              </div>
+              <div className={styles.graphFilterButton}>
+                <Button
+                buttonname={"Filter"}
+                variant={"filterButton"}
+                lefticon={filterIcon}
+                onClick={displayFilterOptions}
+                />
+                {clickedFilterButton && (
+                  <CostSelectionForGraph/>
+                  )}
+              </div>
             </div>
+         
             <AccordiansContainer />
+      
             <div className={styles.prev_year_botton_icon}>
               <figure className={styles.endIcon}>
                 <img src={endicon} />
               </figure>
             </div>
           </div>
+          </SelectedEntityProvider>
+
         </div>
       )}
 

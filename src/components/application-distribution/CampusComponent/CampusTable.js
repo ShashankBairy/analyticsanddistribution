@@ -2,7 +2,8 @@ import React, { useEffect, useMemo, useState } from "react";
 import TableWidget from "../../../widgets/Table/TableWidget";
 import CampusForm from "./CampusForm";
 import DistributionUpdateForm from "../DistributionUpdateForm";
-import { useGetTableDetailsByEmpId } from "../../../queries/application-distribution/dropdownqueries";
+import { useGetTableDetailsByEmpId,useGetApplicationSeriesForEmpId,useGetDistributionId } from "../../../queries/application-distribution/dropdownqueries";
+import Spinner from "../../commoncomponents/Spinner";
 
 const fieldMapping = {
   applicationForm: "applicationNoFrom",
@@ -28,7 +29,7 @@ const CampusTable = ({ onSelectionChange }) => {
     data: tableData,
     isLoading,
     error,
-  } = useGetTableDetailsByEmpId(empId);
+  } = useGetTableDetailsByEmpId(empId,4);
 
   // Normalize API -> table rows
   const transformedData = useMemo(
@@ -44,6 +45,9 @@ const CampusTable = ({ onSelectionChange }) => {
         campaignDistrictName: item.districtName,
         cityName: item.cityName,
         campaignAreaName: item.campaignAreaName,
+         applicationFee: item.amount,
+        applicationSeries: item.displaySeries,
+        applicationCount: item.totalAppCount,
       })),
     [tableData]
   );
@@ -141,14 +145,40 @@ const CampusTable = ({ onSelectionChange }) => {
       )
     );
   };
+const { data: seriesData, refetch: refetchApplicationSeries} = useGetApplicationSeriesForEmpId(
+      null, // receiverId (dynamic)
+      null, // academicYear (dynamic)
+      null, // amount (dynamic)
+      false // isPro default
+    );
+
+const {data:distributionId,refetch: refetchDistributionId} = useGetDistributionId(
+  null,
+  null,
+  null,
+  null,
+  false,
+)
 
   // Modal wiring (outside TableWidget)
+    const [openingForm, setOpeningForm] = useState(false);
   const [open, setOpen] = useState(false);
   const [selectedRow, setSelectedRow] = useState(null);
-  const handleRowUpdateClick = (row) => {
-    setSelectedRow(row);
-    setOpen(true);
-  };
+  const handleRowUpdateClick = async (row) => {
+  console.log("Row Selected:", row);
+  setOpeningForm(true);
+  setSelectedRow(row);
+
+  await refetchApplicationSeries({
+    emp: row.issuedToEmpId,           // receiverId
+    year: row.academicYearId,        // academic year
+    amount: row.amount,              // fee
+    isPro: false,           // ensure BOOLEAN
+  });
+
+  setOpen(true);
+  setOpeningForm(false);
+};
 
   // Loading & error states
   if (isLoading) return <div style={{ padding: 16 }}>Table data is loading…</div>;
@@ -160,17 +190,30 @@ const CampusTable = ({ onSelectionChange }) => {
     );
 
   return (
-    <>
-      <TableWidget
-        columns={columns}
-        data={data}
-        onSelectRow={handleSelectRow} 
-        pageIndex={pageIndex}
-        setPageIndex={setPageIndex}
-        pageSize={pageSize}
-        totalData={data.length}
-        onRowUpdateClick={handleRowUpdateClick}
-      />
+    <>{openingForm && (
+        <div
+          style={{
+            height: "200px",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <Spinner size="large" />
+        </div>)}
+      {!openingForm && (
+        <TableWidget
+          columns={columns}
+          data={data}
+          onSelectRow={() => {}}
+          pageIndex={pageIndex}
+          setPageIndex={setPageIndex}
+          pageSize={pageSize}
+          totalData={data.length}
+          onRowUpdateClick={handleRowUpdateClick}
+        />
+      )}
+
 
       <DistributionUpdateForm
         open={open}

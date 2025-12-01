@@ -82,11 +82,11 @@
 //   const visibleRateData = useMemo(() => {
 //     return allRateData.filter((item) => {
 //       const key = item.permissionKey;
-      
+     
 //       if (key === "DISTRIBUTE_ZONE") return canViewZone;
 //       if (key === "DISTRIBUTE_DGM") return canViewDGM;
 //       if (key === "DISTRIBUTE_CAMPUS") return canViewCampus;
-      
+     
 //       return false;
 //     });
 //   }, [canViewZone, canViewDGM, canViewCampus]);
@@ -107,9 +107,9 @@
 //         />
 //       </div>
 //       <div className={styles.top_dated_zone_wrapper}>
-//         <DropRateZone 
+//         <DropRateZone
 //           title={currentData.topRated.title}  
-//           zoneData={currentData.topRated.data} 
+//           zoneData={currentData.topRated.data}
 //           progressBarClass={styles.progress_green}
 //         />
 //       </div>
@@ -235,84 +235,3 @@ const ZoneRateContainer = ({ activeTab = "Zone" }) => {
 };
 
 export default ZoneRateContainer;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

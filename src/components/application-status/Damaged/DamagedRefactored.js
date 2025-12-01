@@ -29,10 +29,8 @@ const DamagedRefactored = () => {
 
   const campusName = localStorage.getItem("campusName");
 
-  const applicationStatus = async(appNo, campusName)=>{
-    const response = await axios.get(`http://localhost:8080/api/applications/by_campus/damaged_details`,{
-      params:appNo,campusName 
-    });
+  const applicationStatus = async(appNo)=>{
+    const response = await axios.get(`http://localhost:8080/api/applications/${appNo}`);
     console.log("Response of application: ", response);
     return response.data;
   }

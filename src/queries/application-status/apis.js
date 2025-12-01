@@ -360,10 +360,36 @@ export const fetchApplicationDetails = async (applicationNo, campusName) => {
   try {
     console.log("=== FETCH APPLICATION DETAILS DEBUG ===");
     console.log("Fetching application details for applicationNo:", applicationNo);
+    
+    const response = await fetch(
+      `http://localhost:8080/api/applications/${applicationNo}`
+    );
+    
+    const data = await response.json();
+    console.log("=== APPLICATION DETAILS DATA ===");
+    console.log("Raw application details data:", data);
+    console.log("=== END APPLICATION DETAILS DATA ===");
+    
+    return data;
+  } catch (err) {
+    console.error("Failed to fetch application details:", err);
+    console.log("Error details:", {
+      message: err.message,
+      stack: err.stack,
+      name: err.name
+    });
+    throw err;
+  }
+};
+
+export const fetchApplicationDetailsForDamage = async (applicationNo) => {
+  try {
+    console.log("=== FETCH APPLICATION DETAILS DEBUG ===");
+    console.log("Fetching application details for applicationNo:", applicationNo);
     console.log("API URL:", `http://localhost:8080/api/applications/details/${applicationNo}`);
     
     const response = await fetch(
-      `http://localhost:8080/api/applications/by_campus/damaged_details?appNo=${applicationNo}&campusName=${campusName}`
+      `http://localhost:8080/api/applications/by_campus/damaged_details?appNo=${applicationNo}`
     );
     
     console.log("Response status:", response.status);

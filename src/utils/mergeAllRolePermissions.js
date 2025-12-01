@@ -1,43 +1,59 @@
-import { SCREEN_KEY_MAP } from "../constants/screenKeyMapping"; 
-// Assuming SCREEN_KEY_MAP is defined as: 
-// { screen1: "APPLICATION_ANALYTICS", screen3: "DISTRIBUTE_DGM", ... }
+import { SCREEN_KEY_MAP } from "../constants/screenKeyMapping";
 
-export const mergeAllRolePermissions = (rolesPermissions) => {
-  // 1. First Pass: Aggregate all unique permissions by the original screen_name.
-  // The 'merged' object keys will be the backend's generic keys (e.g., 'screen1', 'screen3').
-  const merged = {};
+/**
+ * rolesPermissions structure expected:
+ * {
+ *   ADMIN: [
+ *     { screen_name: "screen1", permission_name: "all" },
+ *     { screen_name: "screen10", permission_name: "v" }
+ *   ]
+ * }
+ */
 
+export const mergeAllRolePermissions = (rolesPermissions = {}) => {
+  const mergedScreens = {};   // screen1 → Set("all")
+  const extractedRoles = [];  // ["ADMIN"]
+
+  // ---------------------------
+  // 1️⃣ Aggregate per role
+  // ---------------------------
   for (const role in rolesPermissions) {
+    extractedRoles.push(role);
+
     rolesPermissions[role].forEach(({ screen_name, permission_name }) => {
-      // Use screen_name as the key for aggregation
-      if (!merged[screen_name]) {
-        merged[screen_name] = new Set();
+      if (!mergedScreens[screen_name]) {
+        mergedScreens[screen_name] = new Set();
       }
-      merged[screen_name].add(permission_name);
+      mergedScreens[screen_name].add(permission_name);
     });
   }
 
-  // 2. Final Pass: Flatten permissions to "v" or "all" AND
-  //    *** TRANSLATE THE KEY USING SCREEN_KEY_MAP ***
+  // ---------------------------
+  // 2️⃣ Build final permission object
+  // ---------------------------
   const finalPermissions = {};
-  for (const screenKeyFromBackend in merged) {
-    const perms = [...merged[screenKeyFromBackend]]; // Set -> Array
 
-    // Determine the access level: 'v' (view-only) or 'all' (full access).
-    const accessLevel = 
+  Object.entries(mergedScreens).forEach(([backendScreen, permsSet]) => {
+    const perms = [...permsSet];
+
+    // Decide access level
+    const accessLevel =
       perms.length === 1 && perms.includes("v") ? "v" : "all";
 
-    // Get the standard application screen key (e.g., "APPLICATION_ANALYTICS")
-    const appScreenKey = SCREEN_KEY_MAP[screenKeyFromBackend];
+    // Check if screen exists in SCREEN_KEY_MAP
+    const mappedKey = SCREEN_KEY_MAP[backendScreen];
 
-    // Map the permission to the new, corrected application key
-    if (appScreenKey) {
-      finalPermissions[appScreenKey] = accessLevel;
+    if (mappedKey) {
+      // Use mapped key (example: screen1 → APPLICATION_ANALYTICS)
+      finalPermissions[mappedKey] = accessLevel;
     } else {
-      // Optional: Log a warning if a backend key is missing from your map.
-      console.warn(`[Permissions] Unmapped screen key received from API: ${screenKeyFromBackend}. Skipping.`);
+      // Use original backend key (screen10) when mapping is not found
+      finalPermissions[backendScreen] = accessLevel;
     }
-  }
+  });
 
-  return finalPermissions;
+  return {
+    mergedPermissions: finalPermissions,
+    roles: extractedRoles,
+  };
 };

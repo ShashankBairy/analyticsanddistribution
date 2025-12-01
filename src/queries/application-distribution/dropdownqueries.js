@@ -79,12 +79,7 @@ const getAppliEndNumber = async (stateId, userId) =>
 const getIssuedTo = async () =>
   (await axios.get(`${BASE_URL}${DISTRIBUTION_GETS}/issued-to`)).data;
  
-const getAppNumberRange = async (academicYearId, employeeId) =>
-  (
-    await axios.get(`${BASE_URL}${DISTRIBUTION_GETS}/app-number-ranges`, {
-      params: { academicYearId, employeeId },
-    })
-  ).data;
+
  
 const zoneApplicationNoFromTo = async (academicYearId, stateId, createdBy) => {
   try {
@@ -109,10 +104,10 @@ const campusByCampaignId = async (campaignId) =>
   (await axios.get(`${BASE_URL}${DISTRIBUTION_GETS}/${campaignId}/campus`))
     .data;
  
-const getTableDetailsByEmpId = async (empId) =>
+const getTableDetailsByEmpId = async (empId, issuedToTypeId) =>
   (
     await axios.get(
-      `${BASE_URL}${DISTRIBUTION_TABLE}/getdistributiondata/${empId}`
+      `${BASE_URL}${DISTRIBUTION_TABLE}/getdistributiondata/${empId}/${issuedToTypeId}`
     )
   ).data;
 
@@ -152,7 +147,32 @@ const getCampusByCityId = async(cityId) => (
 
 const getDgmsByCampusId = async (campusId) =>
   (await axios.get(`${BASE_URL}${DISTRIBUTION_GETS}/dgm/${campusId}`)).data;
+const getApplicationFee = async (empId, academicYearId) => {
+  const res = await axios.get(
+    `${BASE_URL}${DISTRIBUTION_GETS}/getallamounts/${empId}/${academicYearId}`
+  );
+  return res.data.data;  // ✅ Return only array!
+};
 
+
+const getApplicationSeriesForEmpId = async(receiverId,academicYearId,amount,isPro)=>
+(await axios.get(`${BASE_URL}${DISTRIBUTION_GETS}/get-series?receiverId=${receiverId}
+  &academicYearId=${academicYearId}&amount=${amount}&isPro=${isPro}`)).data;
+
+const getAppNumberRange = async (academicYearId, employeeId) =>
+  (
+    await axios.get(`${BASE_URL}${DISTRIBUTION_GETS}/app-number-ranges`, {
+      params: { academicYearId, employeeId },
+    })
+  ).data;
+
+
+const getDistributionId = async(receiverId,start,end,amount,isPro) =>
+(
+  await axios.get(`${BASE_URL}${DISTRIBUTION_GETS}/get-distribution-id`,{
+    params:{receiverId,start,end,amount,isPro}
+  })
+).data;
  
 // ---------- TanStack Query v5 hooks ----------
 export const useGetStateName = () =>
@@ -287,11 +307,11 @@ export const useCampusbyCampaignId = (campaignId) =>
     enabled: !!campaignId,
   });
  
-export const useGetTableDetailsByEmpId = (empId) =>
+export const useGetTableDetailsByEmpId = (empId,issuedToTypeId) =>
   useQuery({
-    queryKey: ["Table Details with Id: ", empId],
-    queryFn: () => getTableDetailsByEmpId(empId),
-    enabled: !!empId,
+    queryKey: ["Table Details with Id: ", empId,issuedToTypeId],
+    queryFn: () => getTableDetailsByEmpId(empId,issuedToTypeId),
+    enabled: !!empId && !!issuedToTypeId,
   });
 
 export const useGetRangeAvailAndApp = (academicYearId, cityId, stateId) =>
@@ -325,3 +345,44 @@ export const useGetDgmsByCampus = (campusId) =>
     queryFn: () => getDgmsByCampusId(campusId),
     enabled: !!campusId,
   });
+
+export const useGetAllFeeAmounts = (empId, academicYearId) =>
+  useQuery({
+    queryKey : ["Get Amounts ",empId, academicYearId],
+    queryFn: () => getApplicationFee(empId,academicYearId),
+    enabled: !!empId && !!academicYearId,
+  })
+
+
+  export const useGetApplicationSeriesForEmpId = (receiverId,academicYearId,amount,isPro) =>
+   useQuery({
+    queryKey: ["Get Application Series", receiverId, amount, isPro],
+    queryFn: () => getApplicationSeriesForEmpId(receiverId,academicYearId, amount, isPro),
+    enabled:
+      receiverId != null &&
+      amount != null &&
+      academicYearId != null &&
+      isPro !== undefined,   // <-- THIS FIXES THE ISSUE
+  });
+
+  // export const useGetApplicationSeriesForEmpId = (receiverId, amount, isPro) =>
+  // useQuery({
+  //   queryKey: ["Get Application Series", receiverId, amount, isPro],
+  //   queryFn: () => getApplicationSeriesForEmpId(receiverId, amount, isPro),
+  //   enabled:
+  //     receiverId != null &&
+  //     amount != null &&
+  //     (isPro === true || isPro === false), // <-- BOOLEAN VALIDATION FIX
+  // });
+
+export const useGetDistributionId = (receiverId,start,end,amount,isPro) =>
+  useQuery({
+    queryKey:["Get Distribution Id", receiverId,start,end,amount,isPro],
+    queryFn: () => getDistributionId(receiverId,start,end,amount,isPro),
+    enabled:
+    receiverId != null &&
+    start != null &&
+    end != null &&
+    amount != null &&
+    isPro !== undefined
+  })

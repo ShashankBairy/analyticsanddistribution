@@ -2,54 +2,67 @@ import React, { useEffect, useMemo, useState } from "react";
 import TableWidget from "../../../widgets/Table/TableWidget";
 import ZoneForm from "./ZoneForm";
 import DistributionUpdateForm from "../DistributionUpdateForm";
-import { useGetTableDetailsByEmpId } from "../../../queries/application-distribution/dropdownqueries";
+import { useGetTableDetailsByEmpId ,useGetApplicationSeriesForEmpId, useGetAllFeeAmounts} from "../../../queries/application-distribution/dropdownqueries";
+import Spinner from "../../commoncomponents/Spinner";
 
 const ZoneTable = ({ onSelectionChange }) => {
 
   const empId = localStorage.getItem("empId");
 
+
   const {
     data: tableData,
     isLoading,
     error,
-  } = useGetTableDetailsByEmpId(empId);
+  } = useGetTableDetailsByEmpId(empId,2);
+
+  console.log("Table Data: ", tableData);
 
   // Normalize API -> table rows
   const transformedData = useMemo(
     () =>
       (tableData || []).map((item, index) => ({
         id: item.appDistributionId || index + 1,
-        applicationForm: String(item.appStartNo ?? ""),
-        applicationTo: String(item.appEndNo ?? ""),
-        totalApplications: item.totalAppCount,
-        amount: item.amount,
+        applicationNoFrom: String(item.appStartNo ?? ""),
+        applicationNoTo: String(item.appEndNo ?? ""),
+        applicationCount: item.totalAppCount,
+        // applicationFee: item.amount,
         issuedName: item.issuedToName,
         zoneName: item.zoneName,
+        applicationFee: item.amount,
+        applicationSeries: item.displaySeries,
+        applicationCount: item.totalAppCount,
+         // 🔥 Add these (needed for next API)
+      issuedToEmpId: item.issued_to_emp_id,
+      academicYearId: item.acdc_year_id,
+      stateId: item.state_id,
+      cityId: item.city_id,
+      zoneId: item.zone_id,
       })),
     [tableData]
   );
 
   const columns = [
     {
-      accessorKey: "applicationForm",
-      header: "Application Form",
-      cell: ({ row }) => row.original.applicationForm,
+      accessorKey: "applicationNoFrom",
+      header: "Application From",
+      cell: ({ row }) => row.original.applicationNoFrom,
     },
     {
-      accessorKey: "applicationTo",
+      accessorKey: "applicationNoTo",
       header: "Application To",
-      cell: ({ row }) => row.original.applicationTo,
+      cell: ({ row }) => row.original.applicationNoTo,
     },
     {
-      accessorKey: "totalApplications",
+      accessorKey: "applicationCount",
       header: "Total Applications",
-      cell: ({ row }) => row.original.totalApplications,
+      cell: ({ row }) => row.original.applicationCount,
     },
     {
-      accessorKey: "amount",
+      accessorKey: "applicationFee",
       header: "Amount",
       cell: ({ row }) =>
-        `${row.original.amount?.toLocaleString?.() ?? row.original.amount}`,
+        `${row.original.applicationFee?.toLocaleString?.() ?? row.original.applicationFee}`,
     },
     {
       accessorKey: "issuedName",
@@ -68,12 +81,28 @@ const ZoneTable = ({ onSelectionChange }) => {
   const [pageIndex, setPageIndex] = useState(0);
   const pageSize = 10;
   const [selectedRows, setSelectedRows] = useState([]); // This state is actually redundant now
+  const [openingForm, setOpeningForm] = useState(false);
 
   // Keep local data synced with API data
   useEffect(() => {
     setData(transformedData);
     setPageIndex(0); // reset to first page when fresh data arrives
   }, [transformedData]);
+
+  const [feeOptions, setFeeOptions] = useState([]);
+const [seriesOptions, setSeriesOptions] = useState([]);
+
+  const {
+  data: seriesData,
+  refetch: refetchApplicationSeries
+} = useGetApplicationSeriesForEmpId(
+  null, // receiverId (dynamic)
+  null, // academicYear (dynamic)
+  null, // amount (dynamic)
+  false // isPro default
+);
+
+const {data: amounts,refetch: refetchApplicationFeeAmount} = useGetAllFeeAmounts(null, null);
 
   // 🔑 UPDATED: Row selection toggle using functional update for reliability
   const handleSelectRow = (rowData, checked) => {
@@ -104,8 +133,8 @@ const ZoneTable = ({ onSelectionChange }) => {
         item.id === updatedRow.id
           ? {
               ...item,
-              applicationForm:
-                updatedRow.applicationNoFrom || item.applicationForm,
+              applicationNoFrom:
+                updatedRow.applicationNoFrom || item.applicationNoFrom,
               issuedName: updatedRow.issuedTo || item.issuedName,
               zoneName: updatedRow.zoneName || item.zoneName,
               academicYear: updatedRow.academicYear || item.academicYear,
@@ -127,51 +156,76 @@ const ZoneTable = ({ onSelectionChange }) => {
   const [selectedRow, setSelectedRow] = useState(null);
 
   // TableWidget calls this when user clicks "Update" for a row
-  const handleRowUpdateClick = (row) => {
-    setSelectedRow(row);
-    setOpen(true);
-  };
+  const handleRowUpdateClick = async (row) => {
+  console.log("Row Selected:", row);
+  setOpeningForm(true);
+  setSelectedRow(row);
+
+  await refetchApplicationSeries({
+    emp: row.issuedToEmpId,          
+    year: row.academicYearId,        
+    amount: row.amount,              
+    isPro: false,           
+  });
+
+  setOpen(true);
+  setOpeningForm(false);
+};
 
   // Map table fields -> form fields for initialValues
   const fieldMapping = {
-    applicationForm: "applicationNoFrom",
+    applicationNoFrom: "applicationNoFrom",
     issuedName: "issuedTo",
     zoneName: "zoneName",
     academicYear: "academicYear",
     cityName: "cityName",
     range: "range",
-    applicationTo: "applicationNoTo",
+    applicationNoTo: "applicationNoTo",
     issueDate: "issueDate",
     mobileNumber: "mobileNumber",
     stateName: "stateName",
   };
 
   // ---- Loading & error states ----
-  if (isLoading) {
-    return <div style={{ padding: 16 }}>Table data is loading…</div>;
+ 
+  // ---------------------------------------------------
+  // TABLE LOADING STATE
+  // ---------------------------------------------------
+   if (isLoading) return <div style={{ padding: 16 }}>Table data is loading…</div>;
+  if (error) {
+    return <div style={{ padding: 16, color: "red" }}>Failed to load data.</div>;
   }
 
-  if (error) {
-    return (
-      <div style={{ padding: 16, color: "#b00020" }}>
-        Failed to load table data.
-      </div>
-    );
-  }
+  console.log("Selected Row: ", selectedRow);
 
   return (
     <>
-      <TableWidget
-        columns={columns}
-        data={data}
-        onSelectRow={handleSelectRow}
-        pageIndex={pageIndex}
-        setPageIndex={setPageIndex}
-        pageSize={pageSize}
-        totalData={data.length}
-        // Keep TableWidget generic: it shouldn't know about forms or modals
-        onRowUpdateClick={handleRowUpdateClick}
-      />
+
+  {openingForm && (
+        <div
+          style={{
+            height: "200px",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <Spinner size="large" />
+        </div>
+      )}
+
+ {!openingForm && (
+        <TableWidget
+          columns={columns}
+          data={data}
+          onSelectRow={() => {}}
+          pageIndex={pageIndex}
+          setPageIndex={setPageIndex}
+          pageSize={pageSize}
+          totalData={data.length}
+          onRowUpdateClick={handleRowUpdateClick}
+        />
+      )}
 
       <DistributionUpdateForm
         open={open}

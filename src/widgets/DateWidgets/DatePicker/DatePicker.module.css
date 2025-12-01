@@ -1,0 +1,47 @@
+.date_wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  position: relative;
+}
+
+
+.date_label {
+  display: block;
+    font-weight: 400;
+    color: #344054;
+    font-size: 12px;
+}
+
+.dateInput{
+  width: 100%;
+  padding: 11px 14px;
+  border: 1px solid #ccc;
+  border-radius:6px;
+  font-size: 14px;
+  box-sizing: border-box;
+  background-color: #fff;
+  color: #101828;
+}
+
+
+.dateInput::placeholder {
+color:  #101828;
+font-size: 12px;
+font-weight: 400;
+}
+
+.dateInput:focus{
+  border: 1px solid #424242;
+}
+
+.dateIcon{
+  position: absolute;
+  background-color: #fff;
+  right:15px;
+  top: 33px;
+}
+
+.dateIcon:hover{
+    background-color: #fff;
+}

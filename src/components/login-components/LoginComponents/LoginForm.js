@@ -16,6 +16,7 @@ import {
   loginSubmit,
   getScreenPermissions2,
 } from "../../../queries/loginquery";
+
 import { mergeAllRolePermissions } from "../../../utils/mergeAllRolePermissions";
 import {
   setRolePermissions,
@@ -32,43 +33,44 @@ const LoginForm = () => {
     password: null,
     general: null,
   });
+
   const [customErrorType, setCustomErrorType] = useState(null);
 
   const loginInitialValues = { emailId: "", password: "" };
 
   const handleLoginSubmit = async (values, { setSubmitting }) => {
     setCustomErrorType(null);
+
     try {
       const { emailId, password } = values;
       console.log("[Login] values →", values);
 
-      // 🔐 Encrypt password
+      // Encrypt
       const encryptedPassword = encryptAndManipulate(password, 1);
       const payload = { emailId, password: encryptedPassword };
-      console.log("[Login] payload →", payload);
 
-      // Call login API
+      // Login API
       const res = await loginSubmit(payload);
-      const resp = res?.data ?? res; // normalize for axios/fetch
+      const resp = res?.data ?? res;
 
       const ERROR_MAP = {
         "Password Incorrect": (prev) => ({
           ...prev,
-          emailId: null,
           password: "Incorrect password",
-          general: null, // Show error beneath password field
         }),
-        "User is not active": (prev) => {
+        "User is not active": () => {
           setCustomErrorType("deactivated");
-          return { emailId: " ", password: " ", general: null }; 
+          return { emailId: " ", password: " " };
         },
-        "Email is not existed": (prev) => {
+        "Email is not existed": () => {
           setCustomErrorType("invalid");
-          return { emailId: " ", password: " ", general: null }; 
+          return { emailId: " ", password: " " };
         },
       };
 
-      // ✅ Success path
+      // -----------------------------
+      //  SUCCESS PATH
+      // -----------------------------
       if (resp && (resp.isLoginSuccess || resp.loginSuccess)) {
         console.log("[Login] success branch hit");
 
@@ -77,48 +79,59 @@ const LoginForm = () => {
         const type = resp?.jwt?.tokenType;
 
         if (accessToken) {
-          // store token early
+          // Save token first
           localStorage.setItem("authToken", accessToken);
           if (exp != null) localStorage.setItem("authTokenExp", String(exp));
           if (type) localStorage.setItem("authTokenType", type);
 
-          // get permissions
-          console.log("Permissions method is called");
-          const response = await getScreenPermissions2(accessToken, type);
-          console.log("Screen Permissions →", response);
+          // Fetch backend permissions
+          const rawPermissions = await getScreenPermissions2(accessToken, type);
 
-          const mergedPermissions = mergeAllRolePermissions(response);
+          console.log("Screen Permissions →", rawPermissions);
+
+          // Merge roles + permissions
+          const { mergedPermissions, roles } =
+            mergeAllRolePermissions(rawPermissions);
+
           console.log("Merged Permissions →", mergedPermissions);
+          console.log("Extracted Roles →", roles);
 
-          // 🔥 Dispatch to Redux
-          dispatch(setRolePermissions(mergedPermissions));
+          // Save permissions + roles in Redux
+          dispatch(
+            setRolePermissions({
+              mergedPermissions,
+              roles,
+            })
+          );
+
+          // Save employeeId
           if (resp?.empId) dispatch(setEmployeeId(resp.empId));
 
-          // flush redux-persist so it's saved before navigation
+          // Persist before navigation
           await persistor.flush();
-        } else {
-          console.warn("[Login] jwt.accessToken missing in response");
         }
 
+        // Store minor localStorage items
         if (resp?.empName) localStorage.setItem("empName", resp.empName);
         if (resp?.empId != null)
           localStorage.setItem("empId", String(resp.empId));
         if (resp?.designation)
           localStorage.setItem("designation", resp.designation);
-        if (resp?.category) localStorage.setItem("category", resp.category);
+        if (resp?.category)
+          localStorage.setItem("category", resp.category);
         if (resp?.campusName)
           localStorage.setItem("campusName", resp.campusName);
 
-        console.log("[Login] navigating to /scopes");
         navigate("/scopes");
         return;
       }
 
-      // ❌ Failure path
+      // -----------------------------
+      //  FAILURE PATH
+      // -----------------------------
       const reason = resp?.reason || "Login failed. Please try again.";
-      console.log("[Login] failure reason →", reason);
-
       const updater = ERROR_MAP[reason];
+
       if (updater) setServerErrors((prev) => updater(prev));
       else
         setServerErrors((prev) => ({
@@ -150,6 +163,7 @@ const LoginForm = () => {
             values.emailId && !errors.emailId && touched.emailId;
           const isPasswordValid =
             values.password && !errors.password && touched.password;
+
           const isFormValid =
             (isEmailValid && touched.password) ||
             (isPasswordValid && touched.emailId);
@@ -186,16 +200,13 @@ const LoginForm = () => {
                         meta.touched && (!!meta.error || serverErrors.password)
                       }
                       success={
-                        meta.touched && !meta.error && !serverErrors.password
+                        meta.touched &&
+                        !meta.error &&
+                        !serverErrors.password
                       }
                     />
                   )}
                 </Field>
-                <ErrorMessage
-                  name="password"
-                  component="div"
-                  className={styles.error}
-                />
                 {serverErrors.password && (
                   <div className={styles.error}>{serverErrors.password}</div>
                 )}
@@ -219,13 +230,15 @@ const LoginForm = () => {
                 initialStage={!isFormValid && !isSubmitting}
                 loadingStage={isSubmitting}
                 proceedStage={
-                  (isFormValid && !isSubmitting) || values.password?.length > 0
+                  (isFormValid && !isSubmitting) ||
+                  values.password?.length > 0
                 }
               />
             </Form>
           );
         }}
       </Formik>
+
       {customErrorType && (
         <div className={styles.loginerror_support}>
           <LoginError errorType={customErrorType} />

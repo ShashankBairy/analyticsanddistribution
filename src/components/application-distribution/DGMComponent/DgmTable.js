@@ -2,7 +2,8 @@ import React, { useEffect, useMemo, useState } from "react";
 import TableWidget from "../../../widgets/Table/TableWidget";
 import DgmForm from "./DgmForm";
 import DistributionUpdateForm from "../DistributionUpdateForm";
-import { useGetTableDetailsByEmpId } from "../../../queries/application-distribution/dropdownqueries";
+import { useGetTableDetailsByEmpId,useGetApplicationSeriesForEmpId} from "../../../queries/application-distribution/dropdownqueries";
+import Spinner from "../../commoncomponents/Spinner";
 
 // 🔑 Accept onSelectionChange prop
 const DgmTable = ({ onSelectionChange }) => {
@@ -13,7 +14,7 @@ const DgmTable = ({ onSelectionChange }) => {
     data: tableData,
     isLoading,
     error,
-  } = useGetTableDetailsByEmpId(empId);
+  } = useGetTableDetailsByEmpId(empId,3);
 
   // Normalize API -> table rows
   const transformedData = useMemo(
@@ -26,6 +27,9 @@ const DgmTable = ({ onSelectionChange }) => {
         amount: item.amount,
         issuedName: item.issuedToName,
         campusName: item.campusName,
+         applicationFee: item.amount,
+        applicationSeries: item.displaySeries,
+        applicationCount: item.totalAppCount,
       })),
     [tableData]
   );
@@ -68,6 +72,7 @@ const DgmTable = ({ onSelectionChange }) => {
   const [data, setData] = useState(transformedData);
   const [pageIndex, setPageIndex] = useState(0);
   const pageSize = 10;
+  const [openingForm, setOpeningForm] = useState(false);
   // 🔑 No longer need selectedRows state here, it's handled in handleSelectRow
 
   // Keep local rows in sync when API data changes
@@ -95,6 +100,16 @@ const DgmTable = ({ onSelectionChange }) => {
         return updatedData; // Return the new state
     });
   };
+
+   const {
+    data: seriesData,
+    refetch: refetchApplicationSeries
+  } = useGetApplicationSeriesForEmpId(
+    null, // receiverId (dynamic)
+    null, // academicYear (dynamic)
+    null, // amount (dynamic)
+    false // isPro default
+  );
 
   // Apply updates returning from the form
   const handleUpdate = (updatedRow) => {
@@ -124,11 +139,21 @@ const DgmTable = ({ onSelectionChange }) => {
   // Modal wiring (outside TableWidget)
   const [open, setOpen] = useState(false);
   const [selectedRow, setSelectedRow] = useState(null);
-  const handleRowUpdateClick = (row) => {
-    setSelectedRow(row);
-    setOpen(true);
-  };
+   const handleRowUpdateClick = async (row) => {
+  console.log("Row Selected:", row);
+  setOpeningForm(true);
+  setSelectedRow(row);
 
+  await refetchApplicationSeries({
+    emp: row.issuedToEmpId,           // receiverId
+    year: row.academicYearId,        // academic year
+    amount: row.amount,              // fee
+    isPro: false,           // ensure BOOLEAN
+  });
+
+  setOpen(true);
+  setOpeningForm(false);
+};
   // Map table fields -> form fields
   const fieldMapping = {
     applicationForm: "applicationNoFrom",
@@ -154,16 +179,29 @@ const DgmTable = ({ onSelectionChange }) => {
 
   return (
     <>
-      <TableWidget
-        columns={columns}
-        data={data}
-        onSelectRow={handleSelectRow} 
-        pageIndex={pageIndex}
-        setPageIndex={setPageIndex}
-        pageSize={pageSize}
-        totalData={data.length}
-        onRowUpdateClick={handleRowUpdateClick}
-      />
+    {openingForm && (
+        <div
+          style={{
+            height: "200px",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <Spinner size="large" />
+        </div>)}
+      {!openingForm && (
+        <TableWidget
+          columns={columns}
+          data={data}
+          onSelectRow={() => {}}
+          pageIndex={pageIndex}
+          setPageIndex={setPageIndex}
+          pageSize={pageSize}
+          totalData={data.length}
+          onRowUpdateClick={handleRowUpdateClick}
+        />
+      )}
 
       <DistributionUpdateForm
         open={open}

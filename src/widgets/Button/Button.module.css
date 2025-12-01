@@ -1,6 +1,5 @@
 .button_wrapper {
   display: block;
-  /* width: 100%; */
 }
 
 .button_wrapper .button {
@@ -60,7 +59,7 @@ button:hover {
 
 .button_wrapper .button.upload{
   color: #3425FF;
-  background-color: #EAEAEA;
+  background-color: #D1D1D1;
   border: 1px solid #A8A8A8;
 }
 
@@ -80,4 +79,44 @@ button:hover {
   color: #3425FF;
   border: 1px solid #3425FF;
   padding: 8px 50px;
+}
+
+.button_wrapper .button.noButton{
+   border: 2px solid #3425FF;
+    border-radius: 6px;
+    padding: 8px 37px;
+    color:#3425FF ;
+    background-color: #fff;
+}
+
+.button_wrapper .button.yesButton{
+      border-radius: 6px;
+    padding: 7px 30px;
+    background-color:  #3425ff;
+    color: #fff;
+}
+
+.button_wrapper .button.primaryWithExtraPadding{
+   background-color: #3425ff;
+  color: white ;
+  padding: 8px 34px;
+}
+
+
+.button_wrapper .button.secondaryWithExtraPadding{
+  background-color: white;
+  color: #3425FF;
+  border: 1px solid #3425FF;
+  padding: 8px 34px;
+}
+
+.button_wrapper .button.filterButton{
+  border: 1px solid #3425FF;
+  border-radius: 8px;
+  padding: 6px;
+  gap: 7px;
+  color: #3425FF;
+  font-weight: 400;
+  font-size: 12px;
+  background-color: #F3F3F3;
 }

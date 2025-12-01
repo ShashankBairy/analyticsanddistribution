@@ -1,5 +1,6 @@
 import React, { useMemo, useState, useEffect, useRef } from "react";
 import DistributeForm from "../DistributeForm";
+
 import {
   useGetStateName,
   useGetCityByStateId,
@@ -7,30 +8,37 @@ import {
   useGetAcademicYears,
   useGetEmployeesByZone,
   useGetMobileNo,
-  useGetNextAppliNo,
-  useZoneApplicationNoFromTo,
-  useGetAppNumberRange,
-  useGetRangeAvailAndApp,
+  useGetAllFeeAmounts,
+  useGetApplicationSeriesForEmpId,
 } from "../../../queries/application-distribution/dropdownqueries";
-// label/id helpers for your backend shapes
+
+// ---------- LABEL/ID HELPERS ----------
 const stateLabel = (s) => s?.stateName ?? s?.name ?? "";
 const stateId = (s) => s?.stateId ?? s?.id ?? null;
+
 const yearLabel = (y) =>
   y?.academicYear ?? y?.name ?? String(y?.year ?? y?.id ?? "");
 const yearId = (y) => y?.acdcYearId ?? y?.id ?? null;
+
 const cityLabel = (c) => c?.cityName ?? c?.name ?? "";
 const cityId = (c) => c?.cityId ?? c?.id ?? null;
+
 const zoneLabel = (z) => z?.zoneName ?? z?.name ?? "";
 const zoneId = (z) => z?.zoneId ?? z?.id ?? null;
-// Employee: { emp_id, first_name, last_name, primary_mobile_no }
+
+// Employee Name
 const empLabel = (e) =>
   [e?.firstName, e?.lastName].filter(Boolean).join(" ").trim() ||
   e?.employeeName ||
   e?.name ||
   "";
 const empId = (e) => e?.empId ?? e?.employeeId ?? e?.id ?? null;
+
 const asArray = (v) => (Array.isArray(v) ? v : []);
-// ZoneForm Component
+
+// ---------------------------------------------------------------------------
+//                       ZONE FORM COMPONENT
+// ---------------------------------------------------------------------------
 const ZoneForm = ({
   initialValues = {},
   onSubmit,
@@ -38,215 +46,223 @@ const ZoneForm = ({
   isUpdate = false,
   editId,
 }) => {
-  // IDs that drive dependent queries
+  // ---------------------  SELECTED VALUES -------------------------
   const [selectedStateId, setSelectedStateId] = useState(null);
   const [selectedCityId, setSelectedCityId] = useState(null);
   const [selectedZoneId, setSelectedZoneId] = useState(null);
   const [selectedAcademicYearId, setSelectedAcademicYearId] = useState(null);
-  const [issuedToEmpId, setIssuedToEmpId] = useState(null); // Use issuedToEmpId instead of selectedEmployeeId
-  // Store custom academic year input
+  const [issuedToEmpId, setIssuedToEmpId] = useState(null);
+
+  const [selectApplicationFee, setSelectedApplicationFee] = useState(null);
+
   const [customAcademicYear, setCustomAcademicYear] = useState(null);
-  // Seed for Formik (we set once; do not mutate after seeding)
+
+  // --------------------- INITIAL FORM VALUES -------------------------
   const [seedInitialValues, setSeedInitialValues] = useState({
     ...initialValues,
-    academicYear: initialValues.academicYear || "2025-26", // Set default academicYear
+    academicYear: initialValues.academicYear || "2025-26",
   });
-  // one-time seeding guards
-  const didSeedRef = useRef({ year: false, state: false });
-  // Base lookups
+
+  // --------------------- BASIC DROPDOWNS ----------------------------
   const { data: statesRaw = [] } = useGetStateName();
   const { data: yearsRaw = [] } = useGetAcademicYears();
-  // Dependents
+
   const { data: citiesRaw = [] } = useGetCityByStateId(selectedStateId);
   const { data: zonesRaw = [] } = useGetZoneByCity(selectedCityId);
   const { data: employeesRaw = [] } = useGetEmployeesByZone(selectedZoneId);
-  console.log("Employee of Zone: ", employeesRaw);
-  // Mobile number for selected employee
-  const { data: mobileNo } = useGetMobileNo(issuedToEmpId); // Use issuedToEmpId instead of selectedEmployeeId
 
-  // const employeeId = localStorage.getItem("empId");
+  const { data: mobileNo } = useGetMobileNo(issuedToEmpId);
 
-  // Application number range from API (only for inserts)
-  const {
-    data: appNumberRange,
-    error,
-    isLoading,
-  } = useGetRangeAvailAndApp(selectedAcademicYearId,null,selectedStateId);
-  console.log("Fetched App Number Range:", appNumberRange?.data);
-  useEffect(() => {
-    // Only set app number range for inserts, not updates
-    if(isUpdate) return;
-    if (appNumberRange?.data) {
-      const { nextAvailableNumber,overallAppFrom, overallAppTo } = appNumberRange.data; // Extract from first item
-      console.log("Application From To (Insert): ", {  nextAvailableNumber,overallAppFrom, overallAppTo });
-      setSeedInitialValues((prevValues) => {
-        console.log("Previous seedInitialValues:", prevValues);
-        return {
-          ...prevValues,
-          availableAppNoFrom: String(overallAppFrom),
-          availableAppNoTo: String(overallAppTo),
-          applicationNoFrom: String(nextAvailableNumber),
-        };
-      });
-    }
-  }, [appNumberRange, isUpdate]);
-  // Normalize arrays
+  const employeeId = localStorage.getItem("empId");
+
+  // -------------------- APPLICATION FEE ----------------------------
+  const { data: applicationFee = [] } = useGetAllFeeAmounts(
+    employeeId,
+    selectedAcademicYearId
+  );
+
+  // -------------------- APPLICATION SERIES -------------------------
+  const { data: applicationSeries = [] } =
+    useGetApplicationSeriesForEmpId(
+      employeeId,
+      selectedAcademicYearId,
+      selectApplicationFee,
+      false
+    );
+
+  console.log("Application Fee:", applicationFee.data);
+  console.log("Application Fee Selected:", selectApplicationFee);
+  console.log("Application Series:", applicationSeries);
+
+  // --------------------- NORMALIZE ARRAYS --------------------------
   const statesData = useMemo(() => asArray(statesRaw), [statesRaw]);
   const yearsData = useMemo(() => asArray(yearsRaw), [yearsRaw]);
   const citiesData = useMemo(() => asArray(citiesRaw), [citiesRaw]);
   const zonesData = useMemo(() => asArray(zonesRaw), [zonesRaw]);
   const employeesData = useMemo(() => asArray(employeesRaw), [employeesRaw]);
-  console.log("Employees Data: ", employeesData);
-  // Options (string labels)
+
+  // ---------------------- BUILD OPTIONS ----------------------------
   const stateNames = useMemo(
     () => statesData.map(stateLabel).filter(Boolean),
     [statesData]
   );
+
   const academicYearNames = useMemo(() => {
-    const allowedYears = [
-       "2026-27",
-      "2025-26",
-      "2024-25",
-    ];
-    // Get all academic years from API
-    const allApiYears = yearsData.map(yearLabel).filter(Boolean);
-    // Filter to show only allowed years initially
-    const filteredYears = allowedYears
-      .filter((year) => allApiYears.includes(year))
-      .sort((a, b) => {
-        const yearA = parseInt(a.split("-")[0]);
-        const yearB = parseInt(b.split("-")[0]);
-        return yearB - yearA; // Descending order
-      });
-    // Add custom academic year if it exists and is not already in the list
-    if (customAcademicYear && !filteredYears.includes(customAcademicYear)) {
-      return [customAcademicYear, ...filteredYears];
+    const allowed = ["2026-27", "2025-26", "2024-25"];
+    const apiYears = yearsData.map(yearLabel).filter(Boolean);
+
+    const filtered = allowed
+      .filter((y) => apiYears.includes(y))
+      .sort((a, b) => Number(b.split("-")[0]) - Number(a.split("-")[0]));
+
+    if (customAcademicYear && !filtered.includes(customAcademicYear)) {
+      return [customAcademicYear, ...filtered];
     }
-    return filteredYears;
+
+    return filtered;
   }, [yearsData, customAcademicYear]);
-  // Pass the full list of API years for searching
-  const academicYearSearchOptions = useMemo(() => {
-    return yearsData.map(yearLabel).filter(Boolean);
-  }, [yearsData]);
-  const cityNames = useMemo(
-    () => citiesData.map(cityLabel).filter(Boolean),
-    [citiesData]
-  );
-  const zoneNames = useMemo(
-    () => zonesData.map(zoneLabel).filter(Boolean),
-    [zonesData]
-  );
-  const issuedToNames = useMemo(
-    () => employeesData.map(empLabel).filter(Boolean),
-    [employeesData]
+
+  const academicYearSearchOptions = useMemo(
+    () => yearsData.map(yearLabel),
+    [yearsData]
   );
 
-  console.log("Issued to names: ", issuedToNames);
-  // Reverse maps: label → id
+  const cityNames = citiesData.map(cityLabel);
+  const zoneNames = zonesData.map(zoneLabel);
+  const issuedToNames = employeesData.map(empLabel);
+
+  // -------------------- LABEL → ID MAPS ---------------------------
   const stateNameToId = useMemo(() => {
     const m = new Map();
     statesData.forEach((s) => m.set(stateLabel(s), stateId(s)));
     return m;
   }, [statesData]);
-  const academicYearNameToId = useMemo(() => {
+
+  const yearNameToId = useMemo(() => {
     const m = new Map();
     yearsData.forEach((y) => m.set(yearLabel(y), yearId(y)));
     return m;
   }, [yearsData]);
+
   const cityNameToId = useMemo(() => {
     const m = new Map();
     citiesData.forEach((c) => m.set(cityLabel(c), cityId(c)));
     return m;
   }, [citiesData]);
+
   const zoneNameToId = useMemo(() => {
     const m = new Map();
     zonesData.forEach((z) => m.set(zoneLabel(z), zoneId(z)));
     return m;
   }, [zonesData]);
+
   const empNameToId = useMemo(() => {
     const m = new Map();
     employeesData.forEach((e) => m.set(empLabel(e), empId(e)));
     return m;
   }, [employeesData]);
-  // Reflect user selections from DistributeForm
+
+  // -----------------------------------------------------------------------
+  //      WHEN PARENT DROPDOWN CHANGES → RESET CHILD DROPDOWNS
+  // -----------------------------------------------------------------------
   const handleValuesChange = (values) => {
     // Academic Year
     if (values.academicYear) {
-      if (academicYearNameToId.has(values.academicYear)) {
-        const ayId = academicYearNameToId.get(values.academicYear);
-        if (ayId !== selectedAcademicYearId) setSelectedAcademicYearId(ayId);
+      if (yearNameToId.has(values.academicYear)) {
+        const id = yearNameToId.get(values.academicYear);
+        if (id !== selectedAcademicYearId) {
+          setSelectedAcademicYearId(id);
+          setSelectedApplicationFee(null); // reset fee
+        }
       } else {
-        // Handle custom academic year input
         setCustomAcademicYear(values.academicYear);
-        setSelectedAcademicYearId(null); // No ID for custom input
+        setSelectedAcademicYearId(null);
+        setSelectedApplicationFee(null);
       }
     }
-    // State
+
+    // ---------------- STATE → RESET CITY, ZONE, EMPLOYEE ----------------
     if (values.stateName && stateNameToId.has(values.stateName)) {
-      const stId = stateNameToId.get(values.stateName);
-      if (stId !== selectedStateId) {
-        setSelectedStateId(stId);
+      const id = stateNameToId.get(values.stateName);
+      if (id !== selectedStateId) {
+        setSelectedStateId(id);
+
         setSelectedCityId(null);
         setSelectedZoneId(null);
-        setIssuedToEmpId(null); // Reset employee ID when state changes
+        setIssuedToEmpId(null);
+        setSelectedApplicationFee(null);
       }
     }
-    // City
+
+    // ---------------- CITY → RESET ZONE, EMPLOYEE ----------------
     if (values.cityName && cityNameToId.has(values.cityName)) {
-      const ctId = cityNameToId.get(values.cityName);
-      if (ctId !== selectedCityId) {
-        setSelectedCityId(ctId);
+      const id = cityNameToId.get(values.cityName);
+      if (id !== selectedCityId) {
+        setSelectedCityId(id);
+
         setSelectedZoneId(null);
-        setIssuedToEmpId(null); // Reset employee ID when city changes
+        setIssuedToEmpId(null);
+        setSelectedApplicationFee(null);
       }
     }
-    // Zone
+
+    // ---------------- ZONE → RESET EMPLOYEE ----------------
     if (values.zoneName && zoneNameToId.has(values.zoneName)) {
-      const znId = zoneNameToId.get(values.zoneName);
-      if (znId !== selectedZoneId) {
-        setSelectedZoneId(znId);
-        setIssuedToEmpId(null); // Reset employee ID when zone changes
+      const id = zoneNameToId.get(values.zoneName);
+      if (id !== selectedZoneId) {
+        setSelectedZoneId(id);
+
+        setIssuedToEmpId(null);
+        setSelectedApplicationFee(null);
       }
     }
-    // Employee
+
+    // ---------------- EMPLOYEE SELECTED ----------------
     if (values.issuedTo && empNameToId.has(values.issuedTo)) {
-      const eid = empNameToId.get(values.issuedTo);
-      if (eid !== issuedToEmpId) setIssuedToEmpId(eid); // Set the employee ID
+      const id = empNameToId.get(values.issuedTo);
+      if (id !== issuedToEmpId) {
+        setIssuedToEmpId(id);
+      }
     }
   };
+
+  const seriesObj = applicationSeries?.[0];
+
   const backendValues = useMemo(() => {
     const obj = {};
+
     if (mobileNo != null) obj.mobileNumber = String(mobileNo);
-    // Only add application number range to backend values for inserts
-    if (!isUpdate && appNumberRange) {
-      const {nextAvailableNumber, overallAppFrom, overallAppTo } = appNumberRange.data; // Extract from first item
-      obj.availableAppNoFrom = String(overallAppFrom);
-      obj.availableAppNoTo = String(overallAppTo);
-      // obj.selectedBalanceTrackId = Number(id);
-      obj.applicationNoFrom = String(nextAvailableNumber);
-    }
-    // Include issuedToEmpId in backend values
+
     if (issuedToEmpId != null) obj.issuedToEmpId = Number(issuedToEmpId);
-    // Include academicYearId in backend values
     if (selectedAcademicYearId != null)
       obj.academicYearId = Number(selectedAcademicYearId);
-    // Include stateId, cityId, and zoneId in backend values
     if (selectedStateId != null) obj.stateId = Number(selectedStateId);
     if (selectedCityId != null) obj.cityId = Number(selectedCityId);
     if (selectedZoneId != null) obj.zoneId = Number(selectedZoneId);
+    if(selectApplicationFee != null) obj.applicationFee = Number(selectApplicationFee);
+
+    // ----------------- APPLICATION SERIES → SET FORM VALUES -----------------
+    obj.applicationSeries = seriesObj?.displaySeries;
+    obj.applicationCount = seriesObj?.availableCount ;
+    obj.availableAppNoFrom = seriesObj?.masterStartNo ;
+    obj.availableAppNoTo = seriesObj?.masterEndNo ;
+    obj.applicationNoFrom = seriesObj?.startNo ;
+
     return obj;
   }, [
     mobileNo,
-    appNumberRange,
+    seriesObj,
     issuedToEmpId,
     selectedAcademicYearId,
     selectedStateId,
     selectedCityId,
     selectedZoneId,
-    isUpdate,
+    selectApplicationFee,
   ]);
-  const appNoFormMode = isUpdate ? "manual" : (appNumberRange?.data ? "middleware" : "manual");
-  // const middlewareAppNoFrom = isUpdate ? undefined : (appNumberRange ? String(appNumberRange) : undefined);
+
+  // ---------------------------------------------------------------------
+  //                 DYNAMIC OPTIONS FOR UI
+  // ---------------------------------------------------------------------
   const dynamicOptions = useMemo(
     () => ({
       academicYear: academicYearNames,
@@ -254,15 +270,20 @@ const ZoneForm = ({
       cityName: cityNames,
       zoneName: zoneNames,
       issuedTo: issuedToNames,
+      applicationFee: applicationFee.map(String),
+      applicationSeries: applicationSeries.map((s) => s.displaySeries),
     }),
-    [academicYearNames, stateNames, cityNames, zoneNames, issuedToNames]
+    [
+      academicYearNames,
+      stateNames,
+      cityNames,
+      zoneNames,
+      issuedToNames,
+      applicationFee,
+      applicationSeries,
+    ]
   );
-  const searchOptions = useMemo(
-    () => ({
-      academicYear: academicYearSearchOptions,
-    }),
-    [academicYearSearchOptions]
-  );
+
   return (
     <DistributeForm
       formType="Zone"
@@ -270,15 +291,14 @@ const ZoneForm = ({
       onSubmit={onSubmit}
       setIsInsertClicked={setIsInsertClicked}
       dynamicOptions={dynamicOptions}
-      searchOptions={searchOptions}
       backendValues={backendValues}
-      appNoFormMode={appNoFormMode}
-      // middlewareAppNoFrom={middlewareAppNoFrom}
+      searchOptions={{ academicYear: academicYearSearchOptions }}
       onValuesChange={handleValuesChange}
+      onApplicationFeeSelect={(fee) => setSelectedApplicationFee(fee)}
       isUpdate={isUpdate}
       editId={editId}
-      skipAppNoPatch={isUpdate}
     />
   );
 };
+
 export default ZoneForm;

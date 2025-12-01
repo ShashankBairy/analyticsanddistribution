@@ -38,6 +38,7 @@ export const useApplicationDetails = ({
           setFieldValue("campusName", data.cmps_name || "");
           setFieldValue("proName", data.pro_name || "");
           setFieldValue("dgmName", data.dgm_name || "");
+          setFieldValue()
           const normalizedStatus = data.status?.toLowerCase() || "available";
           const mappedStatus = normalizedStatus === "left" || normalizedStatus === "confirmed" 
             ? "AVAILABLE" 
@@ -53,16 +54,16 @@ export const useApplicationDetails = ({
 
           // Use IDs directly from backend data - no need to lookup
           const zoneId = data.zoneId || null;
-          const campusId = data.cmps_id || null;
-          const proId = data.proId || null;
+          const campusId = data.campusId || null;
+          const proId = data.proEmpId || null;
           const dgmId = data.dgmEmpId || null;
           const statusId = data.statusId || null;
 
           console.log("=== SETTING FORM VALUES FROM BACKEND DATA ===");
           console.log("Backend data IDs:", {
             zoneId: data.zoneId,
-            campusId: data.cmps_id,
-            proId: data.proId,
+            campusId: data.campusId,
+            proId: data.proEmpId,
             dgmEmpId: data.dgmEmpId,
             statusId: data.statusId
           });

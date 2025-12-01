@@ -16,7 +16,7 @@ if (!employeeID) {
 }
 
 // DTO Mappings for each form type
-const zoneFormDTO = (zoneValues) => ({
+const zoneFormDTO = (zoneValues, employeeId) => ({
   academicYearId: zoneValues.academicYearId,
   stateId: zoneValues.stateId,
   cityId: zoneValues.cityId,
@@ -28,36 +28,38 @@ const zoneFormDTO = (zoneValues) => ({
   appEndNo: zoneValues.applicationNoTo,
   range: zoneValues.range,
   issueDate: convertToBackendDateFormat(zoneValues.issueDate),
-  createdBy: employeeID, // User ID or creator ID, assuming it's available
+  createdBy: employeeId, // User ID or creator ID, assuming it's available
+  application_Amount:Number(zoneValues.applicationFee),
 });
-const dgmFormDTO = (dgmValues) => ({
-  userId: employeeID,
+const dgmFormDTO = (dgmValues,employeeId) => ({
+  userId: employeeId,
   academicYearId: dgmValues.academicYearId,
   cityId: dgmValues.cityId,
   zoneId: dgmValues.zoneId,
   campusId: dgmValues.campusId,
-  issuedToId: 3,
   dgmEmployeeId: dgmValues.issuedToEmpId,
-  selectedBalanceTrackId: dgmValues.selectedBalanceTrackId,
+  application_Amount:Number(dgmValues.applicationFee),
   applicationNoFrom: dgmValues.applicationNoFrom,
   applicationNoTo: dgmValues.applicationNoTo,
   range: Number(dgmValues.range),
 });
-const campusFormDTO = (campusValues) => ({
-  userId: employeeID,
+const campusFormDTO = (campusValues,employeeId,category) => ({
+  userId: employeeId,
   academicYearId: campusValues.academicYearId,
-  districtId: campusValues.campaignDistrictId,
   cityId: campusValues.cityId,
-  campusId: campusValues.campusId,
-  issuedToId: 4,
-  proEmployeeId: campusValues.issuedToEmpId,
-  selectedBalanceTrackId: campusValues.selectedBalanceTrackId,
+  campaignDistrictId: campusValues.campaignDistrictId,
+  branchId: campusValues.campusId,
+  receiverId: campusValues.issuedToEmpId,
+  issuedToTypeId: 4,
+  issueDate:convertToBackendDateFormat(campusValues.issueDate),
+  application_Amount:Number(campusValues.applicationFee),
   applicationNoFrom: campusValues.applicationNoFrom,
   applicationNoTo: campusValues.applicationNoTo,
   range: Number(campusValues.range),
+  category:category,
 });
 // Function to send form data using axios
-const sendFormData = async ({ formValues, formType }) => {
+const sendFormData = async ({ formValues, formType, employeeId, category, }) => {
   const t = String(formType ?? "")
     .trim()
     .toLowerCase();
@@ -68,15 +70,15 @@ const sendFormData = async ({ formValues, formType }) => {
   switch (t) {
     case "zone":
       endpoint = "zone-save";
-      formData = zoneFormDTO(formValues);
+      formData = zoneFormDTO(formValues,employeeId);
       break;
     case "dgm":
       endpoint = "dgm-save";
-      formData = dgmFormDTO(formValues);
+      formData = dgmFormDTO(formValues,employeeId);
       break;
     case "campus":
       endpoint = "campus-save";
-      formData = campusFormDTO(formValues);
+      formData = campusFormDTO(formValues,employeeId,category);
       break;
     default:
       throw new Error(

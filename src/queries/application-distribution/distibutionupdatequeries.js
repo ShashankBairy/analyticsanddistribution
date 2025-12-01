@@ -23,34 +23,36 @@ const zoneFormDTO = (v) => ({
   range: v.range,
   issueDate: convertToBackendDateFormat(v.issueDate),
   createdBy: v.createdBy,
+  application_Amount: v.applicationFee,
 });
  
 const dgmFormDTO = (v) => ({
-  userId: v.userId || 4079,
+  userId: v.userId,
   academicYearId: v.academicYearId,
   cityId: v.cityId,
   zoneId: v.zoneId,
   campusId: v.campusId,
-  issuedToId: 3,
   dgmEmployeeId: v.issuedToId,
-  selectedBalanceTrackId: v.selectedBalanceTrackId,
+  application_Amount: v.applicationFee,
   applicationNoFrom: v.applicationNoFrom,
   applicationNoTo: v.applicationNoTo,
   range: v.range,
 });
  
 const campusFormDTO = (v) => ({
-  userId: v.userId || 4178,
+  userId: v.userId ,
   academicYearId: v.academicYearId,
-  districtId: v.campaignDistrictId,
   cityId: v.cityId,
-  campusId: v.campusId,
-  issuedToId: 4,
-  proEmployeeId: v.issuedToEmpId,
-  selectedBalanceTrackId: v.selectedBalanceTrackId,
+  campaignDistrictId: v.campaignDistrictId,
+  branchId: v.campusId,
+  receiverId: v.issuedToEmpId,
+  issuedToTypeId: 4,
+  issueDate: convertToBackendDateFormat(v.issueDate),
+  application_Amount: v.applicationFee,
   applicationNoFrom: v.applicationNoFrom,
   applicationNoTo: v.applicationNoTo,
   range: v.range,
+   category: v.category,
 });
  
 // --- core sender (axios only) ---

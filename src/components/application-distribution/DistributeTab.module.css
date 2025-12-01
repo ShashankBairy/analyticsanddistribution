@@ -107,6 +107,12 @@
   gap: 20px;
 }
 
+.accordian_header{
+  display: flex;
+  justify-content: space-between;
+  position: relative;
+}
+
 .accordian_header_text {
   display: flex;
   gap: 5px;

@@ -1,7 +1,9 @@
+// src/slices/authorizationSlice.js
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  permissions: {}, // merged per-screen permissions like {APPLICATION_ANALYTICS: "v", ...}
+  permissions: {}, // e.g. { APPLICATION_ANALYTICS: "v", APPLICATION_STATUS: "all" }
+  roles: [], // 🆕 store user roles like ["CASHIER", "DGM"]
   employeeId: null,
 };
 
@@ -10,14 +12,16 @@ const authorizationSlice = createSlice({
   initialState,
   reducers: {
     setRolePermissions: (state, action) => {
-      // action.payload should be the mergedPermissions object
-      state.permissions = action.payload || {};
+      const { mergedPermissions, roles } = action.payload || {};
+      state.permissions = mergedPermissions || {};
+      state.roles = roles || [];
     },
     setEmployeeId: (state, action) => {
       state.employeeId = action.payload ?? null;
     },
     logout: (state) => {
       state.permissions = {};
+      state.roles = [];
       state.employeeId = null;
     },
   },
