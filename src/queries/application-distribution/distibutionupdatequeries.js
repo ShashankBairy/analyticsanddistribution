@@ -10,7 +10,7 @@ const convertToBackendDateFormat = (ddmmyyyy) => {
 };
  
 // --- DTO mappers ---
-const zoneFormDTO = (v) => ({
+const zoneFormDTO = (v,employeeId) => ({
   academicYearId: v.academicYearId,
   stateId: v.stateId,
   cityId: v.cityId,
@@ -22,12 +22,12 @@ const zoneFormDTO = (v) => ({
   appEndNo: v.applicationNoTo,
   range: v.range,
   issueDate: convertToBackendDateFormat(v.issueDate),
-  createdBy: v.createdBy,
+  createdBy: employeeId,
   application_Amount: v.applicationFee,
 });
  
-const dgmFormDTO = (v) => ({
-  userId: v.userId,
+const dgmFormDTO = (v,employeeId) => ({
+  userId: employeeId,
   academicYearId: v.academicYearId,
   cityId: v.cityId,
   zoneId: v.zoneId,
@@ -39,8 +39,8 @@ const dgmFormDTO = (v) => ({
   range: v.range,
 });
  
-const campusFormDTO = (v) => ({
-  userId: v.userId ,
+const campusFormDTO = (v,employeeId,category) => ({
+  userId: employeeId,
   academicYearId: v.academicYearId,
   cityId: v.cityId,
   campaignDistrictId: v.campaignDistrictId,
@@ -52,7 +52,7 @@ const campusFormDTO = (v) => ({
   applicationNoFrom: v.applicationNoFrom,
   applicationNoTo: v.applicationNoTo,
   range: v.range,
-   category: v.category,
+  category: category,
 });
  
 // --- core sender (axios only) ---
@@ -63,7 +63,7 @@ const campusFormDTO = (v) => ({
  * @param {Object} params.formValues
  * @param {Object} [params.config] axios config (headers, etc.)
  */
-export async function sendUpdate({ formType, id, formValues, config }) {
+export async function sendUpdate({ formType, id, formValues,employeeId,category, config }) {
   const t = String(formType ?? "").trim().toLowerCase();
  
   let endpoint;
@@ -72,15 +72,15 @@ export async function sendUpdate({ formType, id, formValues, config }) {
   switch (t) {
     case "zone":
       endpoint = `update-zone/${id}`;
-      payload = zoneFormDTO(formValues);
+      payload = zoneFormDTO(formValues,employeeId);
       break;
     case "dgm":
       endpoint = `update-dgm/${id}`;
-      payload = dgmFormDTO(formValues);
+      payload = dgmFormDTO(formValues,employeeId);
       break;
     case "campus":
       endpoint = `update-campus/${id}`;
-      payload = campusFormDTO(formValues);
+      payload = campusFormDTO(formValues,employeeId,category);
       break;
     default:
       throw new Error(
@@ -96,11 +96,11 @@ export async function sendUpdate({ formType, id, formValues, config }) {
 }
  
 // --- convenience wrappers (optional) ---
-export const updateZone = (id, values, config) =>
-  sendUpdate({ formType: "zone", id, formValues: values, config });
+export const updateZone = (id, values, employeeId,config) =>
+  sendUpdate({ formType: "zone", id, formValues: values,employeeId, config });
  
-export const updateDgm = (id, values, config) =>
-  sendUpdate({ formType: "dgm", id, formValues: values, config });
+export const updateDgm = (id, values,employeeId, config) =>
+  sendUpdate({ formType: "dgm", id, formValues: values,employeeId, config });
  
-export const updateCampus = (id, values, config) =>
-  sendUpdate({ formType: "campus", id, formValues: values, config });
+export const updateCampus = (id, values,employeeId,category, config) =>
+  sendUpdate({ formType: "campus", id, formValues: values,employeeId,category, config });

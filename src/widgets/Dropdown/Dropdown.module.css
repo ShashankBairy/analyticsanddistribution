@@ -5,14 +5,14 @@
   gap: 5px;
   position: relative;
 }
-
+ 
 /* Label styling */
 .dropdown_label {
   font-weight: 400;
   color:#344054;
   font-size: 12px;
 }
-
+ 
 /* Button styling */
 .dropdown_wrapper .dropdown_button {
   width: 100%;
@@ -20,7 +20,7 @@
   justify-content: space-between;
   align-items: center;
   padding: 11px 14px;
-  border-radius: 4px;
+  border-radius: 6px;
   border: 1px solid #C3C3C3;
   box-shadow: 0 1px 2px 0 rgba(16, 24, 40, 0.05);
   background: #FFF;
@@ -30,7 +30,7 @@
   cursor: pointer;
   /* transition: border-color 0.2s, box-shadow 0.2s; */
 }
-
+ 
 .dropdown_button_open {
   /* Remove the bottom border */
   border-bottom: none !important;
@@ -38,9 +38,9 @@
   border-bottom-left-radius: 0 !important;
   border-bottom-right-radius: 0 !important;
   /* (Optional) Use a darker border color when active/open */
-  border-color: #A1A5B0 !important; 
+  border-color: #A1A5B0 !important;
 }
-
+ 
 /* ===== NEW container for popup: keeps the header fixed and list scrollable ===== */
 .dropdown_panel {
   position: absolute;
@@ -64,7 +64,7 @@
   flex-direction: column;
   padding: 7px 9px;
 }
-
+ 
 /* Search stays visible; results scroll underneath without overlapping */
 .dropdown_search_box {
   width: 100%;
@@ -73,17 +73,17 @@
   background: #FFF;
   margin-bottom: 8px;
 }
-
+ 
 /* Scroll only the list. (Moved overflow and height from the old list style) */
 .dropdown_list {
   list-style: none;
   padding: 0;
   margin: 0;
-
+ 
   /* Reserve space for search row (~48px) + its margin (8px) out of 240px panel */
   max-height: calc(240px - 48px - 8px);
   overflow-y: auto;
-
+ 
   /* Hide scrollbar cross-browser */
   -ms-overflow-style: none;  /* IE/Edge */
   scrollbar-width: none;     /* Firefox */
@@ -92,14 +92,14 @@
   width: 0;
   height: 0;
 }
-
+ 
 /* Keep the rest of your original styles */
 .dropdown_search_icon{
   position: absolute;
   top:15px;
   left: 15px;
 }
-
+ 
 .dropdown_option {
   display: block;
   padding: 10px 16px;
@@ -108,34 +108,47 @@
   cursor: pointer;
   text-decoration: none;
 }
-
+ 
 .last_item {
   border-bottom: none !important;
 }
-
+ 
 .last_item .dropdown_option {
   border-bottom: none !important;
 }
-
+ 
 .dropdown_no_results {
   display: block;
   padding: 10px 16px;
   font-size: 14px;
   color: #666;
 }
-
+ 
 .dropdown_result_list{
   border-bottom:  1px solid #D8D8D8;
   overflow: auto;
   width: 95%;
 }
-
+ 
 .dropdown_result_list .dropdown_option{
   color: var(--Gray-900, #101828);
   font-size: 12px;
   font-weight: 400;
   padding: 7px;
 }
-
+ 
 /* (Old classes below are no longer used but left intact so nothing else breaks)
    .dropdown_search_list, .dropdown_results, etc. */
+.dropdown_option_highlighted {
+  background-color: #F2F4F7; /* Light gray background to indicate selection */
+  color: #101828;
+  font-weight: 500;
+  border-radius: 4px; /* Optional, looks nicer */
+}
+ 
+/* Also ensure hover behaves the same way for mouse users */
+.dropdown_option:hover {
+  background-color: #F2F4F7;
+  border-radius: 4px;
+}
+ 

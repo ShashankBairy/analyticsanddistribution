@@ -2,57 +2,32 @@ import React, { useState, useEffect, useRef, useMemo } from "react";
 import styles from "./Dropdown.module.css";
 import SearchBox from "../Searchbox/Searchbox";
 import Asterisk from "../../assets/application-status/Asterisk";
-
+ 
 const downarrow = (
-  <svg
-    width="12"
-    height="8"
-    viewBox="0 0 12 8"
-    fill="none"
-    xmlns="http://www.w3.org/2000/svg"
-  >
-    <path
-      d="M11.0335 1.59961L6.36686 6.26628L1.7002 1.59961"
-      stroke="#98A2B3"
-      stroke-width="1.92"
-      stroke-linecap="round"
-      stroke-linejoin="round"
-    />
+  <svg width="12" height="8" viewBox="0 0 12 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M11.0335 1.59961L6.36686 6.26628L1.7002 1.59961" stroke="#98A2B3" strokeWidth="1.92" strokeLinecap="round" strokeLinejoin="round" />
   </svg>
 );
-
+ 
 const dropdownsearchicon = (
-  <svg
-    width="19"
-    height="20"
-    viewBox="0 0 19 20"
-    fill="none"
-    xmlns="http://www.w3.org/2000/svg"
-  >
-    <path
-      d="M15.5677 14.6599L12.336 11.4134C13.0024 10.5599 13.4033 9.48326 13.4033 8.31873C13.4033 5.5151 11.1223 3.23413 8.31875 3.23413C5.51522 3.23413 3.23425 5.5151 3.23425 8.31863C3.23425 11.1173 5.51522 13.3981 8.31875 13.3981C9.43346 13.3981 10.4604 13.0365 11.298 12.4244L14.5441 15.6754C14.6796 15.8162 14.8675 15.8851 15.0584 15.8851C15.482 15.8851 15.7658 15.5613 15.7658 15.1628C15.7658 14.9659 15.6964 14.7939 15.5677 14.6599ZM4.26625 8.31863C4.26625 6.08371 6.08373 4.26613 8.31875 4.26613C10.5537 4.26613 12.3663 6.08361 12.3663 8.31863C12.3663 10.5487 10.5537 12.3661 8.31875 12.3661C6.08373 12.3661 4.26625 10.5487 4.26625 8.31863Z"
-      fill="#A1A5B0"
-      stroke="#A1A5B0"
-      strokeWidth="0.101865"
-    />
+  <svg width="19" height="20" viewBox="0 0 19 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M15.5677 14.6599L12.336 11.4134C13.0024 10.5599 13.4033 9.48326 13.4033 8.31873C13.4033 5.5151 11.1223 3.23413 8.31875 3.23413C5.51522 3.23413 3.23425 5.5151 3.23425 8.31863C3.23425 11.1173 5.51522 13.3981 8.31875 13.3981C9.43346 13.3981 10.4604 13.0365 11.298 12.4244L14.5441 15.6754C14.6796 15.8162 14.8675 15.8851 15.0584 15.8851C15.482 15.8851 15.7658 15.5613 15.7658 15.1628C15.7658 14.9659 15.6964 14.7939 15.5677 14.6599ZM4.26625 8.31863C4.26625 6.08371 6.08373 4.26613 8.31875 4.26613C10.5537 4.26613 12.3663 6.08361 12.3663 8.31863C12.3663 10.5487 10.5537 12.3661 8.31875 12.3661C6.08373 12.3661 4.26625 10.5487 4.26625 8.31863Z" fill="#A1A5B0" stroke="#A1A5B0" strokeWidth="0.101865" />
   </svg>
 );
-
+ 
 const capitalizeFirst = (s = "") =>
   s.length ? s.charAt(0).toUpperCase() + s.slice(1) : s;
-
+ 
 const extractValue = (arg) => {
   if (typeof arg === "string") return arg;
   if (arg && typeof arg === "object") {
-    if (arg.target && typeof arg.target.value === "string")
-      return arg.target.value;
-    if (arg.currentTarget && typeof arg.currentTarget.value === "string")
-      return arg.currentTarget.value;
+    if (arg.target && typeof arg.target.value === "string") return arg.target.value;
+    if (arg.currentTarget && typeof arg.currentTarget.value === "string") return arg.currentTarget.value;
     if (typeof arg.value === "string") return arg.value;
   }
   return "";
 };
-
+ 
 const Dropdown = ({
   dropdownname,
   results,
@@ -67,58 +42,130 @@ const Dropdown = ({
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
+  // New state to track keyboard navigation
+  const [highlightedIndex, setHighlightedIndex] = useState(-1);
+ 
   const dropdownRef = useRef(null);
-
+  const listRef = useRef(null); // Ref for the UL container
+ 
   // Normalize incoming list
   const normalized = useMemo(
-    () =>
-      (Array.isArray(results) ? results : [])
-        .filter((r) => r != null)
-        .map((r) => String(r)),
+    () => (Array.isArray(results) ? results : []).filter((r) => r != null).map((r) => String(r)),
     [results]
   );
-
-  // 🔥 REMOVE SELECTED VALUE FROM DROPDOWN LIST
+ 
+  // Filter out the *selected* value from the list
   const filteredResults = useMemo(() => {
     if (!value) return normalized;
     return normalized.filter((item) => item !== value);
   }, [normalized, value]);
-
+ 
   const hasSearchBox = dropdownsearch && filteredResults.length > 5;
   const term = searchTerm.trim();
   const useFilter = hasSearchBox && term.length >= minChars;
-
+ 
   const listToShow = useMemo(() => {
     if (useFilter) {
       const lc = term.toLowerCase();
-      return filteredResults.filter((item) =>
-        item.toLowerCase().includes(lc)
-      );
+      return filteredResults.filter((item) => item.toLowerCase().includes(lc));
     }
     return filteredResults;
   }, [filteredResults, useFilter, term]);
-
+ 
   const handleToggle = () => {
     if (disabled) return;
     setIsOpen((prev) => {
       const next = !prev;
-      if (next) setSearchTerm("");
+      if (next) {
+        setSearchTerm("");
+        setHighlightedIndex(-1); // Reset highlight when opening
+      }
       return next;
     });
   };
-
+ 
   const handleSearchChange = (arg) => {
     const raw = extractValue(arg);
     setSearchTerm(capitalizeFirst(raw));
+    setHighlightedIndex(0); // Reset highlight to top when searching
   };
-
-  const handleOptionClick = (e, option) => {
-    e.preventDefault();
+ 
+  const handleSelect = (option) => {
     onChange?.({ target: { name, value: option } });
     setIsOpen(false);
     setSearchTerm("");
+    setHighlightedIndex(-1);
   };
-
+ 
+  const handleOptionClick = (e, option) => {
+    e.preventDefault();
+    handleSelect(option);
+  };
+ 
+  // Keyboard Navigation Logic
+  const handleKeyDown = (e) => {
+    if (disabled) return;
+ 
+    // If dropdown is closed, Enter/Space/ArrowDown opens it
+    if (!isOpen) {
+      if (e.key === "Enter" || e.key === " " || e.key === "ArrowDown") {
+        e.preventDefault();
+        setIsOpen(true);
+      }
+      return;
+    }
+ 
+    switch (e.key) {
+      case "Escape":
+        setIsOpen(false);
+        break;
+ 
+      case "ArrowDown":
+        e.preventDefault();
+        setHighlightedIndex((prev) =>
+          prev < listToShow.length - 1 ? prev + 1 : 0 // Loop to top
+        );
+        break;
+ 
+      case "ArrowUp":
+        e.preventDefault();
+        setHighlightedIndex((prev) =>
+          prev > 0 ? prev - 1 : listToShow.length - 1 // Loop to bottom
+        );
+        break;
+ 
+      case "Enter":
+        e.preventDefault();
+        if (highlightedIndex >= 0 && highlightedIndex < listToShow.length) {
+          handleSelect(listToShow[highlightedIndex]);
+        }
+        break;
+ 
+      case "Tab":
+        setIsOpen(false);
+        break;
+ 
+      default:
+        break;
+    }
+  };
+ 
+  // Auto-scroll logic: Keep highlighted item in view
+  useEffect(() => {
+    if (isOpen && listRef.current && highlightedIndex >= 0) {
+      const listElement = listRef.current;
+      const highlightedElement = listElement.children[highlightedIndex];
+     
+      if (highlightedElement) {
+        // Simple scrollIntoView or manual calculation for smoother behavior
+        highlightedElement.scrollIntoView({
+          block: 'nearest',
+        });
+      }
+    }
+  }, [highlightedIndex, isOpen]);
+ 
+  // Click outside listener
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
@@ -128,18 +175,17 @@ const Dropdown = ({
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
-
+ 
   return (
-    <div className={styles.dropdown_wrapper} ref={dropdownRef}>
+    // Added onKeyDown here so it captures events from button or searchbox
+    <div className={styles.dropdown_wrapper} ref={dropdownRef} onKeyDown={handleKeyDown}>
       <label htmlFor={name} className={styles.dropdown_label}>
         {dropdownname}
         {required && <Asterisk style={{ marginLeft: "4px" }} />}
       </label>
-
+ 
       <button
-        className={`${styles.dropdown_button} ${
-          isOpen ? styles.dropdown_button_open : ""
-        }`}
+        className={`${styles.dropdown_button} ${isOpen ? styles.dropdown_button_open : ""}`}
         onClick={handleToggle}
         type="button"
         disabled={disabled}
@@ -147,21 +193,13 @@ const Dropdown = ({
         aria-expanded={isOpen}
       >
         {value || `Select ${dropdownname}`}
-        <span
-          className={`${styles.dropdown_arrow} ${
-            isOpen ? styles.dropdown_arrow_open : ""
-          }`}
-        >
+        <span className={`${styles.dropdown_arrow} ${isOpen ? styles.dropdown_arrow_open : ""}`}>
           {downarrow}
         </span>
       </button>
-
+ 
       {isOpen && (
-        <div
-          className={styles.dropdown_panel}
-          role="dialog"
-          aria-label={dropdownname}
-        >
+        <div className={styles.dropdown_panel} role="dialog" aria-label={dropdownname}>
           {hasSearchBox && (
             <div className={styles.dropdown_search_box}>
               <SearchBox
@@ -170,17 +208,18 @@ const Dropdown = ({
                 width="100%"
                 value={searchTerm}
                 onChange={handleSearchChange}
-                onInput={handleSearchChange}
-                onValueChange={handleSearchChange}
-                onSearch={handleSearchChange}
+                // Important: SearchBox often stops propagation, ensure keys bubble up
+                // or pass handleKeyDown if SearchBox supports it.
+                // Assuming standard input behavior here.
               />
             </div>
           )}
-
+ 
           <ul
             className={styles.dropdown_list}
             role="listbox"
             aria-label={dropdownname}
+            ref={listRef} // Attached ref for scrolling
           >
             {listToShow.length > 0 ? (
               listToShow.map((result, idx) => (
@@ -192,10 +231,15 @@ const Dropdown = ({
                 >
                   <a
                     href="#"
-                    className={styles.dropdown_option}
+                    className={`${styles.dropdown_option} ${
+                      // Apply highlighted style if index matches
+                      idx === highlightedIndex ? styles.dropdown_option_highlighted : ""
+                    }`}
                     onClick={(e) => handleOptionClick(e, result)}
                     role="option"
                     aria-selected={result === value}
+                    // This helps screen readers know which item is "focused" virtually
+                    id={`option-${idx}`}
                   >
                     {result}
                   </a>
@@ -203,9 +247,7 @@ const Dropdown = ({
               ))
             ) : (
               <li>
-                <span className={styles.dropdown_no_results}>
-                  No results found
-                </span>
+                <span className={styles.dropdown_no_results}>No results found</span>
               </li>
             )}
           </ul>
@@ -214,5 +256,5 @@ const Dropdown = ({
     </div>
   );
 };
-
+ 
 export default Dropdown;

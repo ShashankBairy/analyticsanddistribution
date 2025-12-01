@@ -10,6 +10,7 @@ import {
   useGetDgmsByCampus,
   useGetAllFeeAmounts,
   useGetApplicationSeriesForEmpId,
+  useGetDgmWithZonalAccountant,
 } from "../../../queries/application-distribution/dropdownqueries";
 
 // ---------------- LABEL / ID HELPERS ----------------
@@ -48,6 +49,7 @@ const DgmForm = ({
   const [selectedCampusId, setSelectedCampusId] = useState(null);
   const [issuedToId, setIssuedToId] = useState(null);
   const [selectedFee, setSelectedFee] = useState(null);
+   const [selectedSeries, setSelectedSeries] = useState(null);
 
   // ---------------- INITIAL FORM VALUES ----------------
   const [seedInitialValues, setSeedInitialValues] = useState({
@@ -57,12 +59,13 @@ const DgmForm = ({
 
   const didSeedRef = useRef(false);
   const employeeId = localStorage.getItem("empId");
+  const category = localStorage.getItem("category");
 
   // ---------------- API CALLS ----------------
   const { data: yearsRaw = [] } = useGetAcademicYears();
   const { data: citiesRaw = [] } = useGetCities();
   const { data: zonesRaw = [] } = useGetZoneByCity(selectedCityId);
-  const { data: campusRaw = [] } = useGetCampusByZone(selectedZoneId);
+  const { data: campusRaw = [] } = useGetDgmWithZonalAccountant(selectedZoneId,category);
   const { data: employeesRaw = [] } = useGetDgmsByCampus(selectedCampusId);
   const { data: mobileNo } = useGetMobileNo(issuedToId);
 
@@ -80,8 +83,6 @@ const DgmForm = ({
       selectedFee,
       false
     );
-
-  const seriesObj = applicationSeries?.[0];
 
   // ---------------- NORMALIZE ARRAYS ----------------
   const years = asArray(yearsRaw);
@@ -166,6 +167,15 @@ const DgmForm = ({
     }
   };
 
+   // ---------------- SELECTED SERIES OBJECT ----------------
+  const seriesObj = useMemo(() => {
+    if (!selectedSeries) return null;
+
+    return (
+      applicationSeries.find((s) => s.displaySeries === selectedSeries) || null
+    );
+  }, [selectedSeries, applicationSeries]);
+
   // ---------------- BACKEND VALUES (MATCHES ZoneForm) ----------------
   const backendValues = useMemo(() => {
     const obj = {};
@@ -199,18 +209,28 @@ const DgmForm = ({
     selectedZoneId,
     selectedCampusId,
     issuedToId,
+    applicationFee,
+    applicationSeries,
   ]);
 
   // ---------------- DYNAMIC OPTIONS ----------------
   const dynamicOptions = {
-    academicYear: academicYearNames,
-    cityName: cityNames,
-    zoneName: zoneNames,
-    campusName: campusNames,
-    issuedTo: issuedToNames,
-    applicationFee: applicationFee.map(String),
-    applicationSeries: applicationSeries.map((s) => s.displaySeries),
-  };
+  academicYear: academicYearNames,
+  cityName: cityNames,
+  zoneName: zoneNames,
+  campusName: campusNames,
+  issuedTo: issuedToNames,
+
+  // FIX: applicationFee.data instead of applicationFee
+    applicationFee: Array.isArray(applicationFee)
+  ? applicationFee.map((f) => String(f))
+  : [],
+
+  // FIX: applicationSeries default fallback
+  applicationSeries: Array.isArray(applicationSeries)
+    ? applicationSeries.map((s) => s.displaySeries)
+    : [],
+};
 
   return (
     <DistributeForm
@@ -222,6 +242,8 @@ const DgmForm = ({
       backendValues={backendValues}
       onValuesChange={handleValuesChange}
       onApplicationFeeSelect={(fee) => setSelectedFee(fee)}
+      onSeriesSelect={(series) => setSelectedSeries(series)}
+      applicationSeriesList={applicationSeries}
       isUpdate={isUpdate}
       editId={editId}
     />

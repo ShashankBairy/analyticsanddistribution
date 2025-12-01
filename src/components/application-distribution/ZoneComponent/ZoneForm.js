@@ -56,6 +56,7 @@ const ZoneForm = ({
   const [selectApplicationFee, setSelectedApplicationFee] = useState(null);
 
   const [customAcademicYear, setCustomAcademicYear] = useState(null);
+  const [selectedSeries, setSelectedSeries] = useState(null);
 
   // --------------------- INITIAL FORM VALUES -------------------------
   const [seedInitialValues, setSeedInitialValues] = useState({
@@ -82,13 +83,12 @@ const ZoneForm = ({
   );
 
   // -------------------- APPLICATION SERIES -------------------------
-  const { data: applicationSeries = [] } =
-    useGetApplicationSeriesForEmpId(
-      employeeId,
-      selectedAcademicYearId,
-      selectApplicationFee,
-      false
-    );
+  const { data: applicationSeries = [] } = useGetApplicationSeriesForEmpId(
+    employeeId,
+    selectedAcademicYearId,
+    selectApplicationFee,
+    false
+  );
 
   console.log("Application Fee:", applicationFee.data);
   console.log("Application Fee Selected:", selectApplicationFee);
@@ -226,7 +226,15 @@ const ZoneForm = ({
     }
   };
 
-  const seriesObj = applicationSeries?.[0];
+  const seriesObj = useMemo(() => {
+  if (!selectedSeries) return null;
+
+  const found = applicationSeries.find(
+    (s) => s.displaySeries === selectedSeries
+  );
+
+  return found || null;
+}, [selectedSeries, applicationSeries]);
 
   const backendValues = useMemo(() => {
     const obj = {};
@@ -239,14 +247,17 @@ const ZoneForm = ({
     if (selectedStateId != null) obj.stateId = Number(selectedStateId);
     if (selectedCityId != null) obj.cityId = Number(selectedCityId);
     if (selectedZoneId != null) obj.zoneId = Number(selectedZoneId);
-    if(selectApplicationFee != null) obj.applicationFee = Number(selectApplicationFee);
+    if (selectApplicationFee != null)
+      obj.applicationFee = Number(selectApplicationFee);
 
     // ----------------- APPLICATION SERIES → SET FORM VALUES -----------------
-    obj.applicationSeries = seriesObj?.displaySeries;
-    obj.applicationCount = seriesObj?.availableCount ;
-    obj.availableAppNoFrom = seriesObj?.masterStartNo ;
-    obj.availableAppNoTo = seriesObj?.masterEndNo ;
-    obj.applicationNoFrom = seriesObj?.startNo ;
+      if (seriesObj) {
+    obj.applicationSeries      = seriesObj.displaySeries;
+    obj.applicationCount       = seriesObj.availableCount;
+    obj.availableAppNoFrom     = seriesObj.masterStartNo;
+    obj.availableAppNoTo       = seriesObj.masterEndNo;
+    obj.applicationNoFrom      = seriesObj.startNo;
+  }
 
     return obj;
   }, [
@@ -270,8 +281,14 @@ const ZoneForm = ({
       cityName: cityNames,
       zoneName: zoneNames,
       issuedTo: issuedToNames,
-      applicationFee: applicationFee.map(String),
-      applicationSeries: applicationSeries.map((s) => s.displaySeries),
+          applicationFee: Array.isArray(applicationFee)
+  ? applicationFee.map((f) => String(f))
+  : [],
+
+      // FIX: applicationSeries default fallback
+      applicationSeries: Array.isArray(applicationSeries)
+        ? applicationSeries.map((s) => s.displaySeries)
+        : [],
     }),
     [
       academicYearNames,
@@ -295,6 +312,8 @@ const ZoneForm = ({
       searchOptions={{ academicYear: academicYearSearchOptions }}
       onValuesChange={handleValuesChange}
       onApplicationFeeSelect={(fee) => setSelectedApplicationFee(fee)}
+      onSeriesSelect={(series) => setSelectedSeries(series)}
+      applicationSeriesList={applicationSeries}
       isUpdate={isUpdate}
       editId={editId}
     />

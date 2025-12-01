@@ -2,19 +2,18 @@ import React, { useEffect, useMemo, useState } from "react";
 import TableWidget from "../../../widgets/Table/TableWidget";
 import ZoneForm from "./ZoneForm";
 import DistributionUpdateForm from "../DistributionUpdateForm";
-import { useGetTableDetailsByEmpId ,useGetApplicationSeriesForEmpId, useGetAllFeeAmounts} from "../../../queries/application-distribution/dropdownqueries";
+import { useGetTableDetailsByEmpId ,useGetApplicationSeriesForEmpId,useGetDistributionId, useGetAllFeeAmounts} from "../../../queries/application-distribution/dropdownqueries";
 import Spinner from "../../commoncomponents/Spinner";
 
-const ZoneTable = ({ onSelectionChange }) => {
+const ZoneTable = ({ onSelectionChange}) => {
 
   const empId = localStorage.getItem("empId");
-
-
   const {
     data: tableData,
     isLoading,
     error,
   } = useGetTableDetailsByEmpId(empId,2);
+
 
   console.log("Table Data: ", tableData);
 
@@ -38,6 +37,9 @@ const ZoneTable = ({ onSelectionChange }) => {
       stateId: item.state_id,
       cityId: item.city_id,
       zoneId: item.zone_id,
+      stateName:item.statename,
+      cityName:item.cityname,
+      mobileNumber:item.mobileNmuber,
       })),
     [tableData]
   );
@@ -158,15 +160,10 @@ const {data: amounts,refetch: refetchApplicationFeeAmount} = useGetAllFeeAmounts
   // TableWidget calls this when user clicks "Update" for a row
   const handleRowUpdateClick = async (row) => {
   console.log("Row Selected:", row);
+  // const distributionId = await useGetDistributionId()
   setOpeningForm(true);
   setSelectedRow(row);
 
-  await refetchApplicationSeries({
-    emp: row.issuedToEmpId,          
-    year: row.academicYearId,        
-    amount: row.amount,              
-    isPro: false,           
-  });
 
   setOpen(true);
   setOpeningForm(false);

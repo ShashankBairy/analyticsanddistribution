@@ -173,7 +173,25 @@ const getDistributionId = async(receiverId,start,end,amount,isPro) =>
     params:{receiverId,start,end,amount,isPro}
   })
 ).data;
- 
+
+const getCampusForDgmWithCategory = async(empId, category)=>
+(await axios.get(`${BASE_URL}${DISTRIBUTION_GETS}/campusfordgm_with_category/${empId}?category=${category}`)).data;
+
+const getCampusForZonalWithCategory = async(empId, category)=>
+(await axios.get(`${BASE_URL}${DISTRIBUTION_GETS}/campusesforzonal_accountant_with_category/${empId}?category=${category}`)).data;
+
+const getDgmForZonalWithCategory = async(empId, category) =>
+(await axios.get(`${BASE_URL}${DISTRIBUTION_GETS}/dgmforzonal_accountant_with_category/${empId}?category=${category}`)).data;
+
+const getCampuesByCityWithCategory = async(category,cityId)=>
+(await axios.get(`${BASE_URL}${DISTRIBUTION_GETS}/campuses/category/${cityId}?category=${category}`)).data;
+
+const getSchoolDgmCityDistrictId = async(empId, category)=>
+(await axios.get(`${BASE_URL}${DISTRIBUTION_GETS}/district_city_autopopulate/${empId}/${category}`)).data;
+
+const getDgmWithZonalAccountant = async(zoneId,category) =>
+(await axios.get(`${BASE_URL}${DISTRIBUTION_GETS}/dgmforzone_with_category_college/${zoneId}/{category}?category=${category}`)).data;
+
 // ---------- TanStack Query v5 hooks ----------
 export const useGetStateName = () =>
   useQuery({ queryKey: ["state-names"], queryFn: getStateName });
@@ -385,4 +403,47 @@ export const useGetDistributionId = (receiverId,start,end,amount,isPro) =>
     end != null &&
     amount != null &&
     isPro !== undefined
+  })
+
+export const useGetCampusForDgmWithCategory = (empId, category)=>
+  useQuery({
+    queryKey:["Get Campus for Dgm with Category :",empId, category],
+    queryFn: () => getCampusForDgmWithCategory(empId, category),
+    enabled: !!empId,
+  })
+
+export const useGetCampusForZonalWithCategory = (empId, category) =>
+  useQuery({
+    queryKey:["Get Campus For Zonal With Category: ",empId,category],
+    queryFn: () =>getCampusForZonalWithCategory(empId, category),
+    enabled: !!empId,
+  })
+
+
+export const useGetDgmForZonalWithCategory = (empId, category) =>
+  useQuery({
+    queryKey:["Get DGMS for Zonal with category: ", empId,category],
+    queryFn: () => getDgmForZonalWithCategory(empId, category),
+    enabled: !!empId,
+  })
+
+export const useGetCampuesByCityWithCategory =(category,cityId) =>
+  useQuery({
+    queryKey:["Get Campuses With City With Category: ", category,cityId],
+    queryFn: () => getCampuesByCityWithCategory(category,cityId),
+    enabled: !!cityId,
+  })
+
+export const useGetSchoolDgmCityDistrictId = (empId,category)=>
+  useQuery({
+    queryKey:["Get DGM Employee Values: ", empId,category],
+    queryFn: () => getSchoolDgmCityDistrictId(empId,category),
+    enabled: !!empId && !!category,
+  })
+
+export const useGetDgmWithZonalAccountant = (zoneId, category) =>
+  useQuery({
+    queryKey:["Get DGMS for Zone Id With Category :", zoneId,category],
+    queryFn: () => getDgmWithZonalAccountant(zoneId,category),
+    enabled: !!zoneId,
   })

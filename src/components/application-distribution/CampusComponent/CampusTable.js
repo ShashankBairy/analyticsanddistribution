@@ -31,6 +31,8 @@ const CampusTable = ({ onSelectionChange }) => {
     error,
   } = useGetTableDetailsByEmpId(empId,4);
 
+  console.log("Table Data: ",tableData);
+
   // Normalize API -> table rows
   const transformedData = useMemo(
     () =>
@@ -48,6 +50,9 @@ const CampusTable = ({ onSelectionChange }) => {
          applicationFee: item.amount,
         applicationSeries: item.displaySeries,
         applicationCount: item.totalAppCount,
+        campaignDistrictName:item.districtname,
+        cityName:item.cityname,
+        mobileNumber:item.mobileNumber,
       })),
     [tableData]
   );
@@ -168,13 +173,6 @@ const {data:distributionId,refetch: refetchDistributionId} = useGetDistributionI
   console.log("Row Selected:", row);
   setOpeningForm(true);
   setSelectedRow(row);
-
-  await refetchApplicationSeries({
-    emp: row.issuedToEmpId,           // receiverId
-    year: row.academicYearId,        // academic year
-    amount: row.amount,              // fee
-    isPro: false,           // ensure BOOLEAN
-  });
 
   setOpen(true);
   setOpeningForm(false);

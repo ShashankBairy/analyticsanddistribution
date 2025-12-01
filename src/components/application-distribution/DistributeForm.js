@@ -67,6 +67,8 @@ const DistributeForm = ({
   editId,
   onApplicationFeeSelect,
   skipAppNoPatch = false,
+  onSeriesSelect,
+  applicationSeriesList,
 }) => {
 
   const employeeId = localStorage.getItem("empId");
@@ -126,9 +128,9 @@ const DistributeForm = ({
         }
 
         let resp;
-        if (t === "zone") resp = await updateZone(editId, values);
-        else if (t === "dgm") resp = await updateDgm(editId, values);
-        else if (t === "campus") resp = await updateCampus(editId, values);
+        if (t === "zone") resp = await updateZone(editId, values,employeeId);
+        else if (t === "dgm") resp = await updateDgm(editId, values,employeeId);
+        else if (t === "campus") resp = await updateCampus(editId, values,employeeId,category);
         else throw new Error(`Unknown formType "${formType}" for update.`);
 
         onSubmit?.({ ...values, id: editId, _mode: "update" });
@@ -196,13 +198,20 @@ const DistributeForm = ({
             value={String(values[cfg.name] ?? "")}
             searchResults={searchResults}
             onChange={(e) => {
-              const val = e.target.value;
-              setFieldValue(cfg.name, val);
+            const val = e.target.value;
+            setFieldValue(cfg.name, val);
 
-              if (cfg.name === "applicationFee") {
-                onApplicationFeeSelect?.(Number(val));
-              }
-            }}
+            if (cfg.name === "applicationFee") {
+              onApplicationFeeSelect?.(Number(val));
+            }
+
+            if (cfg.name === "applicationSeries") {
+              const found = applicationSeriesList?.find(
+                (s) => s.displaySeries === val
+              );
+              onSeriesSelect?.(found?.displaySeries || null);
+            }
+          }}
             disabled={dropdownDisabled}
           />
           {errorMessage && <div className={styles.error}>{errorMessage}</div>}

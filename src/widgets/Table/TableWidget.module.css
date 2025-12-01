@@ -111,7 +111,7 @@ table tbody tr:nth-child(odd) {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 8px 16px;
+  padding: 8px 0px;
   color: #57606A;
   font-size: 12px;
 }

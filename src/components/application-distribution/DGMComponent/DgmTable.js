@@ -15,6 +15,7 @@ const DgmTable = ({ onSelectionChange }) => {
     isLoading,
     error,
   } = useGetTableDetailsByEmpId(empId,3);
+  console.log("Table Data: ", tableData);
 
   // Normalize API -> table rows
   const transformedData = useMemo(
@@ -30,6 +31,9 @@ const DgmTable = ({ onSelectionChange }) => {
          applicationFee: item.amount,
         applicationSeries: item.displaySeries,
         applicationCount: item.totalAppCount,
+        cityName:item.cityname,
+        zoneName:item.zoneName,
+        mobileNumber:item.mobileNumber,
       })),
     [tableData]
   );
@@ -143,13 +147,6 @@ const DgmTable = ({ onSelectionChange }) => {
   console.log("Row Selected:", row);
   setOpeningForm(true);
   setSelectedRow(row);
-
-  await refetchApplicationSeries({
-    emp: row.issuedToEmpId,           // receiverId
-    year: row.academicYearId,        // academic year
-    amount: row.amount,              // fee
-    isPro: false,           // ensure BOOLEAN
-  });
 
   setOpen(true);
   setOpeningForm(false);

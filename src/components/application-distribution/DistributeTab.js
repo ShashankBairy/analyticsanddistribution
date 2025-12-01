@@ -220,7 +220,7 @@ const DistributeTab = () => {
                 onClick={displayFilterOptions}
                 />
                 {clickedFilterButton && (
-                  <CostSelectionForGraph/>
+                  <CostSelectionForGraph onClose={() => setClickedFilterButton(false)}/>
                   )}
               </div>
             </div>
